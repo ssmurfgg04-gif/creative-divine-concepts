@@ -175,16 +175,34 @@ export const TOOL_CATEGORIES: { id: ToolMeta["category"]; label: string; descrip
 
 // Print sizes commonly used by CDC for DTF/DTG (in inches at 300 DPI)
 export const PRINT_SIZES = [
+  // DTF Gang Sheets (most common)
   { label: "DTF Gang Sheet 22×12", w: 22, h: 12, type: "DTF" },
   { label: "DTF Gang Sheet 22×19", w: 22, h: 19, type: "DTF" },
   { label: "DTF Gang Sheet 22×24", w: 22, h: 24, type: "DTF" },
   { label: "DTF Gang Sheet 22×48", w: 22, h: 48, type: "DTF" },
+  { label: "DTF Gang Sheet 22×60", w: 22, h: 60, type: "DTF" },
   { label: "DTF Gang Sheet 22×120", w: 22, h: 120, type: "DTF" },
+  // DTG
   { label: "DTG A4 (8.27×11.69)", w: 8.27, h: 11.69, type: "DTG" },
   { label: "DTG Letter (8.5×11)", w: 8.5, h: 11, type: "DTG" },
+  { label: "DTG A3 (11.69×16.54)", w: 11.69, h: 16.54, type: "DTG" },
+  // Apparel placements
   { label: "T-shirt Front (14×16)", w: 14, h: 16, type: "Apparel" },
   { label: "T-shirt Back (14×18)", w: 14, h: 18, type: "Apparel" },
+  { label: "T-shirt Full Front (16×20)", w: 16, h: 20, type: "Apparel" },
+  { label: "T-shirt Youth (10×12)", w: 10, h: 12, type: "Apparel" },
   { label: "Pocket (4×4)", w: 4, h: 4, type: "Apparel" },
   { label: "Sleeve (3×11)", w: 3, h: 11, type: "Apparel" },
+  { label: "Hoodie Front (16×20)", w: 16, h: 20, type: "Apparel" },
+  { label: "Hoodie Pocket (6×6)", w: 6, h: 6, type: "Apparel" },
+  // Caps & accessories
+  { label: "Cap Front (5×2.5)", w: 5, h: 2.5, type: "Cap" },
+  { label: "Cap Side (2.5×2.5)", w: 2.5, h: 2.5, type: "Cap" },
+  { label: "Cap Back (5×3)", w: 5, h: 3, type: "Cap" },
+  // Bags & other
+  { label: "Tote Bag (14×16)", w: 14, h: 16, type: "Bag" },
+  { label: "Mug Wrap (8×3.5)", w: 8, h: 3.5, type: "Mug" },
+  { label: "Banner (36×96)", w: 36, h: 96, type: "Banner" },
+  // Custom
   { label: "Custom", w: 0, h: 0, type: "Custom" },
 ];

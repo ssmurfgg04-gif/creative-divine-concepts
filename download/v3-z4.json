@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO CARDS. The image contains a light beige background with two text sections:  \n1. \"AI-Powered\" (bold, dark gray) with the subtitle \"Free AI features for non-designers\" (lighter gray) and \"3 TOOLS\" (light gray, right-aligned).  \n2. \"Utilities\" (bold, dark gray) with the subtitle \"Quick everyday helpers\" (lighter gray) and \"1 TOOL\" (light gray, right-aligned).  \nNo cards, icons, buttons, or grid of tool cards are visible—only text and blank space.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782298758,
+  "id": "20260624185914d77a4e9410424671",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624185914d77a4e9410424671",
+  "usage": {
+    "completion_tokens": 122,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1249,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1371
+  }
+}

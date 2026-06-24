@@ -37,6 +37,18 @@ const STYLES = [
   "Nature / botanical illustration",
   "Skull and roses tattoo flash",
   "Geometric low-poly",
+  "Kawaii cute cartoon",
+  "Cyberpunk futuristic",
+  "Hand-drawn sketch",
+  "Pop art comic",
+  "Saint paint religious icon",
+  "African wax print (Ankara)",
+  "Maasai beadwork pattern",
+  "Retro 70s disco",
+  "Steampunk mechanical",
+  "Vintage sports mascot",
+  "Stained glass religious",
+  "Embroidery patch",
 ];
 
 const PROMPT_IDEAS = [
@@ -48,6 +60,18 @@ const PROMPT_IDEAS = [
   "Coffee cup with steam, minimalist line art",
   "African savanna sunset with acacia tree",
   "Cyberpunk city neon skyline",
+  "Proud Kenyan flag colors emblem",
+  "Vintage motorcycle with wings",
+  "Eagle with spread wings, patriotic",
+  "Pizza slice character, kawaii",
+  "80s retro fitness gym logo",
+  "Mystic wolf howling at moon",
+  "Safari jeep silhouette in savanna",
+  "Coffee bean with heartbeat line",
+  "Mountain bike in motion",
+  "DJ turntable with music notes",
+  "Phoenix rising from flames",
+  "Vintage camera with film strip",
 ];
 
 export function AIDesignGen({ onBack }: AIDesignGenProps) {

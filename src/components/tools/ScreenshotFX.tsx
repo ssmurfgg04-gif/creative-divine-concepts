@@ -41,6 +41,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
   const [brightness, setBrightness] = useState(100);
   const [contrast, setContrast] = useState(100);
   const [saturation, setSaturation] = useState(100);
+  const [deviceFrame, setDeviceFrame] = useState<"none" | "browser" | "phone" | "tablet">("none");
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [drawing, setDrawing] = useState(false);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
@@ -254,12 +255,47 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
   const handleDownload = async () => {
     if (!canvasRef.current || !overlayRef.current) return;
     // Composite both canvases
+    const baseW = canvasRef.current.width;
+    const baseH = canvasRef.current.height;
+    let padding = 0;
+    const frameColor = "#1a1a1a";
+    if (deviceFrame === "browser") padding = 60;
+    else if (deviceFrame === "phone") padding = 80;
+    else if (deviceFrame === "tablet") padding = 70;
+
     const out = document.createElement("canvas");
-    out.width = canvasRef.current.width;
-    out.height = canvasRef.current.height;
+    out.width = baseW + padding * 2;
+    out.height = baseH + padding * 2 + (deviceFrame === "browser" ? 40 : 0);
     const ctx = out.getContext("2d")!;
-    ctx.drawImage(canvasRef.current, 0, 0);
-    ctx.drawImage(overlayRef.current, 0, 0);
+
+    if (deviceFrame !== "none") {
+      // Fill frame background
+      ctx.fillStyle = frameColor;
+      ctx.fillRect(0, 0, out.width, out.height);
+      if (deviceFrame === "browser") {
+        // Browser chrome bar
+        ctx.fillStyle = "#333";
+        ctx.fillRect(0, 0, out.width, 40);
+        // Traffic light dots
+        ctx.fillStyle = "#ff5f56";
+        ctx.beginPath(); ctx.arc(20, 20, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#ffbd2e";
+        ctx.beginPath(); ctx.arc(40, 20, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#27c93f";
+        ctx.beginPath(); ctx.arc(60, 20, 6, 0, Math.PI * 2); ctx.fill();
+        // URL bar
+        ctx.fillStyle = "#222";
+        ctx.fillRect(90, 10, out.width - 110, 20);
+        ctx.fillStyle = "#888";
+        ctx.font = "12px monospace";
+        ctx.fillText("creativedivineconcepts.com", 100, 24);
+      }
+      ctx.drawImage(canvasRef.current, padding, padding + (deviceFrame === "browser" ? 40 : 0));
+      ctx.drawImage(overlayRef.current, padding, padding + (deviceFrame === "browser" ? 40 : 0));
+    } else {
+      ctx.drawImage(canvasRef.current, 0, 0);
+      ctx.drawImage(overlayRef.current, 0, 0);
+    }
     const blob = await canvasToBlob(out, "image/png");
     downloadBlob(blob, `cdc-screenshot-${Date.now()}.png`);
     toast.success("Downloaded!");
@@ -385,6 +421,46 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
                     </div>
                   )}
                 </div>
+              </ToolSection>
+
+              <ToolSection title="Device Frame">
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    onClick={() => setDeviceFrame("none")}
+                    className={`text-xs rounded-md border px-2 py-1.5 transition ${
+                      deviceFrame === "none" ? "border-primary bg-primary/10 text-primary" : "border-border"
+                    }`}
+                  >
+                    None
+                  </button>
+                  <button
+                    onClick={() => setDeviceFrame("browser")}
+                    className={`text-xs rounded-md border px-2 py-1.5 transition ${
+                      deviceFrame === "browser" ? "border-primary bg-primary/10 text-primary" : "border-border"
+                    }`}
+                  >
+                    Browser
+                  </button>
+                  <button
+                    onClick={() => setDeviceFrame("phone")}
+                    className={`text-xs rounded-md border px-2 py-1.5 transition ${
+                      deviceFrame === "phone" ? "border-primary bg-primary/10 text-primary" : "border-border"
+                    }`}
+                  >
+                    Phone
+                  </button>
+                  <button
+                    onClick={() => setDeviceFrame("tablet")}
+                    className={`text-xs rounded-md border px-2 py-1.5 transition ${
+                      deviceFrame === "tablet" ? "border-primary bg-primary/10 text-primary" : "border-border"
+                    }`}
+                  >
+                    Tablet
+                  </button>
+                </div>
+                <p className="mt-2 text-[10px] text-muted-foreground">
+                  Device frame is applied on download.
+                </p>
               </ToolSection>
 
               <ToolSection title="Image Enhancement">

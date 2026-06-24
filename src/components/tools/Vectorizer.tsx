@@ -31,6 +31,10 @@ const PRESETS: Record<string, Partial<TraceSettings>> = {
   photo: { ltres: 0.5, qtres: 0.5, pathomit: 4, numberofcolors: 16, blurradius: 1, blurdelta: 24 },
   sketch: { ltres: 2, qtres: 2, pathomit: 12, numberofcolors: 4, blurradius: 0, blurdelta: 16 },
   stencil: { ltres: 3, qtres: 3, pathomit: 16, numberofcolors: 2, blurradius: 2, blurdelta: 32 },
+  lineart: { ltres: 0.5, qtres: 0.5, pathomit: 2, numberofcolors: 2, blurradius: 0, blurdelta: 16 },
+  blueprint: { ltres: 1.5, qtres: 1.5, pathomit: 6, numberofcolors: 3, blurradius: 1, blurdelta: 18 },
+  clipart: { ltres: 1, qtres: 1, pathomit: 6, numberofcolors: 12, blurradius: 0, blurdelta: 18 },
+  tattoo: { ltres: 1.5, qtres: 1.5, pathomit: 4, numberofcolors: 6, blurradius: 0, blurdelta: 16 },
 };
 
 export function Vectorizer({ onBack }: VectorizerProps) {
@@ -204,6 +208,10 @@ export function Vectorizer({ onBack }: VectorizerProps) {
                     <SelectItem value="photo">Photo (detailed, 16 colors)</SelectItem>
                     <SelectItem value="sketch">Sketch (4 colors)</SelectItem>
                     <SelectItem value="stencil">Stencil (2 colors)</SelectItem>
+                    <SelectItem value="lineart">Line Art (technical drawing)</SelectItem>
+                    <SelectItem value="blueprint">Blueprint (3 colors)</SelectItem>
+                    <SelectItem value="clipart">Clipart (12 colors)</SelectItem>
+                    <SelectItem value="tattoo">Tattoo Flash (6 colors)</SelectItem>
                   </SelectContent>
                 </Select>
               </ToolSection>

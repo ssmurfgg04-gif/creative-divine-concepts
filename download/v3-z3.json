@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO CARDS. The image shows a webpage with the following visible elements:  \n- Top text: \"PRO DESIGN TOOLS\" (small, uppercase, dark gray)  \n- Below that: \"MODULE-05B\" (small, uppercase, dark gray)  \n- Main heading: \"Pro Tools for T-Shirt Printers\" (larger, with \"Pro Tools for\" in dark gray and \"T-Shirt Printers\" in orange)  \n- Subheading: \"Built for DTF/DTG printing, apparel design, and client mockups. All tools work 100% in your browser — no sign-up, no API keys.\" (medium gray, centered)  \n- Section 1: \"Print & DTF/DTG\" (bold, dark gray) with subtext \"Tools built for T-shirt printers\" (smaller, gray) and \"3 TOOLS\" (light gray, right-aligned)  \n- Section 2: \"Design\" (bold, dark gray) with subtext \"Creative design power tools\" (smaller, gray) and \"3 TOOLS\" (light gray, right-aligned)  \n- Background: Light beige/cream color. No cards, icons, or buttons are visible—only text and section headers.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782298754,
+  "id": "2026062418590687b9767b3b804735",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026062418590687b9767b3b804735",
+  "usage": {
+    "completion_tokens": 260,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1249,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1509
+  }
+}

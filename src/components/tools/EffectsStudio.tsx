@@ -32,23 +32,47 @@ type EffectId =
   | "duotone"
   | "posterize"
   | "threshold"
-  | "outline";
+  | "outline"
+  | "woodburn"
+  | "mosaic"
+  | "stainedglass"
+  | "denim"
+  | "foil"
+  | "comic"
+  | "pixelate"
+  | "distress"
+  | "chalk"
+  | "ascii";
 
 const EFFECTS: { id: EffectId; name: string; description: string }[] = [
+  // Print-specific (most useful for DTF/DTG)
   { id: "embroidery", name: "Embroidery", description: "Stitched thread look" },
   { id: "glitter", name: "Glitter", description: "Sparkly texture" },
   { id: "halftone", name: "Halftone", description: "Print dot pattern" },
-  { id: "neon", name: "Neon Glow", description: "Glowing outline" },
-  { id: "vintage", name: "Vintage", description: "Faded retro" },
-  { id: "grayscale", name: "Grayscale", description: "Black & white" },
-  { id: "sepia", name: "Sepia", description: "Warm brown tone" },
+  { id: "distress", name: "Distress", description: "Vintage worn effect" },
+  { id: "foil", name: "Foil Print", description: "Metallic foil look" },
+  { id: "denim", name: "Denim", description: "Denim fabric texture" },
+  // Artistic
   { id: "pencil", name: "Pencil Sketch", description: "Hand-drawn" },
   { id: "oil", name: "Oil Paint", description: "Painterly strokes" },
   { id: "watercolor", name: "Watercolor", description: "Soft wash" },
+  { id: "chalk", name: "Chalk", description: "Chalkboard drawing" },
+  { id: "comic", name: "Comic", description: "Comic book style" },
+  { id: "woodburn", name: "Wood Burn", description: "Burned into wood" },
+  { id: "mosaic", name: "Mosaic", description: "Tile mosaic" },
+  { id: "stainedglass", name: "Stained Glass", description: "Church window" },
+  // Color treatments
   { id: "duotone", name: "Duotone", description: "2-color posterize" },
   { id: "posterize", name: "Posterize", description: "Limited colors" },
+  { id: "vintage", name: "Vintage", description: "Faded retro" },
+  { id: "grayscale", name: "Grayscale", description: "Black & white" },
+  { id: "sepia", name: "Sepia", description: "Warm brown tone" },
   { id: "threshold", name: "Threshold", description: "B&W only" },
+  // Edge / structural
+  { id: "neon", name: "Neon Glow", description: "Glowing outline" },
   { id: "outline", name: "Outline", description: "Edge detection" },
+  { id: "pixelate", name: "Pixelate", description: "8-bit retro" },
+  { id: "ascii", name: "ASCII Art", description: "Text-based art" },
 ];
 
 export function EffectsStudio({ onBack }: EffectsStudioProps) {
@@ -362,6 +386,292 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
           ctx.putImageData(out, 0, 0);
           break;
         }
+        case "woodburn": {
+          // Wood burn: sepia + dark edges + wood grain texture
+          ctx.filter = "sepia(0.8) contrast(1.4) brightness(0.85)";
+          ctx.drawImage(canvas, 0, 0);
+          ctx.filter = "none";
+          // Darken edges using Sobel
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const w = canvas.width, h = canvas.height;
+          const src = data.data;
+          const lum = new Float32Array(w * h);
+          for (let i = 0, j = 0; i < src.length; i += 4, j++) {
+            lum[j] = (src[i] + src[i + 1] + src[i + 2]) / 3;
+          }
+          for (let y = 1; y < h - 1; y++) {
+            for (let x = 1; x < w - 1; x++) {
+              const gx = -lum[(y - 1) * w + (x - 1)] - 2 * lum[y * w + (x - 1)] - lum[(y + 1) * w + (x - 1)] +
+                lum[(y - 1) * w + (x + 1)] + 2 * lum[y * w + (x + 1)] + lum[(y + 1) * w + (x + 1)];
+              const gy = -lum[(y - 1) * w + (x - 1)] - 2 * lum[(y - 1) * w + x] - lum[(y - 1) * w + (x + 1)] +
+                lum[(y + 1) * w + (x - 1)] + 2 * lum[(y + 1) * w + x] + lum[(y + 1) * w + (x + 1)];
+              const mag = Math.sqrt(gx * gx + gy * gy) * amt;
+              const i = (y * w + x) * 4;
+              src[i] = Math.max(40, src[i] - mag);
+              src[i + 1] = Math.max(20, src[i + 1] - mag);
+              src[i + 2] = Math.max(0, src[i + 2] - mag);
+            }
+          }
+          ctx.putImageData(data, 0, 0);
+          break;
+        }
+        case "mosaic": {
+          // Tile mosaic: average color in cells
+          const cellSize = Math.max(6, Math.round(20 - amt * 14));
+          const w = canvas.width, h = canvas.height;
+          const data = ctx.getImageData(0, 0, w, h);
+          for (let y = 0; y < h; y += cellSize) {
+            for (let x = 0; x < w; x += cellSize) {
+              let r = 0, g = 0, b = 0, count = 0;
+              for (let dy = 0; dy < cellSize && y + dy < h; dy++) {
+                for (let dx = 0; dx < cellSize && x + dx < w; dx++) {
+                  const i = ((y + dy) * w + (x + dx)) * 4;
+                  r += data.data[i];
+                  g += data.data[i + 1];
+                  b += data.data[i + 2];
+                  count++;
+                }
+              }
+              r = Math.round(r / count);
+              g = Math.round(g / count);
+              b = Math.round(b / count);
+              // Draw tile with small gap
+              ctx.fillStyle = `rgb(${r},${g},${b})`;
+              const gap = Math.max(1, Math.floor(cellSize * 0.1));
+              ctx.fillRect(x + gap / 2, y + gap / 2, cellSize - gap, cellSize - gap);
+            }
+          }
+          break;
+        }
+        case "stainedglass": {
+          // Stained glass: quantized colors with black "lead" outlines
+          const levels = Math.max(3, Math.round(6 - amt * 3));
+          const step = 255 / (levels - 1);
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          for (let i = 0; i < data.data.length; i += 4) {
+            data.data[i] = Math.round(data.data[i] / step) * step;
+            data.data[i + 1] = Math.round(data.data[i + 1] / step) * step;
+            data.data[i + 2] = Math.round(data.data[i + 2] / step) * step;
+          }
+          ctx.putImageData(data, 0, 0);
+          // Detect edges and draw black lines
+          const w = canvas.width, h = canvas.height;
+          const lum = new Float32Array(w * h);
+          for (let i = 0, j = 0; i < data.data.length; i += 4, j++) {
+            lum[j] = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+          }
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = Math.max(1, Math.round(amt * 2));
+          for (let y = 1; y < h - 1; y += 2) {
+            for (let x = 1; x < w - 1; x += 2) {
+              const j = y * w + x;
+              const diff = Math.abs(lum[j] - lum[j + 1]) + Math.abs(lum[j] - lum[j + w]);
+              if (diff > 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + 1, y + 1);
+                ctx.stroke();
+              }
+            }
+          }
+          break;
+        }
+        case "denim": {
+          // Denim: blue tint + cross-hatch weave pattern
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          for (let i = 0; i < data.data.length; i += 4) {
+            // Mix toward blue denim color
+            const lum = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+            data.data[i] = Math.round(lum * 0.25 + 60 * amt);   // R
+            data.data[i + 1] = Math.round(lum * 0.4 + 90 * amt);  // G
+            data.data[i + 2] = Math.round(lum * 0.7 + 160 * amt); // B
+          }
+          ctx.putImageData(data, 0, 0);
+          // Add weave pattern
+          ctx.globalAlpha = 0.15 * amt;
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1;
+          for (let y = 0; y < canvas.height; y += 3) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+          }
+          ctx.strokeStyle = "#1e3a5f";
+          for (let x = 0; x < canvas.width; x += 3) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+          break;
+        }
+        case "foil": {
+          // Metallic foil: high-contrast gradient with shimmer
+          ctx.filter = "contrast(1.5) brightness(1.1) saturate(0.6)";
+          ctx.drawImage(canvas, 0, 0);
+          ctx.filter = "none";
+          // Add diagonal shimmer
+          const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          grad.addColorStop(0, `rgba(255, 215, 0, ${0.3 * amt})`);
+          grad.addColorStop(0.5, `rgba(255, 255, 255, ${0.4 * amt})`);
+          grad.addColorStop(1, `rgba(184, 134, 11, ${0.3 * amt})`);
+          ctx.globalCompositeOperation = "overlay";
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.globalCompositeOperation = "source-over";
+          // Add sparkle highlights
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const sparkleCount = Math.floor(canvas.width * canvas.height * 0.005 * amt);
+          for (let s = 0; s < sparkleCount; s++) {
+            const x = Math.floor(Math.random() * canvas.width);
+            const y = Math.floor(Math.random() * canvas.height);
+            const i = (y * canvas.width + x) * 4;
+            const boost = 80 + Math.random() * 100;
+            data.data[i] = Math.min(255, data.data[i] + boost);
+            data.data[i + 1] = Math.min(255, data.data[i + 1] + boost);
+            data.data[i + 2] = Math.min(255, data.data[i + 2] + boost);
+          }
+          ctx.putImageData(data, 0, 0);
+          break;
+        }
+        case "comic": {
+          // Comic book: posterize + edge outline + slight saturation boost
+          ctx.filter = "saturate(1.5) contrast(1.2)";
+          ctx.drawImage(canvas, 0, 0);
+          ctx.filter = "none";
+          const levels = Math.max(3, Math.round(5 - amt * 2));
+          const step = 255 / (levels - 1);
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          for (let i = 0; i < data.data.length; i += 4) {
+            data.data[i] = Math.round(data.data[i] / step) * step;
+            data.data[i + 1] = Math.round(data.data[i + 1] / step) * step;
+            data.data[i + 2] = Math.round(data.data[i + 2] / step) * step;
+          }
+          ctx.putImageData(data, 0, 0);
+          // Edge outline
+          const w = canvas.width, h = canvas.height;
+          const lum = new Float32Array(w * h);
+          for (let i = 0, j = 0; i < data.data.length; i += 4, j++) {
+            lum[j] = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+          }
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = Math.max(1, Math.round(amt * 1.5));
+          for (let y = 1; y < h - 1; y++) {
+            for (let x = 1; x < w - 1; x++) {
+              const j = y * w + x;
+              const diff = Math.abs(lum[j] - lum[j + 1]) + Math.abs(lum[j] - lum[j + w]);
+              if (diff > 60) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + 1, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, y + 1);
+                ctx.stroke();
+              }
+            }
+          }
+          break;
+        }
+        case "pixelate": {
+          // 8-bit pixelation
+          const pixelSize = Math.max(2, Math.round(2 + amt * 12));
+          const tmp = document.createElement("canvas");
+          tmp.width = Math.max(1, Math.floor(canvas.width / pixelSize));
+          tmp.height = Math.max(1, Math.floor(canvas.height / pixelSize));
+          const tctx = tmp.getContext("2d")!;
+          tctx.imageSmoothingEnabled = false;
+          tctx.drawImage(canvas, 0, 0, tmp.width, tmp.height);
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(tmp, 0, 0, canvas.width, canvas.height);
+          ctx.imageSmoothingEnabled = true;
+          break;
+        }
+        case "distress": {
+          // Distressed / vintage worn: random transparency speckles + sepia
+          ctx.filter = "sepia(0.4) contrast(1.1) brightness(0.95)";
+          ctx.drawImage(canvas, 0, 0);
+          ctx.filter = "none";
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const speckleCount = Math.floor(canvas.width * canvas.height * 0.02 * amt);
+          for (let s = 0; s < speckleCount; s++) {
+            const x = Math.floor(Math.random() * canvas.width);
+            const y = Math.floor(Math.random() * canvas.height);
+            const radius = 1 + Math.random() * 4;
+            // Make a small "hole" — set alpha to 0
+            for (let dy = -radius; dy <= radius; dy++) {
+              for (let dx = -radius; dx <= radius; dx++) {
+                if (dx * dx + dy * dy <= radius * radius) {
+                  const px = x + dx;
+                  const py = y + dy;
+                  if (px >= 0 && px < canvas.width && py >= 0 && py < canvas.height) {
+                    const i = (py * canvas.width + px) * 4;
+                    data.data[i + 3] = Math.max(0, data.data[i + 3] - 100);
+                  }
+                }
+              }
+            }
+          }
+          ctx.putImageData(data, 0, 0);
+          break;
+        }
+        case "chalk": {
+          // Chalk: invert + despeckle + slight blur, on dark background
+          ctx.fillStyle = "#1a1a1a";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          // Convert image to white "chalk" via threshold
+          const tmp = document.createElement("canvas");
+          tmp.width = canvas.width;
+          tmp.height = canvas.height;
+          const tctx = tmp.getContext("2d", { willReadFrequently: true })!;
+          tctx.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
+          const data = tctx.getImageData(0, 0, canvas.width, canvas.height);
+          const t = 100 + (1 - amt) * 80;
+          for (let i = 0; i < data.data.length; i += 4) {
+            const lum = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+            const v = lum > t ? 255 : 0;
+            data.data[i] = v;
+            data.data[i + 1] = v;
+            data.data[i + 2] = v;
+            data.data[i + 3] = v > 0 ? 200 + Math.random() * 55 : 0;
+          }
+          tctx.putImageData(data, 0, 0);
+          ctx.filter = `blur(0.5px)`;
+          ctx.drawImage(tmp, 0, 0);
+          ctx.filter = "none";
+          break;
+        }
+        case "ascii": {
+          // ASCII art: replace pixels with characters based on luminance
+          const chars = " .:-=+*#%@";
+          const cellSize = Math.max(4, Math.round(12 - amt * 8));
+          const w = canvas.width, h = canvas.height;
+          const data = ctx.getImageData(0, 0, w, h);
+          ctx.fillStyle = "#000";
+          ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = "#0f0";
+          ctx.font = `${cellSize}px monospace`;
+          ctx.textBaseline = "top";
+          for (let y = 0; y < h; y += cellSize) {
+            for (let x = 0; x < w; x += cellSize) {
+              let lum = 0, count = 0;
+              for (let dy = 0; dy < cellSize && y + dy < h; dy++) {
+                for (let dx = 0; dx < cellSize && x + dx < w; dx++) {
+                  const i = ((y + dy) * w + (x + dx)) * 4;
+                  lum += (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+                  count++;
+                }
+              }
+              lum /= count;
+              const idx = Math.floor((lum / 255) * (chars.length - 1));
+              ctx.fillText(chars[idx], x, y);
+            }
+          }
+          break;
+        }
       }
     } finally {
       setProcessing(false);
@@ -478,6 +788,10 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
               <li>• <span className="text-foreground">Duotone:</span> Brand-color designs</li>
               <li>• <span className="text-foreground">Threshold:</span> Vinyl cut prep</li>
               <li>• <span className="text-foreground">Outline:</span> Coloring book style</li>
+              <li>• <span className="text-foreground">Distress:</span> Vintage worn T-shirts</li>
+              <li>• <span className="text-foreground">Foil:</span> Metallic foil mockups</li>
+              <li>• <span className="text-foreground">Denim:</span> Denim appliqué preview</li>
+              <li>• <span className="text-foreground">Glitter:</span> DTF glitter transfer preview</li>
             </ul>
           </ToolSection>
         </>
@@ -487,7 +801,7 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
         <EmptyState
           icon={<Sparkles className="h-8 w-8" />}
           title="Apply creative effects to your artwork"
-          description="14 print-ready effects including embroidery simulation, glitter, halftone dots, neon glow, vintage, and more. All processed locally in your browser. Adjust intensity live."
+          description="24 print-ready effects including embroidery, glitter, halftone, neon, vintage, denim, foil, wood burn, mosaic, stained glass, ASCII art, and more. All processed locally in your browser. Adjust intensity live."
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}

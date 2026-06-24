@@ -15,6 +15,19 @@ import {
   Grid3x3,
   Wand2,
   Image as ImageIcon,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignVerticalJustifyStart,
+  AlignVerticalJustifyCenter,
+  AlignVerticalJustifyEnd,
+  Bold,
+  Italic,
+  Ruler,
+  Save,
+  FolderOpen,
+  FlipHorizontal2,
+  FlipVertical2,
 } from "lucide-react";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
@@ -54,9 +67,15 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
   const [text, setText] = useState("Your Text");
   const [fontSize, setFontSize] = useState(48);
   const [textColor, setTextColor] = useState("#000000");
+  const [fontFamily, setFontFamily] = useState("Inter");
+  const [fontWeight, setFontWeight] = useState("normal");
+  const [fontStyle, setFontStyle] = useState("normal");
+  const [textAlign, setTextAlign] = useState<"left" | "center" | "right">("left");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [transparent, setTransparent] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showRulers, setShowRulers] = useState(true);
+  const [showSafeMargin, setShowSafeMargin] = useState(false);
 
   // Preview scale (canvas displayed smaller than actual print resolution)
   const previewScale = 0.25; // shows ~75 dpi preview for 300 dpi output
@@ -65,31 +84,41 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const fabric = (await import("fabric")).default;
-      if (cancelled || !canvasElRef.current) return;
-      const w = widthIn * dpi * previewScale;
-      const h = heightIn * dpi * previewScale;
-      const canvas = new fabric.Canvas(canvasElRef.current, {
-        backgroundColor: transparent ? "transparent" : bgColor,
-        selection: true,
-        preserveObjectStacking: true,
-      });
-      canvas.setDimensions({ width: w, height: h });
-      fabricRef.current = { fabric, canvas };
+      try {
+        const fabricModule = await import("fabric");
+        const fabric = (fabricModule as any).default || fabricModule;
+        if (cancelled || !canvasElRef.current) return;
+        const w = widthIn * dpi * previewScale;
+        const h = heightIn * dpi * previewScale;
+        const canvas = new fabric.Canvas(canvasElRef.current, {
+          backgroundColor: transparent ? "transparent" : bgColor,
+          selection: true,
+          preserveObjectStacking: true,
+        });
+        canvas.setDimensions({ width: w, height: h });
+        fabricRef.current = { fabric, canvas };
 
-      // Selection events
-      canvas.on("selection:created", (e: any) => setSelected(e.selected?.[0] || null));
-      canvas.on("selection:updated", (e: any) => setSelected(e.selected?.[0] || null));
-      canvas.on("selection:cleared", () => setSelected(null));
-      canvas.on("object:modified", () => syncLayers());
+        // Selection events
+        canvas.on("selection:created", (e: any) => setSelected(e.selected?.[0] || null));
+        canvas.on("selection:updated", (e: any) => setSelected(e.selected?.[0] || null));
+        canvas.on("selection:cleared", () => setSelected(null));
+        canvas.on("object:modified", () => syncLayers());
 
-      drawGridOverlay();
-      setReady(true);
+        drawGridOverlay();
+        setReady(true);
+      } catch (err: any) {
+        console.error("Fabric init error:", err);
+        toast.error(`Canvas init failed: ${err?.message || "unknown error"}`);
+      }
     })();
     return () => {
       cancelled = true;
       if (fabricRef.current?.canvas) {
-        fabricRef.current.canvas.dispose();
+        try {
+          fabricRef.current.canvas.dispose();
+        } catch (e) {
+          console.warn("Fabric dispose error:", e);
+        }
         fabricRef.current = null;
       }
     };
@@ -178,6 +207,39 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     if (!fabricRef.current) return;
     const { fabric, canvas } = fabricRef.current;
     const url = await fileToDataURL(file);
+
+    // SVG support — fabric can load SVG via loadSVGFromString
+    if (file.type === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg")) {
+      try {
+        const svgText = await file.text();
+        const result = await fabric.loadSVGFromString(svgText);
+        const obj = fabric.util.groupSVGElements(result.objects, result.options);
+        const maxW = canvas.getWidth() * 0.5;
+        const maxH = canvas.getHeight() * 0.5;
+        const scale = Math.min(maxW / (obj.width || 100), maxH / (obj.height || 100), 1);
+        obj.scale(scale);
+        obj.set({
+          left: canvas.getWidth() / 2 - ((obj.width || 100) * scale) / 2,
+          top: canvas.getHeight() / 2 - ((obj.height || 100) * scale) / 2,
+          cornerColor: "#f36a21",
+          cornerStrokeColor: "#f36a21",
+          borderColor: "#f36a21",
+          transparentCorners: false,
+          cornerSize: 10,
+        });
+        (obj as any).cdcId = `svg-${Date.now()}`;
+        canvas.add(obj);
+        canvas.setActiveObject(obj);
+        canvas.renderAll();
+        syncLayers();
+        toast.success("SVG added (vector preserved)");
+        return;
+      } catch (err: any) {
+        toast.error(`SVG load failed: ${err.message}`);
+        return;
+      }
+    }
+
     const img = await loadImage(url);
     const fImg = new fabric.Image(img);
     // Scale to fit nicely
@@ -210,13 +272,17 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
       top: canvas.getHeight() / 2,
       originX: "center",
       originY: "center",
-      fontFamily: "Inter, sans-serif",
+      fontFamily: fontFamily,
       fontSize: fontSize * previewScale,
+      fontWeight: fontWeight,
+      fontStyle: fontStyle,
+      textAlign: textAlign,
       fill: textColor,
       cornerColor: "#f36a21",
       cornerStrokeColor: "#f36a21",
       borderColor: "#f36a21",
       transparentCorners: false,
+      cornerSize: 10,
     });
     (t as any).cdcId = `txt-${Date.now()}`;
     canvas.add(t);
@@ -258,8 +324,21 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
       setText(selected.text);
       setFontSize((selected.fontSize || 48) / previewScale);
       setTextColor(typeof selected.fill === "string" ? selected.fill : "#000000");
+      setFontFamily(selected.fontFamily || "Inter");
+      setFontWeight(selected.fontWeight || "normal");
+      setFontStyle(selected.fontStyle || "normal");
+      setTextAlign((selected.textAlign || "left") as any);
     }
   }, [selected]);
+
+  // Sync font family / weight / style / align back to selected text
+  useEffect(() => {
+    if (!selected || !fabricRef.current) return;
+    if (selected.text !== undefined) {
+      selected.set({ fontFamily, fontWeight, fontStyle, textAlign });
+      fabricRef.current.canvas.renderAll();
+    }
+  }, [fontFamily, fontWeight, fontStyle, textAlign]);
 
   const deleteSelected = () => {
     if (!fabricRef.current || !selected) return;
@@ -303,6 +382,89 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     fabricRef.current.canvas.renderAll();
   };
 
+  const flipSelected = (axis: "x" | "y") => {
+    if (!fabricRef.current || !selected) return;
+    if (axis === "x") selected.set("flipX", !selected.flipX);
+    else selected.set("flipY", !selected.flipY);
+    fabricRef.current.canvas.renderAll();
+  };
+
+  // Alignment tools — align selected object on the canvas
+  const alignSelected = (type: "left" | "centerH" | "right" | "top" | "centerV" | "bottom") => {
+    if (!fabricRef.current || !selected) return;
+    const { canvas } = fabricRef.current;
+    const w = canvas.getWidth();
+    const h = canvas.getHeight();
+    const bound = selected.getBoundingRect();
+    switch (type) {
+      case "left":
+        selected.set({ left: (selected.left || 0) - bound.left });
+        break;
+      case "centerH":
+        selected.set({ left: w / 2 - bound.width / 2 - bound.left + (selected.left || 0) });
+        break;
+      case "right":
+        selected.set({ left: w - bound.width - bound.left + (selected.left || 0) });
+        break;
+      case "top":
+        selected.set({ top: (selected.top || 0) - bound.top });
+        break;
+      case "centerV":
+        selected.set({ top: h / 2 - bound.height / 2 - bound.top + (selected.top || 0) });
+        break;
+      case "bottom":
+        selected.set({ top: h - bound.height - bound.top + (selected.top || 0) });
+        break;
+    }
+    selected.setCoords();
+    canvas.renderAll();
+  };
+
+  // Save / Load project as JSON
+  const saveProject = () => {
+    if (!fabricRef.current) return;
+    const { canvas } = fabricRef.current;
+    const data = JSON.stringify({
+      version: 1,
+      width: widthIn,
+      height: heightIn,
+      dpi,
+      bgColor: transparent ? "transparent" : bgColor,
+      objects: canvas.toJSON(["cdcId", "isGridLine"]).objects.filter((o: any) => !o.isGridLine),
+    });
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `cdc-canvas-project-${Date.now()}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast.success("Project saved");
+  };
+
+  const loadProject = async (file: File) => {
+    if (!fabricRef.current) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      const { fabric, canvas } = fabricRef.current;
+      // Clear existing
+      canvas.getObjects().forEach((o: any) => canvas.remove(o));
+      setWidthIn(data.width || 22);
+      setHeightIn(data.height || 12);
+      setDpi(data.dpi || 300);
+      setTransparent(data.bgColor === "transparent");
+      if (data.bgColor !== "transparent") setBgColor(data.bgColor || "#ffffff");
+      canvas.loadFromJSON({ objects: data.objects, background: data.bgColor === "transparent" ? "" : data.bgColor }, () => {
+        canvas.renderAll();
+        syncLayers();
+        toast.success("Project loaded");
+      });
+    } catch (err: any) {
+      toast.error(`Load failed: ${err.message}`);
+    }
+  };
+
   const autoArrange = () => {
     if (!fabricRef.current) return;
     const { canvas } = fabricRef.current;
@@ -330,7 +492,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     toast.success("Auto-arranged (bin-packed)");
   };
 
-  const handleExport = async () => {
+  const handleExport = async (format: "png" | "svg" = "png") => {
     if (!fabricRef.current) return;
     const { canvas } = fabricRef.current;
     // Hide grid for export
@@ -339,7 +501,24 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     canvas.discardActiveObject();
     canvas.renderAll();
 
-    // Render at full DPI: create a high-res clone
+    if (format === "svg") {
+      // Export as SVG (vector)
+      const svg = canvas.toSVG();
+      // Restore grid visibility
+      gridLines.forEach((o: any) => (o.visible = true));
+      canvas.renderAll();
+      const blob = new Blob([svg], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `cdc-canvas-${widthIn}x${heightIn}.svg`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast.success(`Exported SVG (${widthIn}×${heightIn}")`);
+      return;
+    }
+
+    // PNG export at full DPI
     const exportW = widthIn * dpi;
     const exportH = heightIn * dpi;
     const scaleFactor = dpi * previewScale; // we rendered preview at previewScale of dpi
@@ -377,7 +556,10 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
           <Button variant="outline" size="sm" onClick={autoArrange} className="gap-2">
             <Wand2 className="h-4 w-4" /> Auto-Arrange
           </Button>
-          <Button onClick={handleExport} className="gap-2 bg-primary text-white hover:bg-primary/90">
+          <Button variant="outline" size="sm" onClick={() => handleExport("svg")} className="gap-2">
+            <Download className="h-4 w-4" /> SVG
+          </Button>
+          <Button onClick={() => handleExport("png")} className="gap-2 bg-primary text-white hover:bg-primary/90">
             <Download className="h-4 w-4" /> Export PNG
           </Button>
         </>
@@ -463,12 +645,12 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
                 className="w-full gap-2 border-primary/40 hover:bg-primary/10"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <Upload className="h-4 w-4" /> Add Image
+                <Upload className="h-4 w-4" /> Add Image / SVG
               </Button>
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/*,image/svg+xml"
                 className="hidden"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
@@ -479,6 +661,30 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
               <Button variant="outline" className="w-full gap-2" onClick={handleAddText}>
                 <Type className="h-4 w-4" /> Add Text
               </Button>
+              <div className="grid grid-cols-2 gap-2 pt-2">
+                <Button size="sm" variant="ghost" className="gap-1 text-xs" onClick={saveProject}>
+                  <Save className="h-3.5 w-3.5" /> Save
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="gap-1 text-xs"
+                  onClick={() => document.getElementById("load-project-input")?.click()}
+                >
+                  <FolderOpen className="h-3.5 w-3.5" /> Load
+                </Button>
+                <input
+                  id="load-project-input"
+                  type="file"
+                  accept="application/json"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) loadProject(f);
+                    e.target.value = "";
+                  }}
+                />
+              </div>
             </div>
           </ToolSection>
 
@@ -490,6 +696,70 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
                     <div>
                       <Label className="text-xs">Text Content</Label>
                       <Input value={text} onChange={(e) => setText(e.target.value)} />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Font Family</Label>
+                      <Select value={fontFamily} onValueChange={setFontFamily}>
+                        <SelectTrigger className="w-full mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Inter">Inter (Body)</SelectItem>
+                          <SelectItem value="League Spartan">League Spartan (Display)</SelectItem>
+                          <SelectItem value="DM Sans">DM Sans</SelectItem>
+                          <SelectItem value="Arial">Arial</SelectItem>
+                          <SelectItem value="Helvetica">Helvetica</SelectItem>
+                          <SelectItem value="Times New Roman">Times New Roman</SelectItem>
+                          <SelectItem value="Georgia">Georgia</SelectItem>
+                          <SelectItem value="Courier New">Courier New</SelectItem>
+                          <SelectItem value="Impact">Impact</SelectItem>
+                          <SelectItem value="Comic Sans MS">Comic Sans MS</SelectItem>
+                          <SelectItem value="Verdana">Verdana</SelectItem>
+                          <SelectItem value="Trebuchet MS">Trebuchet MS</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        variant={fontWeight === "bold" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setFontWeight(fontWeight === "bold" ? "normal" : "bold")}
+                      >
+                        <Bold className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={fontStyle === "italic" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setFontStyle(fontStyle === "italic" ? "normal" : "italic")}
+                      >
+                        <Italic className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={textAlign === "left" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setTextAlign("left")}
+                      >
+                        <AlignLeft className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={textAlign === "center" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setTextAlign("center")}
+                      >
+                        <AlignCenter className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={textAlign === "right" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setTextAlign("right")}
+                      >
+                        <AlignRight className="h-3.5 w-3.5" />
+                      </Button>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between">
@@ -517,12 +787,42 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
                     </div>
                   </>
                 )}
+                {/* Alignment tools */}
+                <div>
+                  <Label className="text-xs mb-1 block">Align on Canvas</Label>
+                  <div className="grid grid-cols-3 gap-1">
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("left")} title="Align left">
+                      <AlignLeft className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("centerH")} title="Center horizontally">
+                      <AlignCenter className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("right")} title="Align right">
+                      <AlignRight className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("top")} title="Align top">
+                      <AlignVerticalJustifyStart className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("centerV")} title="Center vertically">
+                      <AlignVerticalJustifyCenter className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1" onClick={() => alignSelected("bottom")} title="Align bottom">
+                      <AlignVerticalJustifyEnd className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-2">
                   <Button size="sm" variant="outline" className="gap-1" onClick={() => rotateSelected(-90)}>
                     <RotateCw className="h-3.5 w-3.5 -scale-x-100" /> -90°
                   </Button>
                   <Button size="sm" variant="outline" className="gap-1" onClick={() => rotateSelected(90)}>
                     <RotateCw className="h-3.5 w-3.5" /> +90°
+                  </Button>
+                  <Button size="sm" variant="outline" className="gap-1" onClick={() => flipSelected("x")}>
+                    <FlipHorizontal2 className="h-3.5 w-3.5" /> Flip H
+                  </Button>
+                  <Button size="sm" variant="outline" className="gap-1" onClick={() => flipSelected("y")}>
+                    <FlipVertical2 className="h-3.5 w-3.5" /> Flip V
                   </Button>
                   <Button size="sm" variant="outline" className="gap-1" onClick={duplicateSelected}>
                     <Copy className="h-3.5 w-3.5" /> Duplicate

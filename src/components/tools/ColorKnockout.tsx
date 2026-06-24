@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Droplet, Upload, Download, Eye, RotateCcw, Pipette } from "lucide-react";
+import { Droplet, Upload, Download, Eye, RotateCcw, Pipette, Plus, X, Layers } from "lucide-react";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -23,13 +23,15 @@ interface ColorKnockoutProps {
 
 export function ColorKnockout({ onBack }: ColorKnockoutProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [knockColor, setKnockColor] = useState("#ffffff");
+  const [knockColors, setKnockColors] = useState<string[]>(["#ffffff"]);
   const [tolerance, setTolerance] = useState(40);
   const [feather, setFeather] = useState(1);
   const [invert, setInvert] = useState(false);
   const [showUnderbase, setShowUnderbase] = useState(false);
   const [showChecker, setShowChecker] = useState(true);
   const [isPicking, setIsPicking] = useState(false);
+  const [pickingTarget, setPickingTarget] = useState<number | "new" | null>(null);
+  const [viewMode, setViewMode] = useState<"result" | "separation" | "halftone">("result");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,22 +61,78 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+    if (viewMode === "halftone") {
+      // Convert to halftone preview
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const lum = new Float32Array(canvas.width * canvas.height);
+      for (let i = 0, j = 0; i < data.data.length; i += 4, j++) {
+        lum[j] = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / (3 * 255);
+      }
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000";
+      const cellSize = Math.max(4, Math.round(tolerance / 6));
+      for (let y = 0; y < canvas.height; y += cellSize) {
+        for (let x = 0; x < canvas.width; x += cellSize) {
+          let sum = 0, count = 0;
+          for (let dy = 0; dy < cellSize && y + dy < canvas.height; dy++) {
+            for (let dx = 0; dx < cellSize && x + dx < canvas.width; dx++) {
+              sum += lum[(y + dy) * canvas.width + (x + dx)];
+              count++;
+            }
+          }
+          const avg = sum / count;
+          const radius = (1 - avg) * cellSize / 2;
+          if (radius > 0.5) {
+            ctx.beginPath();
+            ctx.arc(x + cellSize / 2, y + cellSize / 2, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      return;
+    }
+
+    if (viewMode === "separation") {
+      // Show color separation: posterize to identify distinct colors
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const levels = 4;
+      const step = 255 / (levels - 1);
+      // Quantize
+      for (let i = 0; i < data.data.length; i += 4) {
+        data.data[i] = Math.round(data.data[i] / step) * step;
+        data.data[i + 1] = Math.round(data.data[i + 1] / step) * step;
+        data.data[i + 2] = Math.round(data.data[i + 2] / step) * step;
+      }
+      ctx.putImageData(data, 0, 0);
+      return;
+    }
+
+    // Default: result mode (knockout)
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
-    const [tr, tg, tb] = hexToRgb(knockColor);
     const tol = tolerance * 3; // 0-255*3 range
+
+    // Pre-compute knockout colors as RGB tuples
+    const knockRGBs = knockColors.map(hexToRgb);
 
     for (let i = 0; i < data.length; i += 4) {
       const r = data[i];
       const g = data[i + 1];
       const b = data[i + 2];
-      const dist = Math.abs(r - tr) + Math.abs(g - tg) + Math.abs(b - tb);
-      const match = invert ? dist > tol : dist <= tol;
+      // Check if matches any of the knockout colors
+      let matches = false;
+      for (const [tr, tg, tb] of knockRGBs) {
+        const dist = Math.abs(r - tr) + Math.abs(g - tg) + Math.abs(b - tb);
+        if (dist <= tol) {
+          matches = true;
+          break;
+        }
+      }
+      if (invert) matches = !matches;
 
-      if (match) {
-        // Knockout (make transparent)
+      if (matches) {
         if (showUnderbase) {
-          // Replace with white underbase for dark garments
           data[i] = 255;
           data[i + 1] = 255;
           data[i + 2] = 255;
@@ -98,28 +156,35 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
       ctx.drawImage(tmp, 0, 0);
       ctx.filter = "none";
     }
-  }, [imageUrl, knockColor, tolerance, feather, invert, showUnderbase]);
+  }, [imageUrl, knockColors, tolerance, feather, invert, showUnderbase, viewMode]);
 
-  const pickColor = () => {
+  const pickColor = (target: number | "new") => {
+    setPickingTarget(target);
     setIsPicking(true);
     toast.info("Click on the image to pick a color");
   };
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isPicking || !canvasRef.current) return;
+    if (!isPicking || !canvasRef.current || pickingTarget === null) return;
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor(((e.clientX - rect.left) / rect.width) * canvas.width);
     const y = Math.floor(((e.clientY - rect.top) / rect.height) * canvas.height);
     const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-    // Re-draw original first
+    // Re-draw original first to get the actual pixel color
     if (imageRef.current) {
       ctx.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
     }
     const pixel = ctx.getImageData(x, y, 1, 1).data;
-    setKnockColor(rgbToHex(pixel[0], pixel[1], pixel[2]));
+    const picked = rgbToHex(pixel[0], pixel[1], pixel[2]);
+    if (pickingTarget === "new") {
+      setKnockColors((prev) => [...prev, picked]);
+    } else {
+      setKnockColors((prev) => prev.map((c, i) => (i === pickingTarget ? picked : c)));
+    }
     setIsPicking(false);
-    toast.success(`Picked: ${rgbToHex(pixel[0], pixel[1], pixel[2])}`);
+    setPickingTarget(null);
+    toast.success(`Picked: ${picked}`);
   };
 
   const handleDownload = async () => {
@@ -170,32 +235,91 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
 
           {imageUrl && (
             <>
-              <ToolSection title="Knockout Color">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={knockColor}
-                      onChange={(e) => setKnockColor(e.target.value)}
-                      className="h-10 w-14 cursor-pointer rounded border border-border bg-transparent"
-                    />
-                    <input
-                      type="text"
-                      value={knockColor}
-                      onChange={(e) => setKnockColor(e.target.value)}
-                      className="h-10 flex-1 rounded border border-border bg-background px-2 font-mono text-sm"
-                    />
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={pickColor}
-                      className="shrink-0"
-                      title="Pick from image"
-                    >
-                      <Pipette className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="space-y-2">
+              <ToolSection title="View Mode">
+                <div className="grid grid-cols-3 gap-1">
+                  <Button
+                    size="sm"
+                    variant={viewMode === "result" ? "default" : "outline"}
+                    className="text-xs"
+                    onClick={() => setViewMode("result")}
+                  >
+                    Result
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={viewMode === "separation" ? "default" : "outline"}
+                    className="text-xs gap-1"
+                    onClick={() => setViewMode("separation")}
+                  >
+                    <Layers className="h-3 w-3" /> Separation
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={viewMode === "halftone" ? "default" : "outline"}
+                    className="text-xs"
+                    onClick={() => setViewMode("halftone")}
+                  >
+                    Halftone
+                  </Button>
+                </div>
+                <p className="mt-2 text-[10px] text-muted-foreground">
+                  {viewMode === "result" && "Standard knockout view"}
+                  {viewMode === "separation" && "Color separation preview (4 levels)"}
+                  {viewMode === "halftone" && "Halftone dot pattern (use Tolerance slider for cell size)"}
+                </p>
+              </ToolSection>
+
+              <ToolSection title={`Knockout Colors (${knockColors.length})`}>
+                <div className="space-y-2">
+                  {knockColors.map((color, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input
+                        type="color"
+                        value={color}
+                        onChange={(e) =>
+                          setKnockColors((prev) => prev.map((c, i) => (i === idx ? e.target.value : c)))
+                        }
+                        className="h-8 w-10 cursor-pointer rounded border border-border bg-transparent"
+                      />
+                      <input
+                        type="text"
+                        value={color}
+                        onChange={(e) =>
+                          setKnockColors((prev) => prev.map((c, i) => (i === idx ? e.target.value : c)))
+                        }
+                        className="h-8 flex-1 rounded border border-border bg-background px-2 font-mono text-xs"
+                      />
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => pickColor(idx)}
+                        className="h-8 w-8 shrink-0"
+                        title="Pick from image"
+                      >
+                        <Pipette className="h-3.5 w-3.5" />
+                      </Button>
+                      {knockColors.length > 1 && (
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => setKnockColors((prev) => prev.filter((_, i) => i !== idx))}
+                          className="h-8 w-8 shrink-0 text-destructive"
+                          title="Remove color"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full gap-2 mt-2"
+                    onClick={() => pickColor("new")}
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add Another Color
+                  </Button>
+                  <div className="space-y-2 pt-2">
                     <div className="flex items-center justify-between">
                       <Label className="text-xs">Tolerance</Label>
                       <span className="text-xs text-muted-foreground">{tolerance}</span>

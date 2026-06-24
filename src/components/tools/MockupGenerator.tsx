@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, Suspense } from "rea
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows, RoundedBox } from "@react-three/drei";
 import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette } from "lucide-react";
+import * as Icons from "lucide-react";
 import * as THREE from "three";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
@@ -32,8 +33,18 @@ const SHIRT_COLORS = [
   { name: "Maroon", hex: "#7f1d1d" },
 ];
 
+type ProductType = "tshirt" | "hoodie" | "mug" | "tote";
+
+const PRODUCTS: { id: ProductType; name: string; icon: string }[] = [
+  { id: "tshirt", name: "T-Shirt", icon: "Shirt" },
+  { id: "hoodie", name: "Hoodie", icon: "Shirt" },
+  { id: "mug", name: "Mug", icon: "Coffee" },
+  { id: "tote", name: "Tote Bag", icon: "ShoppingBag" },
+];
+
 export function MockupGenerator({ onBack }: MockupGeneratorProps) {
   const [designUrl, setDesignUrl] = useState<string | null>(null);
+  const [productType, setProductType] = useState<ProductType>("tshirt");
   const [shirtColor, setShirtColor] = useState("#ffffff");
   const [designScale, setDesignScale] = useState(0.4);
   const [designX, setDesignX] = useState(0);
@@ -106,7 +117,29 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
             </p>
           </ToolSection>
 
-          <ToolSection title="T-Shirt Color">
+          <ToolSection title="Product Type">
+            <div className="grid grid-cols-2 gap-2">
+              {PRODUCTS.map((p) => {
+                const Icon = (Icons as any)[p.icon];
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => setProductType(p.id)}
+                    className={`flex flex-col items-center gap-1 rounded-md border px-2 py-3 text-xs transition ${
+                      productType === p.id
+                        ? "border-primary bg-primary/10 text-primary box-glow"
+                        : "border-border hover:border-primary/40"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{p.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </ToolSection>
+
+          <ToolSection title="Product Color">
             <div className="grid grid-cols-6 gap-2">
               {SHIRT_COLORS.map((c) => (
                 <button
@@ -234,6 +267,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
             <directionalLight position={[-3, 2, -2]} intensity={0.4 * lighting} color="#fef3c7" />
             <Suspense fallback={null}>
               <TShirtModel
+                productType={productType}
                 color={shirtColor}
                 designUrl={designUrl}
                 designScale={designScale}
@@ -266,6 +300,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
 // --- T-shirt 3D model ---
 
 interface TShirtModelProps {
+  productType: ProductType;
   color: string;
   designUrl: string | null;
   designScale: number;
@@ -275,33 +310,48 @@ interface TShirtModelProps {
   captureRef: React.MutableRefObject<(() => void) | null>;
 }
 
-function TShirtModel({ color, designUrl, designScale, designX, designY, autoRotate, captureRef }: TShirtModelProps) {
+function TShirtModel({ productType, color, designUrl, designScale, designX, designY, autoRotate, captureRef }: TShirtModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { gl, scene, camera } = useThree();
 
-  // Build T-shirt shape
-  const { geometry, bodyFrontPos } = useMemo(() => {
+  // Build product shape based on productType
+  const { geometry, bodyFrontPos, collar: collarInfo, hasHood } = useMemo(() => {
+    if (productType === "mug") {
+      // Mug: cylinder
+      const geo = new THREE.CylinderGeometry(0.9, 0.9, 1.8, 32, 1, false);
+      geo.computeVertexNormals();
+      // Handle (torus)
+      const handle = new THREE.TorusGeometry(0.4, 0.1, 8, 16, Math.PI);
+      return { geometry: geo, bodyFrontPos: 0.9, collar: null, hasHood: false, handle };
+    }
+    if (productType === "tote") {
+      // Tote bag: a box with handles
+      const geo = new THREE.BoxGeometry(2.2, 2.2, 0.3);
+      geo.computeVertexNormals();
+      return { geometry: geo, bodyFrontPos: 0.16, collar: null, hasHood: false };
+    }
+    // T-shirt or Hoodie — same silhouette, hoodie has a hood
     const shape = new THREE.Shape();
     // T-shirt silhouette (front view, normalized to ~3x3 units)
-    // Start at right neck
-    shape.moveTo(0, 1.5);              // right neck top
-    shape.lineTo(-0.4, 1.4);           // right neck curve
-    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4); // neck curve
-    shape.lineTo(0.9, 1.45);           // right shoulder
-    shape.lineTo(1.7, 0.8);            // right sleeve outer
-    shape.lineTo(1.5, 0.4);            // right sleeve bottom
-    shape.lineTo(1.0, 0.6);            // right armpit
-    shape.lineTo(1.0, -1.6);           // right body bottom
-    shape.lineTo(-1.0, -1.6);          // left body bottom
-    shape.lineTo(-1.0, 0.6);           // left armpit
-    shape.lineTo(-1.5, 0.4);           // left sleeve bottom
-    shape.lineTo(-1.7, 0.8);           // left sleeve outer
-    shape.lineTo(-0.9, 1.45);          // left shoulder
-    shape.lineTo(-0.4, 1.4);           // back to left neck
-    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4); // neck curve again (closes path)
+    shape.moveTo(0, 1.5);
+    shape.lineTo(-0.4, 1.4);
+    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4);
+    shape.lineTo(0.9, 1.45);
+    shape.lineTo(1.7, 0.8);
+    shape.lineTo(1.5, 0.4);
+    shape.lineTo(1.0, 0.6);
+    shape.lineTo(1.0, -1.6);
+    shape.lineTo(-1.0, -1.6);
+    shape.lineTo(-1.0, 0.6);
+    shape.lineTo(-1.5, 0.4);
+    shape.lineTo(-1.7, 0.8);
+    shape.lineTo(-0.9, 1.45);
+    shape.lineTo(-0.4, 1.4);
+    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4);
 
+    const depth = productType === "hoodie" ? 0.6 : 0.4;
     const geo = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.4,
+      depth,
       bevelEnabled: true,
       bevelThickness: 0.1,
       bevelSize: 0.1,
@@ -311,9 +361,11 @@ function TShirtModel({ color, designUrl, designScale, designX, designY, autoRota
     geo.center();
     geo.computeVertexNormals();
 
-    // Front face position: roughly at z = depth/2 + bevel
-    return { geometry: geo, bodyFrontPos: 0.3 };
-  }, []);
+    // Collar geometry (small torus around neck)
+    const collar = new THREE.TorusGeometry(0.45, 0.06, 8, 24, Math.PI);
+
+    return { geometry: geo, bodyFrontPos: depth / 2 + 0.1, collar, hasHood: productType === "hoodie" };
+  }, [productType]);
 
   // Load design texture
   const designTexture = useRef<THREE.CanvasTexture | null>(null);
@@ -376,38 +428,64 @@ function TShirtModel({ color, designUrl, designScale, designX, designY, autoRota
       try {
         gl.render(scene, camera);
         const dataUrl = gl.domElement.toDataURL("image/png");
-        downloadDataURL(dataUrl, `cdc-mockup-${Date.now()}.png`);
+        downloadDataURL(dataUrl, `cdc-mockup-${productType}-${Date.now()}.png`);
         toast.success("Mockup exported!");
       } catch (err: any) {
         toast.error(err?.message || "Export failed");
       }
     };
-  }, [gl, scene, camera, captureRef]);
-
-  // Collar geometry (small torus around neck)
-  const collarGeo = useMemo(() => {
-    const g = new THREE.TorusGeometry(0.45, 0.06, 8, 24, Math.PI);
-    return g;
-  }, []);
+  }, [gl, scene, camera, captureRef, productType]);
 
   return (
     <group ref={groupRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
-      {/* Main T-shirt body */}
+      {/* Main product body */}
       <mesh geometry={geometry} castShadow receiveShadow>
         <meshStandardMaterial
           color={color}
-          roughness={0.85}
-          metalness={0.02}
+          roughness={productType === "mug" ? 0.2 : 0.85}
+          metalness={productType === "mug" ? 0.3 : 0.02}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Collar */}
-      <mesh geometry={collarGeo} position={[0, 1.05, 0.15]} rotation={[0, 0, 0]}>
-        <meshStandardMaterial color={color} roughness={0.9} />
-      </mesh>
+      {/* Mug handle */}
+      {productType === "mug" && (
+        <mesh position={[0.9, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <torusGeometry args={[0.4, 0.1, 8, 16, Math.PI]} />
+          <meshStandardMaterial color={color} roughness={0.2} metalness={0.3} />
+        </mesh>
+      )}
 
-      {/* Design overlay - rendered as a separate plane in front of the shirt */}
+      {/* Tote bag handles */}
+      {productType === "tote" && (
+        <>
+          <mesh position={[-0.6, 1.4, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+            <torusGeometry args={[0.4, 0.04, 8, 16, Math.PI]} />
+            <meshStandardMaterial color={color} roughness={0.9} />
+          </mesh>
+          <mesh position={[0.6, 1.4, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+            <torusGeometry args={[0.4, 0.04, 8, 16, Math.PI]} />
+            <meshStandardMaterial color={color} roughness={0.9} />
+          </mesh>
+        </>
+      )}
+
+      {/* Collar (T-shirt / Hoodie only) */}
+      {collarInfo && (
+        <mesh geometry={collarInfo} position={[0, 1.05, 0.15]} rotation={[0, 0, 0]}>
+          <meshStandardMaterial color={color} roughness={0.9} />
+        </mesh>
+      )}
+
+      {/* Hood (Hoodie only) */}
+      {hasHood && (
+        <mesh position={[0, 1.6, -0.1]} castShadow>
+          <sphereGeometry args={[0.5, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <meshStandardMaterial color={color} roughness={0.9} side={THREE.DoubleSide} />
+        </mesh>
+      )}
+
+      {/* Design overlay - rendered as a separate plane in front of the product */}
       {designTexture.current && (
         <mesh position={[designX * 0.6, designY * 0.8, bodyFrontPos + 0.05]}>
           <planeGeometry args={[2.4 * designScale, 2.4 * designScale]} />
