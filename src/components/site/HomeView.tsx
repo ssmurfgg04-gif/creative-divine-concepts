@@ -30,9 +30,17 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
         <div className="absolute inset-0 bg-background/90 z-[1]" />
         <div className="absolute inset-0 bg-grid opacity-50 z-[2] pointer-events-none" />
-        {/* Decorative glow orbs (matches original) */}
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.06] blur-[120px] z-[2] pointer-events-none" style={{ background: "rgb(0, 234, 255)" }} />
-        <div className="absolute bottom-1/3 left-[16%] w-[400px] h-[400px] rounded-full opacity-[0.04] blur-[100px] z-[2] pointer-events-none" style={{ background: "rgb(0, 234, 255)" }} />
+        {/* Scanlines overlay (matches original) */}
+        <div className="absolute inset-0 bg-scanlines opacity-20 z-[3] pointer-events-none" />
+        {/* Decorative glow orbs with float-smoke animation (matches original) */}
+        <div
+          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.06] blur-[120px] z-[2] pointer-events-none animate-float-smoke"
+          style={{ background: "rgb(0, 234, 255)" }}
+        />
+        <div
+          className="absolute bottom-1/3 left-[16%] w-[400px] h-[400px] rounded-full opacity-[0.04] blur-[100px] z-[2] pointer-events-none animate-float-smoke"
+          style={{ background: "rgb(0, 234, 255)", animationDelay: "5s" }}
+        />
 
         <div className="container mx-auto px-4 relative z-10 pt-16 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -48,7 +56,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                   <span className="text-gradient-cyan">From Anywhere.</span>
                 </h1>
                 <div className="flex items-center gap-4 mb-10">
-                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse" />
+                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse-node" />
                   <p className="text-lg md:text-xl max-w-xl leading-relaxed text-muted-foreground font-body">
                     We help startups, SMEs, and diaspora founders launch and manage successful businesses in Kenya through design, technology, sales, and operations.
                   </p>
@@ -453,10 +461,18 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
-      {/* === TRUST & PROOF (MODULE-06) === */}
-      <section className="py-12 md:py-16 relative overflow-hidden px-4">
-        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
-        <div className="container mx-auto max-w-6xl relative">
+      {/* === TRUST & PROOF (MODULE-06) — with map background === */}
+      <section
+        className="py-12 md:py-16 bg-background relative px-4"
+        style={{
+          backgroundImage: "url(/assets/map1-OEP8YdfM.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-background/80" />
+        <div className="absolute inset-0 bg-circuit opacity-40" />
+        <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-10">
             <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Trust &amp; Proof</p>
             <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-06</span>
@@ -466,10 +482,19 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             </p>
           </div>
 
-          {/* Trusted by logos (text logos) */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-10 opacity-50">
-            {["Safaricom", "Jumia Kenya", "KCB Group", "KPMG East Africa", "Nairobi Garage"].map((logo) => (
-              <span key={logo} className="font-display font-bold text-lg text-foreground">{logo}</span>
+          {/* Trusted by logos (text logos with 3D perspective) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-10">
+            {["Safaricom", "Jumia Kenya", "KCB Group", "KPMG East Africa", "Nairobi Garage"].map((logo, i) => (
+              <div key={logo} style={{ perspective: "1000px" }}>
+                <div
+                  className="nura-card px-4 py-2 md:px-6 md:py-3 text-sm md:text-lg font-display tracking-widest uppercase font-bold text-center"
+                  style={{
+                    color: ["rgb(63, 165, 53)", "rgb(246, 139, 30)", "rgb(0, 102, 51)", "rgb(0, 73, 135)", "rgb(237, 139, 0)"][i],
+                  }}
+                >
+                  {logo}
+                </div>
+              </div>
             ))}
           </div>
 

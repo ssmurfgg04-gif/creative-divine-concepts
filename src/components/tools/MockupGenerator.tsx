@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, Suspense, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, ContactShadows, Environment, useGLTF } from "@react-three/drei";
-import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette, Coffee, ShoppingBag, HardHat } from "lucide-react";
+import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette, Coffee, ShoppingBag, HardHat, CupSoda } from "lucide-react";
 import * as THREE from "three";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,8 @@ const PRODUCT_COLORS = [
 const PRODUCTS = [
   { id: "tshirt", name: "T-Shirt", icon: Shirt },
   { id: "mug", name: "Mug", icon: Coffee },
+  { id: "bottle", name: "Bottle", icon: CupSoda },
+  { id: "cap", name: "Cap", icon: HardHat },
 ] as const;
 
 type ProductType = typeof PRODUCTS[number]["id"];
@@ -342,6 +344,22 @@ function ProductModel({ type, color, designUrl, autoRotate, captureRef }: Produc
     );
   }
 
+  if (type === "bottle") {
+    return (
+      <group ref={groupRef} position={[0, -1, 0]}>
+        <BottleGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
+      </group>
+    );
+  }
+
+  if (type === "cap") {
+    return (
+      <group ref={groupRef} position={[0, -0.3, 0]}>
+        <CapGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
+      </group>
+    );
+  }
+
   return null;
 }
 
@@ -440,6 +458,96 @@ function MugGLB({ color, designTexture, autoRotate, groupRef }: {
   return <primitive object={mugMesh} />;
 }
 
+// ============== BOTTLE (loads water_bottle.glb) ==============
+
+function BottleGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  const gltf = useGLTF("/models/water_bottle.glb");
+
+  const bottleMesh = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(3, 3, 3);
+    cloned.rotation.y = -0.3;
+    return cloned;
+  }, [gltf]);
+
+  useEffect(() => {
+    bottleMesh.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = child.material.clone();
+        child.material.color = new THREE.Color(color);
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.1;
+
+        if (designTexture) {
+          child.material.map = designTexture;
+        } else {
+          child.material.map = null;
+        }
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [bottleMesh, color, designTexture]);
+
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) {
+      groupRef.current.rotation.y += delta * 1.5;
+    }
+  });
+
+  return <primitive object={bottleMesh} />;
+}
+
+// ============== CAP (procedural, no GLB available) ==============
+
+function CapGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  // Cap is built procedurally since we don't have a GLB for it
+  const fabricColor = useMemo(() => new THREE.Color(color), [color]);
+
+  const material = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: fabricColor,
+      roughness: 0.8,
+      metalness: 0.0,
+      side: THREE.DoubleSide,
+      map: designTexture || null,
+    });
+  }, [fabricColor, designTexture]);
+
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) {
+      groupRef.current.rotation.y += delta * 1.5;
+    }
+  });
+
+  return (
+    <group rotation={[0.2, 0, 0]} position={[0, 0.3, 0]}>
+      {/* Crown (half sphere) */}
+      <mesh castShadow receiveShadow material={material}>
+        <sphereGeometry args={[1.0, 32, 24, 0, Math.PI * 2, 0, Math.PI / 2]} />
+      </mesh>
+      {/* Brim */}
+      <mesh castShadow material={material} position={[0, 0, 0]} scale={[1, 0.3, 1.5]}>
+        <sphereGeometry args={[1.0, 32, 8, 0, Math.PI, Math.PI / 2, Math.PI / 2]} />
+      </mesh>
+      {/* Button on top */}
+      <mesh position={[0, 1.0, 0]} material={material}>
+        <sphereGeometry args={[0.06, 12, 12]} />
+      </mesh>
+    </group>
+  );
+}
+
 // Preload GLB models
 useGLTF.preload("/models/shirt_baked.glb");
 useGLTF.preload("/models/teacup.glb");
+useGLTF.preload("/models/water_bottle.glb");
