@@ -37,13 +37,13 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="absolute inset-0 bg-grid opacity-50 z-[2] pointer-events-none" />
         {/* Scanlines overlay (matches original) */}
         <div className="absolute inset-0 bg-scanlines opacity-20 z-[3] pointer-events-none" />
-        {/* Decorative glow orbs with float-smoke animation (matches original) */}
+        {/* Decorative glow orbs - reduced size so they don't dominate */}
         <div
-          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.06] blur-[120px] z-[2] pointer-events-none animate-float-smoke"
+          className="absolute top-1/4 right-[20%] w-[300px] h-[300px] rounded-full opacity-[0.04] blur-[100px] z-[2] pointer-events-none animate-float-smoke"
           style={{ background: "rgb(0, 234, 255)" }}
         />
         <div
-          className="absolute bottom-1/3 left-[16%] w-[400px] h-[400px] rounded-full opacity-[0.04] blur-[100px] z-[2] pointer-events-none animate-float-smoke"
+          className="absolute bottom-1/3 left-[20%] w-[250px] h-[250px] rounded-full opacity-[0.03] blur-[80px] z-[2] pointer-events-none animate-float-smoke"
           style={{ background: "rgb(0, 234, 255)", animationDelay: "5s" }}
         />
 
@@ -55,14 +55,14 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 mt-16 leading-tight text-foreground">
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 mt-16 leading-tight text-foreground">
                   We Design, Build<br />
                   &amp; Scale Businesses<br />
-                  <span className="text-gradient-cyan">From Anywhere.</span>
+                  <span className="text-gradient-cyan text-3xl md:text-4xl lg:text-5xl">From Anywhere.</span>
                 </h1>
                 <div className="flex items-center gap-4 mb-10">
-                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse-node" />
-                  <p className="text-lg md:text-xl max-w-xl leading-relaxed text-muted-foreground font-body">
+                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse-node shrink-0" />
+                  <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground font-body">
                     We help startups, SMEs, and diaspora founders launch and manage successful businesses in Kenya through design, technology, sales, and operations.
                   </p>
                 </div>

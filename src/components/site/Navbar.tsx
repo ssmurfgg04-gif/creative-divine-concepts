@@ -245,6 +245,20 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
 
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl p-4 space-y-1 max-h-[80vh] overflow-y-auto scrollbar-thin">
+          {/* Home first in mobile (logo is not clickable enough on mobile) */}
+          <button
+            onClick={() => {
+              onNavigate("home");
+              setMobileOpen(false);
+            }}
+            className={`flex items-center w-full px-3 py-2.5 rounded-md text-sm font-display font-bold tracking-wider ${
+              currentView === "home"
+                ? "text-accent bg-accent/10"
+                : "text-foreground hover:bg-muted/50"
+            }`}
+          >
+            Home
+          </button>
           {NAV_ITEMS.filter((item) => item.label !== "Home").map((item) => (
             <div key={item.label}>
               <button

@@ -134,11 +134,16 @@
     font-family: var(--font-body), system-ui, sans-serif;
     font-weight: 500;
     letter-spacing: 0.01em;
+    line-height: 1.6;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), var(--font-body), sans-serif;
     letter-spacing: -0.02em;
     font-weight: 700;
+    line-height: 1.2;
+  }
+  p {
+    line-height: 1.6;
   }
   button, .btn {
     font-family: var(--font-button), var(--font-body), sans-serif;

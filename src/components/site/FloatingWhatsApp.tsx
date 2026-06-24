@@ -8,7 +8,6 @@ export function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Show after 3 seconds (let user browse first)
     const timer = setTimeout(() => setVisible(true), 3000);
     return () => clearTimeout(timer);
   }, []);
@@ -19,7 +18,7 @@ export function FloatingWhatsApp() {
     <>
       {/* Expanded contact card */}
       {expanded && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-80 max-w-sm rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
           <div className="bg-primary p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -42,7 +41,7 @@ export function FloatingWhatsApp() {
           </div>
           <div className="p-4 space-y-3">
             <p className="text-sm text-muted-foreground">
-              👋 Hi! Need help with T-shirt printing, web design, or branding? We typically reply within minutes!
+              Hi! Need help with T-shirt printing, web design, or branding? We typically reply within minutes!
             </p>
             <a
               href="https://wa.me/254711669113?text=Hello%20Creative%20Divine%20Concepts,%20I%20would%20like%20to%20know%20more%20about%20your%20services"
@@ -95,16 +94,20 @@ export function FloatingWhatsApp() {
         </div>
       )}
 
-      {/* Floating WhatsApp button */}
+      {/* Floating WhatsApp button - orange themed to match CDC brand */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 transition-all hover:scale-110"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-110 border-2 border-primary/30"
         aria-label="Contact us on WhatsApp"
         title="Chat with us on WhatsApp"
       >
-        {expanded ? <X className="h-6 w-6" /> : <MessageCircle className="h-7 w-7" />}
+        {expanded ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <MessageCircle className="h-7 w-7" />
+        )}
         {!expanded && (
-          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+          <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white border border-background">
             1
           </span>
         )}
