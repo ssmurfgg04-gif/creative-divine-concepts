@@ -1,14 +1,17 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# robots.txt - Creative Divine Concepts
+# Allow all crawlers full access
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /models/
+
+# Block AI training bots (optional - remove if you want AI crawlers)
+# User-agent: GPTBot
+# Disallow: /
+
+# Sitemap location
+Sitemap: https://creativedivineconcepts.com/sitemap.xml
+
+# Crawl delay (seconds)
+Crawl-delay: 1

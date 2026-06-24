@@ -3,6 +3,7 @@
 import * as Icons from "lucide-react";
 import { motion } from "framer-motion";
 import { TOOLS, TOOL_CATEGORIES, ToolId } from "@/lib/tools";
+import { FAQSection } from "@/components/site/FAQSection";
 
 interface HomeViewProps {
   onNavigate: (view: any) => void;
@@ -27,7 +28,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
   return (
     <div className="min-h-screen">
       {/* === HERO SECTION (matches original) === */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
+      <section
+        className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16"
+        aria-label="Hero - Creative Divine Concepts introduction"
+        aria-describedby="hero-description"
+      >
         <div className="absolute inset-0 bg-background/90 z-[1]" />
         <div className="absolute inset-0 bg-grid opacity-50 z-[2] pointer-events-none" />
         {/* Scanlines overlay (matches original) */}
@@ -529,6 +534,9 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           </div>
         </div>
       </section>
+
+      {/* === FAQ SECTION (SEO-optimized with FAQ schema) === */}
+      <FAQSection />
 
       {/* === CTA === */}
       <section className="py-12 md:py-16 px-4">
