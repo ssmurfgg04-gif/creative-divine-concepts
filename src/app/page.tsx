@@ -8,6 +8,7 @@ import { HomeView } from "@/components/site/HomeView";
 import { ToolsHubView } from "@/components/site/ToolsHubView";
 import { ServicesView, PricingView, AboutView, ContactView } from "@/components/site/InfoViews";
 import { TeachingPortal } from "@/components/site/TeachingPortal";
+import { BlogView } from "@/components/site/BlogView";
 import {
   VATCalculator,
   ImageResizer,
@@ -27,7 +28,7 @@ const ImageUpscaler = lazy(() => import("@/components/tools/ImageUpscaler").then
 const StickerGen = lazy(() => import("@/components/tools/StickerGen").then((m) => ({ default: m.StickerGen })));
 const ImageClipper = lazy(() => import("@/components/tools/ImageClipper").then((m) => ({ default: m.ImageClipper })));
 
-type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "tool";
+type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
@@ -41,7 +42,7 @@ export default function Home() {
         const toolId = hash.replace("tool/", "") as ToolId;
         setActiveTool(toolId);
         setView("tool");
-      } else if (["home", "tools", "services", "pricing", "about", "contact", "academy"].includes(hash)) {
+      } else if (["home", "tools", "services", "pricing", "about", "contact", "academy", "blog"].includes(hash)) {
         setActiveTool(null);
         setView(hash as View);
       } else {
@@ -127,6 +128,7 @@ export default function Home() {
         {view === "pricing" && <PricingView onNavigate={navigate} />}
         {view === "about" && <AboutView onNavigate={navigate} />}
         {view === "academy" && <TeachingPortal onNavigate={navigate} />}
+        {view === "blog" && <BlogView onNavigate={navigate} />}
         {view === "contact" && <ContactView />}
       </main>
       <Footer onNavigate={navigate} />

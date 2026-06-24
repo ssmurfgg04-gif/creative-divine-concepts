@@ -11,6 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily" as const,
     },
     {
+      url: "/#blog",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
       url: "/#tools",
       priority: 0.9,
       changeFrequency: "weekly" as const,
@@ -42,6 +47,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Blog post pages (high priority for SEO - keyword-rich content)
+  const blogSlugs = [
+    "how-to-prepare-dtf-artwork-for-printing-in-kenya",
+    "dtf-vs-dtg-printing-which-is-better",
+    "how-to-start-a-tshirt-printing-business-in-kenya",
+    "best-gang-sheet-sizes-for-dtf-printing",
+  ];
+  const blogPages = blogSlugs.map((slug) => ({
+    url: `/#blog/${slug}`,
+    priority: 0.85,
+    changeFrequency: "monthly" as const,
+  }));
+
   // Tool pages (high priority for SEO - each is a unique landing page)
   const toolPages = [
     "canvas-designer",
@@ -64,7 +82,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly" as const,
   }));
 
-  return [...staticPages, ...toolPages].map((page) => ({
+  return [...staticPages, ...blogPages, ...toolPages].map((page) => ({
     url: `${baseUrl}${page.url}`,
     lastModified,
     changeFrequency: page.changeFrequency,
