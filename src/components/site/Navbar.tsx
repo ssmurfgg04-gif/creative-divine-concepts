@@ -185,15 +185,20 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
           {/* Home is first in the group, same styling as all others */}
           <button
             onClick={() => onNavigate("home")}
-            className={`relative px-3 lg:px-4 py-2 text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
+            className={`group relative px-3 lg:px-4 py-2 text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
               currentView === "home"
                 ? "text-accent"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Home
+            {/* Active underline (always visible) */}
             {currentView === "home" && (
               <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent" />
+            )}
+            {/* Hover underline (animates in on hover) */}
+            {currentView !== "home" && (
+              <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent origin-center scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
             )}
           </button>
 
@@ -204,7 +209,7 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
             return (
               <div
                 key={item.label}
-                className="relative"
+                className="group relative"
                 onMouseEnter={() => item.dropdown && handleMouseEnter(item.dropdown)}
                 onMouseLeave={handleMouseLeave}
               >
@@ -224,8 +229,13 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
                       }`}
                     />
                   )}
+                  {/* Active underline (always visible) */}
                   {isActive && (
                     <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent" />
+                  )}
+                  {/* Hover underline (animates in on hover) */}
+                  {!isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent origin-center scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
                   )}
                 </button>
                 {item.dropdown && openDropdown === item.dropdown && renderDropdown(item.dropdown)}
