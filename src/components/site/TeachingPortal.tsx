@@ -182,7 +182,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">
             <Icons.GraduationCap className="mr-1.5 h-3 w-3" />
-            MAFUNZO YA UCHAPISHAJI
+            LEARN • BUILD • GROW
           </Badge>
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 text-foreground">
             Creative <span className="text-gradient-cyan">Academy</span>

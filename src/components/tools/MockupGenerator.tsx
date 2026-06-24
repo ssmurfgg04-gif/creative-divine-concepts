@@ -506,61 +506,127 @@ function ProductModel({ type, color, designUrl, designScale, designX, designY, a
 }
 
 // ============== T-SHIRT 3D MODEL ==============
-// Built from multiple curved meshes for realistic depth
+// Organic, cloth-like geometry with natural fabric drape via vertex displacement
 
 function TShirtMesh({ material }: { material: THREE.Material }) {
-  // Body — curved plane with proper T-shirt shape
+  // Build a smooth T-shirt using a custom parametric geometry with fabric drape
   const bodyGeometry = useMemo(() => {
-    const shape = new THREE.Shape();
-    // T-shirt silhouette (front view)
-    shape.moveTo(0, 1.5);
-    shape.lineTo(-0.4, 1.4);
-    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4);
-    shape.lineTo(0.9, 1.45);
-    shape.lineTo(1.7, 0.8);
-    shape.lineTo(1.5, 0.4);
-    shape.lineTo(1.0, 0.6);
-    shape.lineTo(1.0, -1.6);
-    shape.lineTo(-1.0, -1.6);
-    shape.lineTo(-1.0, 0.6);
-    shape.lineTo(-1.5, 0.4);
-    shape.lineTo(-1.7, 0.8);
-    shape.lineTo(-0.9, 1.45);
-    shape.lineTo(-0.4, 1.4);
-    shape.quadraticCurveTo(0, 1.0, 0.4, 1.4);
+    // Use a high-resolution plane that we deform into a T-shirt shape
+    // This gives smooth, organic curves instead of blocky extrusion
+    const width = 3.4;
+    const height = 3.2;
+    const segments = 80; // High poly for smoothness
 
-    const geo = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.5,
-      bevelEnabled: true,
-      bevelThickness: 0.15,
-      bevelSize: 0.15,
-      bevelSegments: 8,
-      curveSegments: 24,
-    });
-    geo.center();
+    const geo = new THREE.PlaneGeometry(width, height, segments, segments);
+
+    // Get position attribute for deformation
+    const pos = geo.attributes.position;
+    const vec = new THREE.Vector3();
+
+    for (let i = 0; i < pos.count; i++) {
+      vec.fromBufferAttribute(pos, i);
+      const x = vec.x;
+      const y = vec.y;
+
+      // Distance from center axis (for cylindrical body curve)
+      const distFromCenter = Math.abs(x);
+
+      // T-shirt silhouette mask: 1 = shirt, 0 = cut away
+      let mask = 1;
+
+      // Sleeves region (top 30%)
+      if (y > 0.3) {
+        const sleeveWidth = 1.7 - (y - 0.3) * 0.5;
+        if (distFromCenter > sleeveWidth) {
+          mask = 0;
+        }
+      }
+      // Neck cutout (top center)
+      if (y > 1.2 && distFromCenter < 0.4) {
+        const neckDepth = (y - 1.2) / 0.3;
+        if (distFromCenter < 0.4 * (1 - neckDepth * 0.5)) {
+          mask = 0.2; // Lower alpha for neck
+        }
+      }
+      // Body taper at bottom (slight)
+      if (y < -1.2) {
+        const taper = (-1.2 - y) / 0.4;
+        if (distFromCenter > 1.0 - taper * 0.1) {
+          mask = Math.max(0, 1 - taper);
+        }
+      }
+
+      if (mask > 0) {
+        // Z displacement: curved body (cylinder-like)
+        // Front of shirt curves toward viewer
+        const bodyCurve = Math.cos(x * 0.8) * 0.35;
+        // Add natural fabric folds (subtle waves)
+        const foldNoise =
+          Math.sin(y * 3 + x * 2) * 0.02 +
+          Math.sin(x * 5) * 0.015 +
+          Math.cos(y * 4) * 0.01;
+        // Shoulder bump
+        const shoulderBump = y > 0.5 ? Math.exp(-Math.pow((y - 0.8) / 0.4, 2)) * 0.1 : 0;
+        // Bottom hem slight curve
+        const hemCurve = y < -1.0 ? Math.cos(x * 0.5) * 0.05 : 0;
+
+        vec.z = bodyCurve + foldNoise + shoulderBump + hemCurve;
+        pos.setXYZ(i, vec.x, vec.y, vec.z);
+      } else {
+        // Move cut-away vertices far away (will be hidden)
+        pos.setXYZ(i, vec.x, vec.y, -100);
+      }
+    }
+
     geo.computeVertexNormals();
     return geo;
   }, []);
 
-  // Collar (torus)
-  const collarGeometry = useMemo(() => new THREE.TorusGeometry(0.4, 0.08, 12, 32, Math.PI), []);
+  // Back of shirt (mirrored)
+  const backGeometry = useMemo(() => {
+    const geo = bodyGeometry.clone();
+    const pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const z = pos.getZ(i);
+      pos.setZ(i, -z - 0.6); // Mirror and offset for body thickness
+    }
+    geo.computeVertexNormals();
+    return geo;
+  }, [bodyGeometry]);
+
+  // Collar (smooth torus)
+  const collarGeometry = useMemo(() => new THREE.TorusGeometry(0.38, 0.06, 16, 48, Math.PI * 1.2), []);
+
+  // Sleeve cap (rounded)
+  const sleeveCapGeo = useMemo(() => {
+    return new THREE.SphereGeometry(0.25, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+  }, []);
 
   return (
     <group>
-      {/* Main body */}
+      {/* Front of shirt */}
       <mesh geometry={bodyGeometry} castShadow receiveShadow material={material} />
-      {/* Collar */}
-      <mesh geometry={collarGeometry} position={[0, 1.0, 0.15]} rotation={[0, 0, 0]} material={material} castShadow />
-      {/* Sleeve cuffs (small cylinders) */}
-      <mesh position={[-1.6, 0.6, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={material}>
-        <cylinderGeometry args={[0.15, 0.15, 0.5, 16]} />
+      {/* Back of shirt */}
+      <mesh geometry={backGeometry} castShadow receiveShadow material={material} />
+
+      {/* Collar — smooth ribbed neckline */}
+      <mesh geometry={collarGeometry} position={[0, 1.25, 0.15]} rotation={[0, 0, Math.PI]} material={material} castShadow />
+
+      {/* Sleeve caps (rounded ends) */}
+      <mesh geometry={sleeveCapGeo} position={[-1.55, 0.65, 0.1]} rotation={[0, -0.3, -0.4]} scale={[1, 0.6, 1]} material={material} castShadow />
+      <mesh geometry={sleeveCapGeo} position={[1.55, 0.65, 0.1]} rotation={[0, 0.3, 0.4]} scale={[1, 0.6, 1]} material={material} castShadow />
+
+      {/* Sleeve openings (cuffs) */}
+      <mesh position={[-1.55, 0.55, 0]} rotation={[0, 0, Math.PI / 2.5]} castShadow material={material}>
+        <cylinderGeometry args={[0.18, 0.2, 0.15, 24]} />
       </mesh>
-      <mesh position={[1.6, 0.6, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={material}>
-        <cylinderGeometry args={[0.15, 0.15, 0.5, 16]} />
+      <mesh position={[1.55, 0.55, 0]} rotation={[0, 0, -Math.PI / 2.5]} castShadow material={material}>
+        <cylinderGeometry args={[0.18, 0.2, 0.15, 24]} />
       </mesh>
-      {/* Bottom hem (torus for rounded edge) */}
-      <mesh position={[0, -1.55, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <torusGeometry args={[0.9, 0.06, 8, 32, Math.PI]} />
+
+      {/* Bottom hem — smooth curved edge */}
+      <mesh position={[0, -1.5, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
+        <torusGeometry args={[0.95, 0.05, 12, 48, Math.PI]} />
       </mesh>
     </group>
   );

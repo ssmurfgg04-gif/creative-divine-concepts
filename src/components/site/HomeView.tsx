@@ -107,24 +107,30 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="hidden lg:flex items-center justify-center relative"
             >
-              <div className="relative w-full max-w-md aspect-square">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 via-accent/10 to-transparent blur-2xl" />
-                <div className="relative nura-card p-8 h-full flex flex-col items-center justify-center text-center">
-                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/15 text-primary box-glow">
-                    <Icons.Sparkles className="h-10 w-10" />
-                  </div>
-                  <h3 className="font-display text-2xl font-bold mb-2">Creative Tools Hub</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {TOOLS.length} free browser-based tools for designers, printers, and founders.
-                  </p>
-                  <button
-                    onClick={() => onNavigate("tools")}
-                    className="cyber-btn-filled h-10 px-6"
+              <div className="relative w-full max-w-2xl">
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 via-accent/10 to-transparent blur-2xl" />
+                <div className="relative nura-card border-accent/20 overflow-hidden group aspect-video">
+                  <video
+                    autoPlay
+                    loop
+                    playsInline
+                    muted
+                    preload="auto"
+                    className="absolute inset-0 w-full h-full object-cover"
                   >
-                    Explore Tools <Icons.ArrowRight className="h-3 w-3" />
-                  </button>
-                  <div className="mt-6 text-[10px] font-mono text-accent/30 tracking-widest">
-                    LIVE_SYSTEM_FEED
+                    <source src="/assets/creative-CPuRkwzY.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                    <div>
+                      <div className="text-[10px] font-mono text-accent/60 tracking-widest">LIVE_SYSTEM_FEED</div>
+                      <div className="font-display text-sm font-bold text-foreground">Creative Divine Concepts</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[10px] text-accent">
+                      <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+                      <span className="font-mono tracking-widest">ACTIVE</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -187,12 +193,12 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { label: "PIL-01", title: "Business Architecture", subtitle: "Foundation Layer", items: ["Business setup & structure", "Market positioning", "Customer journey design", "Systems & workflows"], icon: "Building2" },
-              { label: "PIL-02", title: "Creative & Branding", subtitle: "Visual Systems", items: ["Graphic design", "Brand identity", "Printing & packaging", "Visual storytelling"], icon: "Palette" },
-              { label: "PIL-03", title: "Web & Technology", subtitle: "Digital Infrastructure", items: ["Website design & development", "eCommerce stores", "Custom dashboards", "AI-assisted tools"], icon: "Code2" },
-              { label: "PIL-04", title: "Sales & Marketing", subtitle: "Growth Engine", items: ["Digital marketing", "Funnels & lead generation", "Social media management", "Customer care systems"], icon: "TrendingUp" },
-              { label: "PIL-05", title: "Operations for Diaspora", subtitle: "Remote Ops Framework", items: ["Local business management", "Customer service handling", "Sales monitoring", "Reporting & tracking"], icon: "Globe" },
-              { label: "PIL-06", title: "DTF / DTG Printing", subtitle: "Print Production", items: ["Direct-to-film transfers", "Direct-to-garment printing", "Gang sheet building", "Mockup previews"], icon: "Shirt" },
+              { label: "PIL-01", title: "Business Architecture", subtitle: "Foundation Layer", items: ["Business setup & structure", "Market positioning", "Customer journey design", "Systems & workflows"], icon: "Building2", bg: "/assets/section 3-01-BKNVmHdt.png" },
+              { label: "PIL-02", title: "Creative & Branding", subtitle: "Visual Systems", items: ["Graphic design", "Brand identity", "Printing & packaging", "Visual storytelling"], icon: "Palette", bg: "/assets/section 3-02-D_fVE2lh.png" },
+              { label: "PIL-03", title: "Web & Technology", subtitle: "Digital Infrastructure", items: ["Website design & development", "eCommerce stores", "Custom dashboards", "AI-assisted tools"], icon: "Code2", bg: "/assets/section 3-03-CNZ6Cz5E.png" },
+              { label: "PIL-04", title: "Sales & Marketing", subtitle: "Growth Engine", items: ["Digital marketing", "Funnels & lead generation", "Social media management", "Customer care systems"], icon: "TrendingUp", bg: "/assets/section 3-04-DbZzLVQp.png" },
+              { label: "PIL-05", title: "Operations for Diaspora", subtitle: "Remote Ops Framework", items: ["Local business management", "Customer service handling", "Sales monitoring", "Reporting & tracking"], icon: "Globe", bg: "/assets/section 3-05-BMxOJZgu.png" },
+              { label: "PIL-06", title: "DTF / DTG Printing", subtitle: "Print Production", items: ["Direct-to-film transfers", "Direct-to-garment printing", "Gang sheet building", "Mockup previews"], icon: "Shirt", bg: null },
             ].map((p, i) => {
               const Icon = (Icons as any)[p.icon] || Icons.Wrench;
               return (
@@ -203,24 +209,28 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   className="nura-card p-6 group relative overflow-hidden"
+                  style={p.bg ? { backgroundImage: `url(${p.bg})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
                 >
+                  {p.bg && <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-700" />
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                      <Icon className="h-5 w-5" />
+                  <div className="relative">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{p.label}</span>
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{p.label}</span>
+                    <h3 className="font-display font-bold text-foreground">{p.title}</h3>
+                    <p className="text-xs font-mono text-accent/50 tracking-widest uppercase mb-3 mt-1">{p.subtitle}</p>
+                    <ul className="space-y-1.5 text-xs text-muted-foreground">
+                      {p.items.map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <Icons.ChevronRight className="h-3 w-3 mt-0.5 text-accent shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3 className="font-display font-bold text-foreground">{p.title}</h3>
-                  <p className="text-xs font-mono text-accent/50 tracking-widest uppercase mb-3 mt-1">{p.subtitle}</p>
-                  <ul className="space-y-1.5 text-xs text-muted-foreground">
-                    {p.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2">
-                        <Icons.ChevronRight className="h-3 w-3 mt-0.5 text-accent shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </motion.div>
               );
             })}
@@ -246,11 +256,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-5">
             {[
-              { label: "PHASE-01", num: "01", title: "Tell Us the Idea", desc: "Share your vision, market, and goals with our team." },
-              { label: "PHASE-02", num: "02", title: "Business Architecture", desc: "We design the structure, positioning, and systems." },
-              { label: "PHASE-03", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools." },
-              { label: "PHASE-04", num: "04", title: "Launch & Manage", desc: "We launch, handle operations, and drive customers." },
-              { label: "PHASE-05", num: "05", title: "Track Remotely", desc: "Real-time reporting. Transparent communication. Full control." },
+              { label: "PHASE-01", num: "01", title: "Tell Us the Idea", desc: "Share your vision, market, and goals with our team.", icon: "/assets/icons 1 no bg-01-C51PbdB8.png" },
+              { label: "PHASE-02", num: "02", title: "Business Architecture", desc: "We design the structure, positioning, and systems.", icon: "/assets/icons 1 no bg-02-DcKtXQKH.png" },
+              { label: "PHASE-03", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools.", icon: "/assets/icons 1 no bg-03-kYhvdX97.png" },
+              { label: "PHASE-04", num: "04", title: "Launch & Manage", desc: "We launch, handle operations, and drive customers.", icon: "/assets/icons 1 no bg-04-owx734fi.png" },
+              { label: "PHASE-05", num: "05", title: "Track Remotely", desc: "Real-time reporting. Transparent communication. Full control.", icon: "/assets/icons 1 no bg-05-CpNQZ_TO.png" },
             ].map((p, i) => (
               <motion.div
                 key={p.label}
@@ -258,10 +268,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="nura-card p-5 relative"
+                className="nura-card p-5 relative text-center"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{p.label}</div>
-                <div className="font-display text-3xl font-bold text-accent/30 mt-1">{p.num}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30 absolute top-3 right-3">{p.label}</div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={p.icon} alt={p.title} className="w-16 h-16 object-contain mx-auto mb-3" />
                 <h3 className="font-display font-bold text-sm mt-2 mb-1 text-foreground">{p.title}</h3>
                 <p className="text-xs text-muted-foreground">{p.desc}</p>
                 {i < 4 && (
@@ -392,7 +403,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-primary">MAFUNZO YA UCHAPISHAJI</p>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-primary">LEARN • BUILD • GROW</p>
             <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50 block mt-1">MODULE-05C</span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
               Creative <span className="text-gradient-cyan">Academy</span>
