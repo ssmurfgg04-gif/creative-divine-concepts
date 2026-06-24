@@ -696,7 +696,7 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
   return (
     <ToolLayout
       title="Effects Studio"
-      tagline="Apply print effects — embroidery, glitter, halftone, neon & more"
+      tagline="Apply print effects: embroidery, glitter, halftone, neon & more"
       icon={<Sparkles className="h-5 w-5" />}
       badge="new"
       onBack={onBack}

@@ -371,7 +371,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               Pro Tools for <span className="text-gradient-cyan">T-Shirt Printers</span>
             </h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Built for DTF/DTG printing, apparel design, and client mockups. All tools work 100% in your browser — no sign-up, no API keys.
+              Built for DTF/DTG printing, apparel design, and client mockups. All tools work 100% in your browser. No sign-up, no API keys.
             </p>
           </div>
 

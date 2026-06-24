@@ -121,7 +121,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
   return (
     <ToolLayout
       title="AI Design Gen"
-      tagline="Generate T-shirt designs from text — free AI"
+      tagline="Generate T-shirt designs from text. Free AI"
       icon={<Wand2 className="h-5 w-5" />}
       badge="ai"
       onBack={onBack}
@@ -220,7 +220,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
                 Uses free z-ai-web-dev-sdk image generation. No API keys, no per-image fees.
               </p>
               <p>
-                Generated images are <span className="text-foreground">starting points</span> —
+                Generated images are <span className="text-foreground">starting points</span>. Use
                 use Canvas Designer or Effects Studio to refine for print.
               </p>
               <p className="text-primary">

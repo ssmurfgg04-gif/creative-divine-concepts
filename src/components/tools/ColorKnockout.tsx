@@ -197,7 +197,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
   return (
     <ToolLayout
       title="Color Knockout"
-      tagline="Remove colors for DTF/DTG — show garment through design"
+      tagline="Remove colors for DTF/DTG. Show garment through design"
       icon={<Droplet className="h-5 w-5" />}
       badge="new"
       onBack={onBack}
@@ -393,7 +393,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
         <EmptyState
           icon={<Droplet className="h-8 w-8" />}
           title="Remove any color from your artwork"
-          description="Click on a color in your image to make it transparent — perfect for letting garment color show through your DTF/DTG prints. Includes white underbase generation for dark garments."
+          description="Click on a color in your image to make it transparent, perfect for letting garment color show through your DTF/DTG prints. Includes white underbase generation for dark garments."
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
@@ -419,7 +419,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
               />
             </div>
             <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-              <Eye className="h-3.5 w-3.5" /> Live preview — adjust tolerance & feather in the sidebar
+              <Eye className="h-3.5 w-3.5" /> Live preview. Adjust tolerance & feather in the sidebar
             </p>
           </div>
         </div>

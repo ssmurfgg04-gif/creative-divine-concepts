@@ -18,11 +18,11 @@ const FAQS = [
   },
   {
     q: "Can I use your design tools for free?",
-    a: "Absolutely! All 14 of our browser-based design tools are free to use — no sign-up required. This includes Canvas Designer, Image Clipper (background removal), Vectorizer, Mockup Generator, Effects Studio, AI Design Gen, and more. Tools run 100% in your browser, so your images are never uploaded to a server.",
+    a: "Absolutely! All 14 of our browser-based design tools are free to use. No sign-up required. This includes Canvas Designer, Image Clipper (background removal), Vectorizer, Mockup Generator, Effects Studio, AI Design Gen, and more. Tools run 100% in your browser, so your images are never uploaded to a server.",
   },
   {
     q: "Do you serve clients outside Kenya?",
-    a: "Yes! While we're based in Githunguri Ndumberi, Kiambu, Kenya, we serve clients across East Africa and the diaspora. We help diaspora founders build and manage their Kenya business remotely — from branding and web design to T-shirt printing and marketing. We execute locally while you manage remotely.",
+    a: "Yes! While we're based in Githunguri Ndumberi, Kiambu, Kenya, we serve clients across East Africa and the diaspora. We help diaspora founders build and manage their Kenya business remotely, from branding and web design to T-shirt printing and marketing. We execute locally while you manage remotely.",
   },
   {
     q: "What file formats do you accept for T-shirt printing?",
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: "Can you help me start a T-shirt printing business in Kenya?",
-    a: "Yes! We sell printing machines and provide ongoing support as your partner. We also offer training through Creative Academy — learn full-stack development, graphic design, and digital marketing. Our team helps with business setup, branding, equipment selection, and operational workflows.",
+    a: "Yes! We sell printing machines and provide ongoing support as your partner. We also offer training through Creative Academy. Learn full-stack development, graphic design, and digital marketing. Our team helps with business setup, branding, equipment selection, and operational workflows.",
   },
   {
     q: "What areas in Kenya do you serve?",

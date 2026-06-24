@@ -31,7 +31,7 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
             Your One-Stop <span className="text-primary text-glow">Business Engine</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
-            From concept to scale: business architecture, branding, technology, marketing, and operations — all under one roof.
+            From concept to scale: business architecture, branding, technology, marketing, and operations, all under one roof.
           </p>
         </div>
 
@@ -228,7 +228,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
             Built in Kenya. <span className="text-primary text-glow">Serving the World.</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
-            We&apos;re a Kenya-based creative & technology studio helping founders launch and scale businesses — whether they&apos;re on the ground or abroad.
+            We&apos;re a Kenya-based creative & technology studio helping founders launch and scale businesses, whether they&apos;re on the ground or abroad.
           </p>
         </div>
 
@@ -236,19 +236,19 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
           <section className="rounded-xl border border-border bg-card/30 p-8">
             <h2 className="font-display text-2xl font-bold mb-3 text-primary">Our Story</h2>
             <p className="text-muted-foreground mb-3">
-              Creative Divine Concepts started as a T-shirt printing business in Kiambu, Kenya. We saw firsthand how non-designers struggled with artwork preparation — wrong sizes, missing bleeds, color issues, and expensive sampling mistakes.
+              Creative Divine Concepts started as a T-shirt printing business in Kiambu, Kenya. We saw firsthand how non-designers struggled with artwork preparation: wrong sizes, missing bleeds, color issues, and expensive sampling mistakes.
             </p>
             <p className="text-muted-foreground mb-3">
               Rather than just selling prints, we decided to <span className="text-foreground font-semibold">solve the underlying problem</span>. We built free design tools that work in any browser, no Photoshop required. Now anyone can prepare print-ready artwork in minutes.
             </p>
             <p className="text-muted-foreground">
-              Today we serve startups, SMEs, and diaspora founders across East Africa and beyond — combining design tools, printing services, and business consulting under one roof.
+              Today we serve startups, SMEs, and diaspora founders across East Africa and beyond, combining design tools, printing services, and business consulting under one roof.
             </p>
           </section>
 
           <section className="grid gap-4 md:grid-cols-3">
             {[
-              { icon: "Target", title: "Our Mission", desc: "Make professional design accessible to everyone — no design degree required." },
+              { icon: "Target", title: "Our Mission", desc: "Make professional design accessible to everyone. No design degree required." },
               { icon: "Eye", title: "Our Vision", desc: "Become East Africa&apos;s leading creative & technology platform for founders." },
               { icon: "Heart", title: "Our Values", desc: "Honesty, affordability, and continuous improvement. We learn every day." },
             ].map((item) => {

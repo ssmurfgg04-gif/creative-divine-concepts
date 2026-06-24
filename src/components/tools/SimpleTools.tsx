@@ -32,7 +32,7 @@ export function VATCalculator({ onBack }: VATCalculatorProps) {
   return (
     <ToolLayout
       title="VAT Calculator"
-      tagline="Kenya 16% VAT — add or remove instantly"
+      tagline="Kenya 16% VAT. Add or remove instantly"
       icon={<Calculator className="h-5 w-5" />}
       onBack={onBack}
       sidebar={
@@ -305,7 +305,7 @@ export function ImageResizer({ onBack }: ImageResizerProps) {
             <Maximize2 className="mx-auto mb-4 h-12 w-12 text-primary" />
             <h3 className="mb-2 font-display text-xl font-bold">Resize images for any platform</h3>
             <p className="mb-6 max-w-md text-sm text-muted-foreground">
-              Instagram, Facebook, Twitter, YouTube, print specs — pick a preset or enter custom dimensions.
+              Instagram, Facebook, Twitter, YouTube, print specs. Pick a preset or enter custom dimensions.
             </p>
             <Button onClick={() => fileInputRef.current?.click()} className="gap-2 bg-primary text-white hover:bg-primary/90">
               <Upload className="h-4 w-4" /> Upload Image

@@ -101,7 +101,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
   return (
     <ToolLayout
       title="Image Clipper"
-      tagline="One-click AI background removal — runs in your browser"
+      tagline="One-click AI background removal. Runs in your browser"
       icon={<Scissors className="h-5 w-5" />}
       badge="ai"
       onBack={onBack}
@@ -138,7 +138,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
                 }}
               />
               <p className="text-xs text-muted-foreground">
-                PNG, JPG, WebP. Max ~10MB. Image is processed locally — never uploaded.
+                PNG, JPG, WebP. Max ~10MB. Image is processed locally, never uploaded.
               </p>
             </div>
           </ToolSection>
@@ -218,7 +218,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
         <EmptyState
           icon={<Scissors className="h-8 w-8" />}
           title="Drop an image to clip"
-          description="One-click AI background removal. Perfect for product photos, T-shirt artwork, and logos. 100% in your browser — no upload, no API key."
+          description="One-click AI background removal. Perfect for product photos, T-shirt artwork, and logos. 100% in your browser. No upload, no API key."
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}

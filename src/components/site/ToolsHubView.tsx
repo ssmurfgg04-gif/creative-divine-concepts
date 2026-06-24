@@ -38,7 +38,7 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
             Creative <span className="text-primary">Tools Hub</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
-            Free, browser-based design tools for T-shirt printers, designers, and non-designers. All tools work 100% in your browser — no sign-up, no API keys.
+            Free, browser-based design tools for T-shirt printers, designers, and non-designers. All tools work 100% in your browser. No sign-up, no API keys.
           </p>
         </div>
 

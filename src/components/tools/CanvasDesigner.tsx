@@ -296,7 +296,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     canvas.setActiveObject(t);
     canvas.renderAll();
     syncLayers();
-    toast.success("Text added — double-click to edit");
+    toast.success("Text added. Double-click to edit");
   };
 
   // Add shapes
@@ -622,7 +622,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
   return (
     <ToolLayout
       title="Canvas Designer"
-      tagline={`Gang sheet builder for DTF/DTG — ${widthIn}×${heightIn}" @ ${dpi} DPI`}
+      tagline={`Gang sheet builder for DTF/DTG. ${widthIn}×${heightIn}" @ ${dpi} DPI`}
       icon={<LayoutGrid className="h-5 w-5" />}
       badge="new"
       onBack={onBack}

@@ -38,6 +38,8 @@ const PRODUCTS = [
   { id: "tshirt", name: "T-Shirt", icon: Shirt },
   { id: "mug", name: "Mug", icon: Coffee },
   { id: "bottle", name: "Bottle", icon: CupSoda },
+  { id: "shoe", name: "Shoe", icon: HardHat },
+  { id: "watch", name: "Watch", icon: HardHat },
   { id: "cap", name: "Cap", icon: HardHat },
 ] as const;
 
@@ -76,7 +78,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
   return (
     <ToolLayout
       title="Mockup Generator"
-      tagline="3D product mockups with real GLB models — upload design to see it wrapped"
+      tagline="3D product mockups with real GLB models. Upload design to see it wrapped"
       icon={<Shirt className="h-5 w-5" />}
       badge="new"
       onBack={onBack}
@@ -204,7 +206,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
               <li>• <span className="text-foreground">Scroll</span> to zoom in/out</li>
               <li>• Uses real 3D GLB models with UV mapping</li>
               <li>• Design texture wraps onto product surface</li>
-              <li>• Change color — model updates instantly</li>
+              <li>• Change color, model updates instantly</li>
               <li>• Export high-res PNG for client proofs</li>
             </ul>
           </ToolSection>
@@ -356,6 +358,22 @@ function ProductModel({ type, color, designUrl, autoRotate, captureRef }: Produc
     return (
       <group ref={groupRef} position={[0, -0.3, 0]}>
         <CapGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
+      </group>
+    );
+  }
+
+  if (type === "shoe") {
+    return (
+      <group ref={groupRef} position={[0, -0.5, 0]}>
+        <ShoeGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
+      </group>
+    );
+  }
+
+  if (type === "watch") {
+    return (
+      <group ref={groupRef} position={[0, -0.3, 0]}>
+        <WatchGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
       </group>
     );
   }
@@ -547,7 +565,83 @@ function CapGLB({ color, designTexture, autoRotate, groupRef }: {
   );
 }
 
+// ============== SHOE (loads shoe.glb) ==============
+
+function ShoeGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  const gltf = useGLTF("/models/shoe.glb");
+
+  const shoeMesh = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(3, 3, 3);
+    return cloned;
+  }, [gltf]);
+
+  useEffect(() => {
+    shoeMesh.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = child.material.clone();
+        child.material.color = new THREE.Color(color);
+        child.material.roughness = 0.5;
+        child.material.metalness = 0.1;
+        if (designTexture) child.material.map = designTexture;
+        else child.material.map = null;
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [shoeMesh, color, designTexture]);
+
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) groupRef.current.rotation.y += delta * 1.5;
+  });
+
+  return <primitive object={shoeMesh} />;
+}
+
+// ============== WATCH (loads watch.glb) ==============
+
+function WatchGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  const gltf = useGLTF("/models/watch.glb");
+
+  const watchMesh = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(2.5, 2.5, 2.5);
+    return cloned;
+  }, [gltf]);
+
+  useEffect(() => {
+    watchMesh.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = child.material.clone();
+        child.material.color = new THREE.Color(color);
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.4;
+        if (designTexture) child.material.map = designTexture;
+        else child.material.map = null;
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [watchMesh, color, designTexture]);
+
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) groupRef.current.rotation.y += delta * 1.5;
+  });
+
+  return <primitive object={watchMesh} />;
+}
+
 // Preload GLB models
 useGLTF.preload("/models/shirt_baked.glb");
 useGLTF.preload("/models/teacup.glb");
 useGLTF.preload("/models/water_bottle.glb");
+useGLTF.preload("/models/shoe.glb");
+useGLTF.preload("/models/watch.glb");
