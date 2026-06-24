@@ -503,12 +503,12 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             ))}
           </div>
 
-          {/* Testimonials */}
+          {/* Testimonials with photos */}
           <div className="grid gap-4 md:grid-cols-3">
             {[
-              { label: "REV-01", quote: "They built our entire brand and digital presence while we were in London. Felt like having a team on the ground.", name: "James O.", role: "Diaspora Founder, UK" },
-              { label: "REV-02", quote: "From business registration to a full website and marketing system, all delivered in 6 weeks.", name: "Amina W.", role: "CEO, Nairobi Startup" },
-              { label: "REV-03", quote: "The transparency and reporting made managing remotely feel effortless. Highly recommend.", name: "David K.", role: "Investor, USA" },
+              { label: "REV-01", quote: "They built our entire brand and digital presence while we were in London. Felt like having a team on the ground.", name: "James O.", role: "Diaspora Founder, UK", initials: "JO", color: "#1e3a5f" },
+              { label: "REV-02", quote: "From business registration to a full website and marketing system, all delivered in 6 weeks.", name: "Amina W.", role: "CEO, Nairobi Startup", initials: "AW", color: "#7c2d12" },
+              { label: "REV-03", quote: "The transparency and reporting made managing remotely feel effortless. Highly recommend.", name: "David K.", role: "Investor, USA", initials: "DK", color: "#166534" },
             ].map((r, i) => (
               <motion.div
                 key={r.label}
@@ -518,11 +518,23 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 transition={{ duration: 0.3, delay: i * 0.1 }}
                 className="nura-card p-6"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30 mb-2">{r.label}</div>
-                <p className="text-sm italic text-muted-foreground mb-4">&ldquo;{r.quote}&rdquo;</p>
-                <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 text-accent font-bold text-sm">
-                    {r.name.charAt(0)}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{r.label}</div>
+                  {/* Star rating */}
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Icons.Star key={star} className="h-3 w-3 fill-primary text-primary" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-sm italic text-muted-foreground mb-4 leading-relaxed">&ldquo;{r.quote}&rdquo;</p>
+                <div className="flex items-center gap-3">
+                  {/* Avatar with initials and background color (simulating photo) */}
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-full font-display font-bold text-white text-sm shrink-0"
+                    style={{ backgroundColor: r.color }}
+                  >
+                    {r.initials}
                   </div>
                   <div>
                     <div className="font-semibold text-sm text-foreground">{r.name}</div>

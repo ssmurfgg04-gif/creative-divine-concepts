@@ -174,15 +174,15 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
   return (
     <nav className="fixed top-4 inset-x-4 md:max-w-6xl md:mx-auto z-40 bg-background/60 backdrop-blur-xl border border-border/30 rounded-3xl shadow-lg overflow-visible transition-all duration-300">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-1 shrink-0">
-          <button onClick={() => onNavigate("home")} className="flex items-center gap-2 shrink-0 mr-1">
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button onClick={() => onNavigate("home")} className="flex items-center gap-2 shrink-0 mr-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-10 w-auto object-contain rounded-2xl" />
           </button>
-          {/* Home button right next to logo (matches original site) */}
+          {/* Home button - hidden on mobile, shown on desktop next to logo */}
           <button
             onClick={() => onNavigate("home")}
-            className={`px-3 py-2 rounded-sm text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
+            className={`hidden md:flex px-3 lg:px-4 py-2 rounded-sm text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
               currentView === "home"
                 ? "text-accent bg-accent/10 border border-accent/30 box-glow"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -245,20 +245,6 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
 
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl p-4 space-y-1 max-h-[80vh] overflow-y-auto scrollbar-thin">
-          {/* Home first in mobile (logo is not clickable enough on mobile) */}
-          <button
-            onClick={() => {
-              onNavigate("home");
-              setMobileOpen(false);
-            }}
-            className={`flex items-center w-full px-3 py-2.5 rounded-md text-sm font-display font-bold tracking-wider ${
-              currentView === "home"
-                ? "text-accent bg-accent/10"
-                : "text-foreground hover:bg-muted/50"
-            }`}
-          >
-            Home
-          </button>
           {NAV_ITEMS.filter((item) => item.label !== "Home").map((item) => (
             <div key={item.label}>
               <button

@@ -1,7 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MessageCircle, X, Phone, Mail, MapPin } from "lucide-react";
+import { X, Phone, Mail, MapPin } from "lucide-react";
+
+// Custom WhatsApp icon (stroke/outline style, warm orange)
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* WhatsApp speech bubble with phone handset */}
+      <path d="M3 21l1.65-3.8a9 9 0 1 1 2.85 2.85L3 21" />
+      <path d="M9 10a.5.5 0 1 0 1 0V9a.5.5 0 1 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
+      <path d="M9.5 9a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export function FloatingWhatsApp() {
   const [expanded, setExpanded] = useState(false);
@@ -18,7 +38,7 @@ export function FloatingWhatsApp() {
     <>
       {/* Expanded contact card */}
       {expanded && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-80 max-w-sm rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+        <div className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-80 max-w-sm rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
           <div className="bg-primary p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -49,8 +69,8 @@ export function FloatingWhatsApp() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-lg border border-border p-3 hover:bg-primary/5 transition"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500 text-white">
-                <MessageCircle className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: "#E8820C" }}>
+                <WhatsAppIcon className="h-5 w-5 text-white" />
               </div>
               <div>
                 <div className="text-sm font-semibold">WhatsApp Us</div>
@@ -94,23 +114,38 @@ export function FloatingWhatsApp() {
         </div>
       )}
 
-      {/* Floating WhatsApp button - orange themed to match CDC brand */}
+      {/* Floating WhatsApp button - exact spec:
+          - Perfect circle ~64px
+          - Soft white/light grey background (#f5f5f5)
+          - Subtle drop shadow
+          - WhatsApp icon in outline style, warm orange (#E8820C)
+          - Notification badge: solid orange dot, no number, white ring
+      */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-110 border-2 border-primary/30"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full transition-all hover:scale-110"
+        style={{
+          backgroundColor: "#f5f5f5",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06)",
+          border: "1px solid rgba(232, 130, 12, 0.08)",
+        }}
         aria-label="Contact us on WhatsApp"
         title="Chat with us on WhatsApp"
       >
         {expanded ? (
-          <X className="h-6 w-6" />
+          <X className="h-6 w-6" style={{ color: "#E8820C" }} />
         ) : (
-          <MessageCircle className="h-7 w-7" />
-        )}
-        {!expanded && (
-          <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white border border-background">
-            1
+          <span style={{ color: "#E8820C" }}>
+            <WhatsAppIcon className="h-9 w-9" />
           </span>
         )}
+        <span
+          className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full"
+          style={{
+            backgroundColor: "#E8820C",
+            border: "2px solid #f5f5f5",
+          }}
+        />
       </button>
     </>
   );
