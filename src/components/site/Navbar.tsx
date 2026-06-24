@@ -174,25 +174,29 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
   return (
     <nav className="fixed top-4 inset-x-4 md:max-w-6xl md:mx-auto z-40 bg-background/60 backdrop-blur-xl border border-border/30 rounded-3xl shadow-lg overflow-visible transition-all duration-300">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-0.5 shrink-0">
-          <button onClick={() => onNavigate("home")} className="flex items-center gap-2 shrink-0 mr-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-10 w-auto object-contain rounded-2xl" />
-          </button>
-          {/* Home button - hidden on mobile, shown on desktop next to logo */}
+        {/* Logo only - Home is in the nav group below */}
+        <button onClick={() => onNavigate("home")} className="flex items-center gap-2 shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-10 w-auto object-contain rounded-2xl" />
+        </button>
+
+        {/* ALL nav items in ONE container so spacing is identical */}
+        <div className="hidden md:flex items-center gap-0.5">
+          {/* Home is first in the group, same styling as all others */}
           <button
             onClick={() => onNavigate("home")}
-            className={`hidden md:flex px-3 lg:px-4 py-2 rounded-sm text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
+            className={`relative px-3 lg:px-4 py-2 text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
               currentView === "home"
-                ? "text-accent bg-accent/10 border border-accent/30 box-glow"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                ? "text-accent"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Home
+            {currentView === "home" && (
+              <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent" />
+            )}
           </button>
-        </div>
 
-        <div className="hidden md:flex items-center gap-0.5">
           {NAV_ITEMS.filter((item) => item.label !== "Home").map((item) => {
             const isActive =
               currentView === item.view ||
@@ -206,10 +210,10 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
               >
                 <button
                   onClick={() => handleNavClick(item.view, item.dropdown)}
-                  className={`flex items-center gap-1 px-3 lg:px-4 py-2 rounded-sm text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
+                  className={`relative flex items-center gap-1 px-3 lg:px-4 py-2 text-sm font-display font-bold tracking-widest transition-all duration-300 whitespace-nowrap ${
                     isActive
-                      ? "text-accent bg-accent/10 border border-accent/30 box-glow"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "text-accent"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -219,6 +223,9 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
                         openDropdown === item.dropdown ? "rotate-180" : ""
                       }`}
                     />
+                  )}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-accent" />
                   )}
                 </button>
                 {item.dropdown && openDropdown === item.dropdown && renderDropdown(item.dropdown)}
