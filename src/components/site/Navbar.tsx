@@ -70,9 +70,9 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
                         onOpenTool(tool.id);
                         setToolsOpen(false);
                       }}
-                      className="flex items-start gap-2 rounded-md p-2 text-left hover:bg-accent/10 transition"
+                      className="flex items-start gap-2 rounded-md p-2 text-left hover:bg-primary/10 transition"
                     >
-                      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent">
+                      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/15 text-primary">
                         <Icon className="h-3.5 w-3.5" />
                       </div>
                       <div>
@@ -86,8 +86,8 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
             )}
           </div>
           {navItem("Pricing", "pricing")}
-          {navItem("About", "about")}
           {navItem("Contact", "contact")}
+          {navItem("About", "about")}
         </div>
 
         <button
@@ -119,9 +119,9 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
                       onOpenTool(tool.id);
                       setMobileOpen(false);
                     }}
-                    className="flex items-center gap-2 rounded-md p-2 text-left hover:bg-accent/10"
+                    className="flex items-center gap-2 rounded-md p-2 text-left hover:bg-primary/10"
                   >
-                    <Icon className="h-4 w-4 text-accent shrink-0" />
+                    <Icon className="h-4 w-4 text-primary shrink-0" />
                     <span className="text-sm">{tool.name}</span>
                   </button>
                 );

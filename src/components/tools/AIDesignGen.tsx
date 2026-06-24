@@ -104,7 +104,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
         selected && (
           <Button
             onClick={() => download(selected)}
-            className="gap-2 bg-accent text-white hover:bg-accent/90"
+            className="gap-2 bg-primary text-white hover:bg-primary/90"
           >
             <Download className="h-4 w-4" /> Download
           </Button>
@@ -153,7 +153,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
               <Button
                 onClick={generate}
                 disabled={loading || !prompt.trim()}
-                className="w-full gap-2 bg-accent text-white hover:bg-accent/90"
+                className="w-full gap-2 bg-primary text-white hover:bg-primary/90"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                 {loading ? "Generating…" : "Generate Design"}
@@ -167,9 +167,9 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
                 <button
                   key={idea}
                   onClick={() => setPrompt(idea)}
-                  className="flex w-full items-start gap-2 rounded-md border border-border/50 bg-background/30 px-2.5 py-1.5 text-left text-xs hover:border-accent/40 hover:bg-accent/5"
+                  className="flex w-full items-start gap-2 rounded-md border border-border/50 bg-background/30 px-2.5 py-1.5 text-left text-xs hover:border-primary/40 hover:bg-primary/5"
                 >
-                  <Lightbulb className="mt-0.5 h-3 w-3 shrink-0 text-accent" />
+                  <Lightbulb className="mt-0.5 h-3 w-3 shrink-0 text-primary" />
                   <span>{idea}</span>
                 </button>
               ))}
@@ -185,7 +185,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
                 Generated images are <span className="text-foreground">starting points</span> —
                 use Canvas Designer or Effects Studio to refine for print.
               </p>
-              <p className="text-accent">
+              <p className="text-primary">
                 For color-accurate prints, combine with hand-picked color palettes.
               </p>
             </div>
@@ -202,7 +202,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
             <Button
               onClick={generate}
               disabled={loading || !prompt.trim()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               {loading ? "Generating…" : "Generate"}
@@ -215,7 +215,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
           <div className="flex flex-1 items-center justify-center overflow-hidden p-4">
             {loading && !selected ? (
               <div className="flex flex-col items-center gap-3">
-                <Loader2 className="h-10 w-10 animate-spin text-accent" />
+                <Loader2 className="h-10 w-10 animate-spin text-primary" />
                 <p className="text-sm text-muted-foreground">Generating design… (~10-20s)</p>
               </div>
             ) : selected ? (
@@ -249,7 +249,7 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
                     key={i}
                     onClick={() => setSelected(url)}
                     className={`relative h-full aspect-square shrink-0 overflow-hidden rounded-md border-2 transition ${
-                      selected === url ? "border-accent box-glow" : "border-border hover:border-accent/40"
+                      selected === url ? "border-primary box-glow" : "border-border hover:border-primary/40"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}

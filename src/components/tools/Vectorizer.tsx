@@ -160,7 +160,7 @@ export function Vectorizer({ onBack }: VectorizerProps) {
           <Button
             onClick={downloadSvg}
             disabled={!svgUrl}
-            className="gap-2 bg-accent text-white hover:bg-accent/90"
+            className="gap-2 bg-primary text-white hover:bg-primary/90"
           >
             <Download className="h-4 w-4" /> SVG
           </Button>
@@ -171,7 +171,7 @@ export function Vectorizer({ onBack }: VectorizerProps) {
           <ToolSection title="Upload Image">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -278,7 +278,7 @@ export function Vectorizer({ onBack }: VectorizerProps) {
               <Button
                 onClick={trace}
                 disabled={loading}
-                className="w-full gap-2 bg-accent text-white hover:bg-accent/90"
+                className="w-full gap-2 bg-primary text-white hover:bg-primary/90"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Settings2 className="h-4 w-4" />}
                 {loading ? "Tracing…" : "Trace to Vector"}
@@ -305,7 +305,7 @@ export function Vectorizer({ onBack }: VectorizerProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Image
             </Button>
@@ -339,7 +339,7 @@ export function Vectorizer({ onBack }: VectorizerProps) {
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
                     {loading ? (
                       <>
-                        <Loader2 className="mb-3 h-8 w-8 animate-spin text-accent" />
+                        <Loader2 className="mb-3 h-8 w-8 animate-spin text-primary" />
                         <p className="text-sm">Tracing paths…</p>
                       </>
                     ) : (

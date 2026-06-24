@@ -68,12 +68,13 @@ export function StickerGen({ onBack }: StickerGenProps) {
     const data = imageData.data;
     const w = canvas.width, h = canvas.height;
 
-    // Check if image has transparency
+    // Check if image has transparency (deferred via microtask to avoid synchronous setState in effect)
     let transCount = 0;
     for (let i = 3; i < data.length; i += 4) {
       if (data[i] < 255) transCount++;
     }
-    setHasTransparency(transCount > 10);
+    const hasTrans = transCount > 10;
+    queueMicrotask(() => setHasTransparency(hasTrans));
 
     // Build alpha mask (1 = inside artwork, 0 = outside)
     const mask = new Uint8Array(w * h);
@@ -281,7 +282,7 @@ export function StickerGen({ onBack }: StickerGenProps) {
           <Button
             onClick={handleDownloadPng}
             disabled={!imageUrl}
-            className="gap-2 bg-accent text-white hover:bg-accent/90"
+            className="gap-2 bg-primary text-white hover:bg-primary/90"
           >
             <Download className="h-4 w-4" /> Print PNG
           </Button>
@@ -292,7 +293,7 @@ export function StickerGen({ onBack }: StickerGenProps) {
           <ToolSection title="Upload Artwork">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose PNG
@@ -309,7 +310,7 @@ export function StickerGen({ onBack }: StickerGenProps) {
               }}
             />
             <p className="mt-2 text-xs text-muted-foreground">
-              Use a <span className="text-accent">transparent PNG</span> for best results.
+              Use a <span className="text-primary">transparent PNG</span> for best results.
               Run your image through <span className="text-foreground">Image Clipper</span> first if needed.
             </p>
             {imageUrl && !hasTransparency && (
@@ -404,7 +405,7 @@ export function StickerGen({ onBack }: StickerGenProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Transparent PNG
             </Button>

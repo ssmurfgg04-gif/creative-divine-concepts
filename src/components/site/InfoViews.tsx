@@ -26,9 +26,9 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <Badge className="mb-3 bg-accent/10 text-accent border-accent/30">MODULE-03</Badge>
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">MODULE-03</Badge>
           <h1 className="font-display text-5xl font-bold mb-4">
-            Your One-Stop <span className="text-accent text-glow">Business Engine</span>
+            Your One-Stop <span className="text-primary text-glow">Business Engine</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
             From concept to scale: business architecture, branding, technology, marketing, and operations — all under one roof.
@@ -44,15 +44,15 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.08 }}
-                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6 hover:border-accent/40 transition"
+                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6 hover:border-primary/40 transition"
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/15 text-primary">
                   <Icon className="h-6 w-6" />
                 </div>
                 <h3 className="font-display text-lg font-bold mb-2">{s.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="text-xs text-accent font-semibold">{s.price}</span>
+                  <span className="text-xs text-primary font-semibold">{s.price}</span>
                   <Button size="sm" variant="ghost" onClick={() => onNavigate("contact")} className="text-xs">
                     Get Quote <Icons.ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
@@ -62,12 +62,12 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
           })}
         </div>
 
-        <div className="mt-16 rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/10 to-transparent p-10 text-center">
+        <div className="mt-16 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-10 text-center">
           <h2 className="font-display text-3xl font-bold mb-3">Need a Custom Solution?</h2>
           <p className="max-w-xl mx-auto text-muted-foreground mb-6">
             We tailor packages for startups, SMEs, and diaspora founders. Tell us your vision and we&apos;ll design a solution.
           </p>
-          <Button onClick={() => onNavigate("contact")} size="lg" className="bg-accent text-white hover:bg-accent/90 box-glow">
+          <Button onClick={() => onNavigate("contact")} size="lg" className="bg-primary text-white hover:bg-primary/90 box-glow">
             Book a Strategy Call
           </Button>
         </div>
@@ -151,9 +151,9 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <Badge className="mb-3 bg-accent/10 text-accent border-accent/30">PRICING</Badge>
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">PRICING</Badge>
           <h1 className="font-display text-5xl font-bold mb-4">
-            Simple, <span className="text-accent text-glow">Transparent</span> Pricing
+            Simple, <span className="text-primary text-glow">Transparent</span> Pricing
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
             No per-click credits. No hidden fees. Subscribe to unlock tools and capabilities, not discrete actions.
@@ -169,32 +169,32 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
               transition={{ duration: 0.3, delay: i * 0.08 }}
               className={`relative rounded-xl border p-6 ${
                 p.highlight
-                  ? "border-accent bg-gradient-to-b from-accent/10 to-transparent box-glow"
+                  ? "border-primary bg-gradient-to-b from-primary/10 to-transparent box-glow"
                   : "border-border bg-card/40"
               }`}
             >
               {p.highlight && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-white">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white">
                   Most Popular
                 </Badge>
               )}
               <h3 className="font-display text-xl font-bold mb-1">{p.name}</h3>
               <p className="text-xs text-muted-foreground mb-4">{p.desc}</p>
               <div className="mb-4">
-                <div className="font-display text-3xl font-bold text-accent">{p.price}</div>
+                <div className="font-display text-3xl font-bold text-primary">{p.price}</div>
                 <div className="text-xs text-muted-foreground">{p.period}</div>
               </div>
               <ul className="space-y-2 mb-6">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-xs">
-                    <Icons.Check className="h-3.5 w-3.5 mt-0.5 text-accent shrink-0" />
+                    <Icons.Check className="h-3.5 w-3.5 mt-0.5 text-primary shrink-0" />
                     <span className="text-muted-foreground">{f}</span>
                   </li>
                 ))}
               </ul>
               <Button
                 onClick={() => onNavigate("contact")}
-                className={`w-full ${p.highlight ? "bg-accent text-white hover:bg-accent/90" : "variant-outline"}`}
+                className={`w-full ${p.highlight ? "bg-primary text-white hover:bg-primary/90" : "variant-outline"}`}
                 variant={p.highlight ? "default" : "outline"}
               >
                 {p.cta}
@@ -223,9 +223,9 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
-          <Badge className="mb-3 bg-accent/10 text-accent border-accent/30">ABOUT US</Badge>
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">ABOUT US</Badge>
           <h1 className="font-display text-5xl font-bold mb-4">
-            Built in Kenya. <span className="text-accent text-glow">Serving the World.</span>
+            Built in Kenya. <span className="text-primary text-glow">Serving the World.</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
             We&apos;re a Kenya-based creative & technology studio helping founders launch and scale businesses — whether they&apos;re on the ground or abroad.
@@ -234,7 +234,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
         <div className="space-y-8">
           <section className="rounded-xl border border-border bg-card/30 p-8">
-            <h2 className="font-display text-2xl font-bold mb-3 text-accent">Our Story</h2>
+            <h2 className="font-display text-2xl font-bold mb-3 text-primary">Our Story</h2>
             <p className="text-muted-foreground mb-3">
               Creative Divine Concepts started as a T-shirt printing business in Kiambu, Kenya. We saw firsthand how non-designers struggled with artwork preparation — wrong sizes, missing bleeds, color issues, and expensive sampling mistakes.
             </p>
@@ -255,7 +255,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
               const Icon = (Icons as any)[item.icon];
               return (
                 <div key={item.title} className="rounded-xl border border-border bg-card/30 p-6 text-center">
-                  <div className="mb-3 flex h-12 w-12 mx-auto items-center justify-center rounded-lg bg-accent/15 text-accent">
+                  <div className="mb-3 flex h-12 w-12 mx-auto items-center justify-center rounded-lg bg-primary/15 text-primary">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="font-display font-bold mb-2">{item.title}</h3>
@@ -266,7 +266,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
           </section>
 
           <section className="rounded-xl border border-border bg-card/30 p-8">
-            <h2 className="font-display text-2xl font-bold mb-4 text-accent">What Clients Say</h2>
+            <h2 className="font-display text-2xl font-bold mb-4 text-primary">What Clients Say</h2>
             <div className="grid gap-4 md:grid-cols-3">
               {[
                 { quote: "They built our entire brand and digital presence while we were in London. Felt like having a team on the ground.", name: "James O.", role: "Diaspora Founder, UK" },
@@ -277,7 +277,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
                   <p className="text-sm italic text-muted-foreground mb-3">&ldquo;{r.quote}&rdquo;</p>
                   <div>
                     <div className="font-semibold text-sm">{r.name}</div>
-                    <div className="text-xs text-accent">{r.role}</div>
+                    <div className="text-xs text-primary">{r.role}</div>
                   </div>
                 </div>
               ))}
@@ -285,7 +285,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
           </section>
 
           <div className="text-center">
-            <Button onClick={() => onNavigate("contact")} size="lg" className="bg-accent text-white hover:bg-accent/90 box-glow">
+            <Button onClick={() => onNavigate("contact")} size="lg" className="bg-primary text-white hover:bg-primary/90 box-glow">
               Work With Us
             </Button>
           </div>
@@ -314,9 +314,9 @@ export function ContactView() {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-5xl">
         <div className="text-center mb-12">
-          <Badge className="mb-3 bg-accent/10 text-accent border-accent/30">CONTACT</Badge>
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">CONTACT</Badge>
           <h1 className="font-display text-5xl font-bold mb-4">
-            Let&apos;s Build <span className="text-accent text-glow">Together</span>
+            Let&apos;s Build <span className="text-primary text-glow">Together</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
             Have a project in mind? Need design tools training? Want to partner with us? We&apos;d love to hear from you.
@@ -336,8 +336,8 @@ export function ContactView() {
             ].map((item) => {
               const Icon = (Icons as any)[item.icon];
               const content = (
-                <div className="flex items-start gap-3 rounded-lg border border-border bg-card/30 p-4 hover:border-accent/40 transition">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent">
+                <div className="flex items-start gap-3 rounded-lg border border-border bg-card/30 p-4 hover:border-primary/40 transition">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/15 text-primary">
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
@@ -385,7 +385,7 @@ export function ContactView() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-accent text-white hover:bg-accent/90 gap-2"
+                className="w-full bg-primary text-white hover:bg-primary/90 gap-2"
               >
                 {submitting ? (
                   <>

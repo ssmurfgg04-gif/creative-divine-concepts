@@ -172,7 +172,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
         <Button
           onClick={handleDownload}
           disabled={!resultUrl}
-          className="gap-2 bg-accent text-white hover:bg-accent/90"
+          className="gap-2 bg-primary text-white hover:bg-primary/90"
         >
           <Download className="h-4 w-4" /> Download
         </Button>
@@ -182,7 +182,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
           <ToolSection title="Upload Image">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -212,7 +212,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <Label className="text-xs">Scale factor</Label>
-                      <span className="text-xs text-accent font-semibold">{scale}×</span>
+                      <span className="text-xs text-primary font-semibold">{scale}×</span>
                     </div>
                     <Slider
                       value={[scale]}
@@ -246,12 +246,12 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
 
                   <div className="flex items-center justify-between">
                     <Label className="text-xs flex items-center gap-1">
-                      <Sparkles className="h-3 w-3 text-accent" /> AI Enhance
+                      <Sparkles className="h-3 w-3 text-primary" /> AI Enhance
                     </Label>
                     <Switch checked={aiEnhance} onCheckedChange={setAiEnhance} />
                   </div>
                   {aiEnhance && (
-                    <p className="rounded-md bg-accent/10 p-2 text-xs text-accent">
+                    <p className="rounded-md bg-primary/10 p-2 text-xs text-primary">
                       AI enhancement uses free z-ai-web-dev-sdk. Slower but smarter detail recovery.
                     </p>
                   )}
@@ -261,7 +261,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
               <Button
                 onClick={applyUpscale}
                 disabled={processing}
-                className="w-full gap-2 bg-accent text-white hover:bg-accent/90"
+                className="w-full gap-2 bg-primary text-white hover:bg-primary/90"
               >
                 {processing ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
                 {processing ? "Processing…" : `Upscale ${scale}×`}
@@ -289,7 +289,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Image
             </Button>
@@ -318,7 +318,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
                   Upscaled
                 </span>
                 {resultDims.w > 0 && (
-                  <span className="text-xs text-accent">
+                  <span className="text-xs text-primary">
                     {resultDims.w}×{resultDims.h}px
                   </span>
                 )}
@@ -326,7 +326,7 @@ export function ImageUpscaler({ onBack }: ImageUpscalerProps) {
               <div className="checker-bg relative flex-1 overflow-hidden rounded-lg border border-border">
                 {processing && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
-                    <Loader2 className="mb-3 h-8 w-8 animate-spin text-accent" />
+                    <Loader2 className="mb-3 h-8 w-8 animate-spin text-primary" />
                     <p className="text-sm text-muted-foreground">
                       {aiEnhance ? "AI enhancing…" : "Upscaling…"}
                     </p>

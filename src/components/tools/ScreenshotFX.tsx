@@ -303,7 +303,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
           <Button
             onClick={handleDownload}
             disabled={!imageUrl}
-            className="gap-2 bg-accent text-white hover:bg-accent/90"
+            className="gap-2 bg-primary text-white hover:bg-primary/90"
           >
             <Download className="h-4 w-4" /> Download
           </Button>
@@ -314,7 +314,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
           <ToolSection title="Upload Screenshot">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -342,8 +342,8 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
                       onClick={() => setTool(t.id)}
                       className={`flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs transition ${
                         tool === t.id
-                          ? "border-accent bg-accent/10 text-accent"
-                          : "border-border hover:border-accent/40"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border hover:border-primary/40"
                       }`}
                     >
                       <t.icon className="h-4 w-4" />
@@ -414,7 +414,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
               </ToolSection>
 
               <p className="text-xs text-muted-foreground">
-                Annotations: <span className="text-accent font-semibold">{annotations.length}</span>
+                Annotations: <span className="text-primary font-semibold">{annotations.length}</span>
               </p>
             </>
           )}
@@ -429,7 +429,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Screenshot
             </Button>
@@ -452,7 +452,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
             </div>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Tool: <span className="text-accent font-semibold capitalize">{tool}</span> • Click & drag to draw
+            Tool: <span className="text-primary font-semibold capitalize">{tool}</span> • Click & drag to draw
           </p>
 
           {textPos && (
@@ -469,7 +469,7 @@ export function ScreenshotFX({ onBack }: ScreenshotFXProps) {
                   placeholder="Enter text…"
                   className="h-8 w-64"
                 />
-                <Button size="sm" onClick={handleTextSubmit} className="bg-accent text-white hover:bg-accent/90">
+                <Button size="sm" onClick={handleTextSubmit} className="bg-primary text-white hover:bg-primary/90">
                   Add
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setTextPos(null)}>

@@ -37,14 +37,14 @@ export function ToolLayout({
             variant="ghost"
             size="icon"
             onClick={onBack}
-            className="h-9 w-9 hover:bg-accent/20"
+            className="h-9 w-9 hover:bg-primary/20"
             aria-label="Back to tools"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex items-center gap-2">
             {icon && (
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/15 text-accent">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
                 {icon}
               </div>
             )}
@@ -54,7 +54,7 @@ export function ToolLayout({
                 {badge && (
                   <Badge
                     variant="secondary"
-                    className="bg-accent/15 text-accent border-accent/30 text-[10px] uppercase tracking-wider"
+                    className="bg-primary/15 text-primary border-primary/30 text-[10px] uppercase tracking-wider"
                   >
                     {badge === "ai" && <Sparkles className="mr-1 h-3 w-3" />}
                     {badge}
@@ -103,7 +103,7 @@ export function ToolSection({
       <details open={defaultOpen} className="group">
         <summary className="flex cursor-pointer items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground select-none">
           {title}
-          <span className="text-accent transition-transform group-open:rotate-90">›</span>
+          <span className="text-primary transition-transform group-open:rotate-90">›</span>
         </summary>
         <div className="border-t border-border p-3">{children}</div>
       </details>
@@ -125,7 +125,7 @@ export function EmptyState({
   return (
     <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center">
       {icon && (
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
           {icon}
         </div>
       )}

@@ -20,7 +20,7 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-accent">Services</h3>
+            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-primary">Services</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><button onClick={() => onNavigate("services")} className="hover:text-foreground">Branding</button></li>
               <li><button onClick={() => onNavigate("services")} className="hover:text-foreground">Web Design</button></li>
@@ -31,7 +31,7 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-accent">Tools</h3>
+            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-primary">Tools</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><button onClick={() => onNavigate("tools")} className="hover:text-foreground">All Tools</button></li>
               <li><button onClick={() => onNavigate("tools")} className="hover:text-foreground">Canvas Designer</button></li>
@@ -42,29 +42,29 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-accent">Contact</h3>
+            <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-primary">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-accent" />
+                <Mail className="h-4 w-4 text-primary" />
                 <a href="mailto:info@creativedivineconcepts.com" className="hover:text-foreground">info@creativedivineconcepts.com</a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-accent" />
+                <Phone className="h-4 w-4 text-primary" />
                 <a href="tel:+254711669113" className="hover:text-foreground">+254 711 669 113</a>
               </li>
               <li className="flex items-center gap-2">
-                <MessageCircle className="h-4 w-4 text-accent" />
+                <MessageCircle className="h-4 w-4 text-primary" />
                 <a href="https://wa.me/254711669113" target="_blank" rel="noreferrer" className="hover:text-foreground">WhatsApp Support</a>
               </li>
               <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 mt-0.5 text-accent" />
+                <MapPin className="h-4 w-4 mt-0.5 text-primary" />
                 <span>Githunguri Ndumberi, Kiambu, Kenya</span>
               </li>
               <li className="flex items-center gap-3 pt-2">
-                <a href="https://twitter.com/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-accent" aria-label="Twitter">
+                <a href="https://twitter.com/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Twitter">
                   <Twitter className="h-5 w-5" />
                 </a>
-                <a href="https://linkedin.com/company/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-accent" aria-label="LinkedIn">
+                <a href="https://linkedin.com/company/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="LinkedIn">
                   <Linkedin className="h-5 w-5" />
                 </a>
               </li>

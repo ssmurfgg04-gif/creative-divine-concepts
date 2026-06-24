@@ -92,7 +92,7 @@ export function VATCalculator({ onBack }: VATCalculatorProps) {
               <p className="text-xs uppercase tracking-wider text-muted-foreground">
                 {mode === "add" ? "Net Amount" : "Gross Amount (incl. VAT)"}
               </p>
-              <p className="font-display text-3xl font-bold text-accent">
+              <p className="font-display text-3xl font-bold text-primary">
                 KES {amount.toLocaleString("en-KE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
@@ -107,7 +107,7 @@ export function VATCalculator({ onBack }: VATCalculatorProps) {
                 <span className="text-muted-foreground">
                   {mode === "add" ? "Total (incl. VAT)" : "Net (excl. VAT)"}
                 </span>
-                <span className="font-semibold text-accent">
+                <span className="font-semibold text-primary">
                   KES {(mode === "add" ? total : net).toLocaleString("en-KE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
@@ -214,7 +214,7 @@ export function ImageResizer({ onBack }: ImageResizerProps) {
       icon={<Maximize2 className="h-5 w-5" />}
       onBack={onBack}
       headerActions={
-        <Button onClick={download} disabled={!resultUrl} className="gap-2 bg-accent text-white hover:bg-accent/90">
+        <Button onClick={download} disabled={!resultUrl} className="gap-2 bg-primary text-white hover:bg-primary/90">
           <Download className="h-4 w-4" /> Download
         </Button>
       }
@@ -223,7 +223,7 @@ export function ImageResizer({ onBack }: ImageResizerProps) {
           <ToolSection title="Upload Image">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -284,12 +284,12 @@ export function ImageResizer({ onBack }: ImageResizerProps) {
                     <Label className="text-xs">Keep aspect ratio</Label>
                     <button
                       onClick={() => setKeepAspect(!keepAspect)}
-                      className={`relative h-5 w-10 rounded-full transition ${keepAspect ? "bg-accent" : "bg-muted"}`}
+                      className={`relative h-5 w-10 rounded-full transition ${keepAspect ? "bg-primary" : "bg-muted"}`}
                     >
                       <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${keepAspect ? "left-5" : "left-0.5"}`} />
                     </button>
                   </div>
-                  <Button onClick={resize} className="w-full bg-accent text-white hover:bg-accent/90">
+                  <Button onClick={resize} className="w-full bg-primary text-white hover:bg-primary/90">
                     Resize
                   </Button>
                 </div>
@@ -302,12 +302,12 @@ export function ImageResizer({ onBack }: ImageResizerProps) {
       {!imageUrl ? (
         <div className="flex h-full items-center justify-center p-8 text-center">
           <div>
-            <Maximize2 className="mx-auto mb-4 h-12 w-12 text-accent" />
+            <Maximize2 className="mx-auto mb-4 h-12 w-12 text-primary" />
             <h3 className="mb-2 font-display text-xl font-bold">Resize images for any platform</h3>
             <p className="mb-6 max-w-md text-sm text-muted-foreground">
               Instagram, Facebook, Twitter, YouTube, print specs — pick a preset or enter custom dimensions.
             </p>
-            <Button onClick={() => fileInputRef.current?.click()} className="gap-2 bg-accent text-white hover:bg-accent/90">
+            <Button onClick={() => fileInputRef.current?.click()} className="gap-2 bg-primary text-white hover:bg-primary/90">
               <Upload className="h-4 w-4" /> Upload Image
             </Button>
           </div>
@@ -442,7 +442,7 @@ export function ColorPalette({ onBack }: ColorPaletteProps) {
               </SelectContent>
             </Select>
           </ToolSection>
-          <Button onClick={generate} className="w-full gap-2 bg-accent text-white hover:bg-accent/90">
+          <Button onClick={generate} className="w-full gap-2 bg-primary text-white hover:bg-primary/90">
             <RefreshCw className="h-4 w-4" /> Generate Palette
           </Button>
         </>
@@ -461,7 +461,7 @@ export function ColorPalette({ onBack }: ColorPaletteProps) {
                     navigator.clipboard.writeText(color);
                     toast.success(`Copied ${color}`);
                   }}
-                  className="group overflow-hidden rounded-lg border border-border transition hover:border-accent"
+                  className="group overflow-hidden rounded-lg border border-border transition hover:border-primary"
                 >
                   <div className="h-32 w-full" style={{ backgroundColor: color }} />
                   <div className="bg-card p-2 text-left">
@@ -580,7 +580,7 @@ export function CaptionGen({ onBack }: CaptionGenProps) {
           <Button
             onClick={generate}
             disabled={loading || !topic.trim()}
-            className="w-full gap-2 bg-accent text-white hover:bg-accent/90"
+            className="w-full gap-2 bg-primary text-white hover:bg-primary/90"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessageSquare className="h-4 w-4" />}
             {loading ? "Generating…" : "Generate Captions"}
@@ -592,7 +592,7 @@ export function CaptionGen({ onBack }: CaptionGenProps) {
         <div className="w-full max-w-2xl space-y-4">
           {captions.length === 0 ? (
             <div className="text-center">
-              <MessageSquare className="mx-auto mb-4 h-12 w-12 text-accent" />
+              <MessageSquare className="mx-auto mb-4 h-12 w-12 text-primary" />
               <h3 className="mb-2 font-display text-xl font-bold">Generate social captions</h3>
               <p className="text-sm text-muted-foreground">
                 Describe your post, pick a platform and tone, and get 3 ready-to-post caption options powered by free AI.
@@ -602,7 +602,7 @@ export function CaptionGen({ onBack }: CaptionGenProps) {
             captions.map((c, i) => (
               <div key={i} className="rounded-lg border border-border bg-card/40 p-4">
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-accent">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                     Option {i + 1}
                   </span>
                   <Button

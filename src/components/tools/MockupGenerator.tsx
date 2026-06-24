@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, Suspense } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows, RoundedBox } from "@react-three/drei";
 import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette } from "lucide-react";
@@ -74,7 +74,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
       headerActions={
         <Button
           onClick={handleExport}
-          className="gap-2 bg-accent text-white hover:bg-accent/90"
+          className="gap-2 bg-primary text-white hover:bg-primary/90"
         >
           {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
           Export PNG
@@ -85,7 +85,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
           <ToolSection title="Upload Design">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Design
@@ -114,7 +114,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
                   onClick={() => setShirtColor(c.hex)}
                   title={c.name}
                   className={`aspect-square rounded-md border-2 transition ${
-                    shirtColor === c.hex ? "border-accent box-glow" : "border-border"
+                    shirtColor === c.hex ? "border-primary box-glow" : "border-border"
                   }`}
                   style={{ backgroundColor: c.hex }}
                 />
@@ -167,7 +167,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
                 </Label>
                 <button
                   onClick={() => setAutoRotate(!autoRotate)}
-                  className={`relative h-5 w-10 rounded-full transition ${autoRotate ? "bg-accent" : "bg-muted"}`}
+                  className={`relative h-5 w-10 rounded-full transition ${autoRotate ? "bg-primary" : "bg-muted"}`}
                 >
                   <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${autoRotate ? "left-5" : "left-0.5"}`} />
                 </button>
@@ -213,7 +213,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
         <Suspense
           fallback={
             <div className="flex h-full w-full items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-accent" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           }
         >

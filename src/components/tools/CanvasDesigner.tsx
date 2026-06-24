@@ -377,7 +377,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
           <Button variant="outline" size="sm" onClick={autoArrange} className="gap-2">
             <Wand2 className="h-4 w-4" /> Auto-Arrange
           </Button>
-          <Button onClick={handleExport} className="gap-2 bg-accent text-white hover:bg-accent/90">
+          <Button onClick={handleExport} className="gap-2 bg-primary text-white hover:bg-primary/90">
             <Download className="h-4 w-4" /> Export PNG
           </Button>
         </>
@@ -460,7 +460,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
             <div className="space-y-2">
               <Button
                 variant="outline"
-                className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+                className="w-full gap-2 border-primary/40 hover:bg-primary/10"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="h-4 w-4" /> Add Image
@@ -576,9 +576,9 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
                     className="flex items-center gap-2 rounded-md border border-border/50 bg-background/30 px-2 py-1.5 text-xs"
                   >
                     {l.type === "image" ? (
-                      <ImageIcon className="h-3.5 w-3.5 text-accent" />
+                      <ImageIcon className="h-3.5 w-3.5 text-primary" />
                     ) : (
-                      <Type className="h-3.5 w-3.5 text-accent" />
+                      <Type className="h-3.5 w-3.5 text-primary" />
                     )}
                     <span className="flex-1 truncate">{l.name}</span>
                     <Layers className="h-3 w-3 text-muted-foreground" />
@@ -597,7 +597,7 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
             <span>
               {widthIn}×{heightIn}" ({Math.round(widthIn * dpi)}×{Math.round(heightIn * dpi)}px @ {dpi} DPI)
             </span>
-            <span className="text-accent">•</span>
+            <span className="text-primary">•</span>
             <span>Preview @ 25% scale</span>
           </div>
           <div

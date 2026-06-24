@@ -393,7 +393,7 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
         <Button
           onClick={handleDownload}
           disabled={!imageUrl}
-          className="gap-2 bg-accent text-white hover:bg-accent/90"
+          className="gap-2 bg-primary text-white hover:bg-primary/90"
         >
           <Download className="h-4 w-4" /> Download
         </Button>
@@ -403,7 +403,7 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
           <ToolSection title="Upload Artwork">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -431,8 +431,8 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
                       onClick={() => setActiveEffect(e.id)}
                       className={`flex flex-col items-start gap-0.5 rounded-md border px-2 py-1.5 text-left transition ${
                         activeEffect === e.id
-                          ? "border-accent bg-accent/10 box-glow"
-                          : "border-border bg-background/30 hover:border-accent/40"
+                          ? "border-primary bg-primary/10 box-glow"
+                          : "border-border bg-background/30 hover:border-primary/40"
                       }`}
                     >
                       <span className="text-xs font-semibold">{e.name}</span>
@@ -491,7 +491,7 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Artwork
             </Button>
@@ -503,13 +503,13 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
             <div className="checker-bg overflow-hidden rounded-lg border border-border shadow-2xl">
               {processing && (
                 <div className="absolute inset-0 flex items-center justify-center bg-background/40">
-                  <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               )}
               <canvas ref={canvasRef} className="max-h-[75vh] max-w-full" />
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Effect: <span className="text-accent font-semibold">
+              Effect: <span className="text-primary font-semibold">
                 {EFFECTS.find((e) => e.id === activeEffect)?.name}
               </span> • {intensity}% intensity
             </p>

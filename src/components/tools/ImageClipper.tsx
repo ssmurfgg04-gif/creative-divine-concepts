@@ -109,7 +109,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
         <Button
           onClick={handleDownload}
           disabled={!resultUrl}
-          className="gap-2 bg-accent text-white hover:bg-accent/90"
+          className="gap-2 bg-primary text-white hover:bg-primary/90"
         >
           <Download className="h-4 w-4" /> Download PNG
         </Button>
@@ -120,7 +120,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
             <div className="space-y-3">
               <Button
                 variant="outline"
-                className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+                className="w-full gap-2 border-primary/40 hover:bg-primary/10"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={loading}
               >
@@ -206,7 +206,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
               <li>2. The AI model runs entirely in your browser (no upload).</li>
               <li>3. Adjust feather / background if needed.</li>
               <li>4. Download as transparent PNG.</li>
-              <li className="pt-2 text-accent">
+              <li className="pt-2 text-primary">
                 First run downloads the model (~80MB, cached afterwards).
               </li>
             </ol>
@@ -222,7 +222,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Wand2 className="h-4 w-4" /> Choose Image
             </Button>
@@ -251,7 +251,7 @@ export function ImageClipper({ onBack }: ImageClipperProps) {
               <div className="checker-bg relative flex-1 overflow-hidden rounded-lg border border-border">
                 {loading && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-sm">
-                    <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     <p className="text-sm text-muted-foreground">{stage}</p>
                   </div>
                 )}

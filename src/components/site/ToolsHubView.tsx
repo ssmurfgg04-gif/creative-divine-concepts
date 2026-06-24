@@ -30,12 +30,12 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-10">
-          <Badge className="mb-3 bg-accent/10 text-accent border-accent/30">
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">
             <Icons.Wrench className="mr-1.5 h-3 w-3" />
             {TOOLS.length} Tools Available
           </Badge>
           <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
-            Creative <span className="text-accent text-glow">Tools Hub</span>
+            Creative <span className="text-primary">Tools Hub</span>
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground">
             Free, browser-based design tools for T-shirt printers, designers, and non-designers. All tools work 100% in your browser — no sign-up, no API keys.
@@ -58,7 +58,7 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
               variant={activeCat === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setActiveCat("all")}
-              className={activeCat === "all" ? "bg-accent text-white" : ""}
+              className={activeCat === "all" ? "bg-primary text-primary-foreground" : ""}
             >
               All ({TOOLS.length})
             </Button>
@@ -70,7 +70,7 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
                   variant={activeCat === cat.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setActiveCat(cat.id)}
-                  className={activeCat === cat.id ? "bg-accent text-white whitespace-nowrap" : "whitespace-nowrap"}
+                  className={activeCat === cat.id ? "bg-primary text-primary-foreground whitespace-nowrap" : "whitespace-nowrap"}
                 >
                   {cat.label} ({count})
                 </Button>
@@ -105,9 +105,9 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
                   )}
                 </div>
                 <h3 className="font-display font-bold mb-1">{tool.name}</h3>
-                <p className="text-sm text-accent mb-2">{tool.tagline}</p>
+                <p className="text-sm text-primary mb-2">{tool.tagline}</p>
                 <p className="text-xs text-muted-foreground line-clamp-3">{tool.description}</p>
-                <div className="mt-4 flex items-center text-xs text-accent font-semibold opacity-0 group-hover:opacity-100 transition">
+                <div className="mt-4 flex items-center text-xs text-primary font-semibold opacity-0 group-hover:opacity-100 transition">
                   Open tool <Icons.ArrowRight className="ml-1 h-3 w-3" />
                 </div>
               </motion.button>

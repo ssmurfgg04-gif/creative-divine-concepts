@@ -29,10 +29,10 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
   const [invert, setInvert] = useState(false);
   const [showUnderbase, setShowUnderbase] = useState(false);
   const [showChecker, setShowChecker] = useState(true);
+  const [isPicking, setIsPicking] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const pickingRef = useRef(false);
 
   const handleFile = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -101,12 +101,12 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
   }, [imageUrl, knockColor, tolerance, feather, invert, showUnderbase]);
 
   const pickColor = () => {
-    pickingRef.current = true;
+    setIsPicking(true);
     toast.info("Click on the image to pick a color");
   };
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!pickingRef.current || !canvasRef.current) return;
+    if (!isPicking || !canvasRef.current) return;
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor(((e.clientX - rect.left) / rect.width) * canvas.width);
@@ -118,7 +118,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
     }
     const pixel = ctx.getImageData(x, y, 1, 1).data;
     setKnockColor(rgbToHex(pixel[0], pixel[1], pixel[2]));
-    pickingRef.current = false;
+    setIsPicking(false);
     toast.success(`Picked: ${rgbToHex(pixel[0], pixel[1], pixel[2])}`);
   };
 
@@ -140,7 +140,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
         <Button
           onClick={handleDownload}
           disabled={!imageUrl}
-          className="gap-2 bg-accent text-white hover:bg-accent/90"
+          className="gap-2 bg-primary text-white hover:bg-primary/90"
         >
           <Download className="h-4 w-4" /> Download PNG
         </Button>
@@ -150,7 +150,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
           <ToolSection title="Upload Artwork">
             <Button
               variant="outline"
-              className="w-full gap-2 border-accent/40 hover:bg-accent/10"
+              className="w-full gap-2 border-primary/40 hover:bg-primary/10"
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="h-4 w-4" /> Choose Image
@@ -273,7 +273,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
           action={
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="gap-2 bg-accent text-white hover:bg-accent/90"
+              className="gap-2 bg-primary text-white hover:bg-primary/90"
             >
               <Upload className="h-4 w-4" /> Upload Artwork
             </Button>
@@ -291,7 +291,7 @@ export function ColorKnockout({ onBack }: ColorKnockoutProps) {
                 ref={canvasRef}
                 onClick={handleCanvasClick}
                 className="max-h-[70vh] max-w-full cursor-crosshair"
-                style={{ cursor: pickingRef.current ? "crosshair" : "default" }}
+                style={{ cursor: isPicking ? "crosshair" : "default" }}
               />
             </div>
             <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
