@@ -28,6 +28,13 @@ import {
   FolderOpen,
   FlipHorizontal2,
   FlipVertical2,
+  Square,
+  Circle,
+  Triangle,
+  Minus,
+  Hexagon,
+  Star,
+  Heart,
 } from "lucide-react";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
@@ -290,6 +297,74 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
     canvas.renderAll();
     syncLayers();
     toast.success("Text added — double-click to edit");
+  };
+
+  // Add shapes
+  const addShape = (type: "rect" | "circle" | "triangle" | "line" | "polygon" | "star" | "heart") => {
+    if (!fabricRef.current) return;
+    const { fabric, canvas } = fabricRef.current;
+    const common = {
+      left: canvas.getWidth() / 2,
+      top: canvas.getHeight() / 2,
+      originX: "center" as const,
+      originY: "center" as const,
+      fill: textColor,
+      stroke: textColor,
+      strokeWidth: 2,
+      cornerColor: "#f36a21",
+      cornerStrokeColor: "#f36a21",
+      borderColor: "#f36a21",
+      transparentCorners: false,
+      cornerSize: 10,
+    };
+    let obj: any = null;
+    const size = 100 * previewScale;
+    switch (type) {
+      case "rect":
+        obj = new fabric.Rect({ ...common, width: size * 1.5, height: size });
+        break;
+      case "circle":
+        obj = new fabric.Circle({ ...common, radius: size / 2 });
+        break;
+      case "triangle":
+        obj = new fabric.Triangle({ ...common, width: size, height: size });
+        break;
+      case "line":
+        obj = new fabric.Line([0, 0, size * 2, 0], { ...common, fill: undefined, strokeWidth: 4 });
+        break;
+      case "polygon":
+        // Hexagon
+        const hexPoints: [number, number][] = [];
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i;
+          hexPoints.push([Math.cos(angle) * size / 2, Math.sin(angle) * size / 2]);
+        }
+        obj = new fabric.Polygon(hexPoints, common);
+        break;
+      case "star":
+        // 5-point star
+        const starPoints: [number, number][] = [];
+        for (let i = 0; i < 10; i++) {
+          const angle = (Math.PI / 5) * i - Math.PI / 2;
+          const r = i % 2 === 0 ? size / 2 : size / 4;
+          starPoints.push([Math.cos(angle) * r, Math.sin(angle) * r]);
+        }
+        obj = new fabric.Polygon(starPoints, common);
+        break;
+      case "heart":
+        // Heart shape via path
+        const heartPath = "M 0,-30 C -25,-60 -60,-30 0,30 C 60,-30 25,-60 0,-30 Z";
+        obj = new fabric.Path(heartPath, { ...common, scaleX: previewScale * 2, scaleY: previewScale * 2 });
+        break;
+    }
+    if (obj) {
+      (obj as any).cdcId = `shape-${Date.now()}`;
+      canvas.add(obj);
+      canvas.setActiveObject(obj);
+      canvas.renderAll();
+      syncLayers();
+      toast.success(`${type} added`);
+    }
   };
 
   // Sync selected object props back to canvas
@@ -686,6 +761,40 @@ export function CanvasDesigner({ onBack }: CanvasDesignerProps) {
                 />
               </div>
             </div>
+          </ToolSection>
+
+          <ToolSection title="Shapes">
+            <div className="grid grid-cols-4 gap-1.5">
+              <button onClick={() => addShape("rect")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Rectangle">
+                <Square className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Rect</span>
+              </button>
+              <button onClick={() => addShape("circle")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Circle">
+                <Circle className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Circle</span>
+              </button>
+              <button onClick={() => addShape("triangle")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Triangle">
+                <Triangle className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Tri</span>
+              </button>
+              <button onClick={() => addShape("line")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Line">
+                <Minus className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Line</span>
+              </button>
+              <button onClick={() => addShape("polygon")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Hexagon">
+                <Hexagon className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Hex</span>
+              </button>
+              <button onClick={() => addShape("star")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Star">
+                <Star className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Star</span>
+              </button>
+              <button onClick={() => addShape("heart")} className="flex flex-col items-center gap-0.5 rounded-md border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition" title="Heart">
+                <Heart className="h-4 w-4 text-primary" />
+                <span className="text-[9px]">Heart</span>
+              </button>
+            </div>
+            <p className="mt-2 text-[10px] text-muted-foreground">Click a shape to add it. Uses current text color as fill.</p>
           </ToolSection>
 
           {selected && (

@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: "Home", view: "home" },
   { label: "Services", view: "services", dropdown: "services" },
   { label: "Tools", view: "tools", dropdown: "tools" },
+  { label: "Academy", view: "academy" },
   { label: "Pricing", view: "pricing" },
   { label: "About", view: "about", dropdown: "company" },
   { label: "Contact", view: "contact" },

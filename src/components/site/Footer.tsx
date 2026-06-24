@@ -27,6 +27,7 @@ export function Footer({ onNavigate }: FooterProps) {
               <li><button onClick={() => onNavigate("services")} className="hover:text-foreground">T-Shirt Printing</button></li>
               <li><button onClick={() => onNavigate("services")} className="hover:text-foreground">DTF / DTG Printing</button></li>
               <li><button onClick={() => onNavigate("services")} className="hover:text-foreground">Marketing</button></li>
+              <li><button onClick={() => onNavigate("academy")} className="hover:text-foreground text-primary font-semibold">Creative Academy</button></li>
             </ul>
           </div>
 

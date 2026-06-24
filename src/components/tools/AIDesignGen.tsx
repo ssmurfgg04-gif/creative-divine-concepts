@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Wand2, Sparkles, Download, Loader2, RefreshCw, Image as ImageIcon, Lightbulb } from "lucide-react";
+import * as Icons from "lucide-react";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -187,6 +188,19 @@ export function AIDesignGen({ onBack }: AIDesignGenProps) {
 
           <ToolSection title="Prompt Ideas" defaultOpen={false}>
             <div className="space-y-1.5">
+              <button
+                onClick={() => {
+                  const randomPrompt = PROMPT_IDEAS[Math.floor(Math.random() * PROMPT_IDEAS.length)];
+                  const randomStyle = STYLES[Math.floor(Math.random() * STYLES.length)];
+                  setPrompt(randomPrompt);
+                  setStyle(randomStyle);
+                  toast.info("Random prompt + style applied!");
+                }}
+                className="flex w-full items-center gap-2 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-2 text-left text-xs font-semibold text-primary hover:bg-primary/20 transition mb-2"
+              >
+                <Icons.Shuffle className="h-3.5 w-3.5 shrink-0" />
+                <span>Surprise Me! (Random prompt + style)</span>
+              </button>
               {PROMPT_IDEAS.map((idea) => (
                 <button
                   key={idea}

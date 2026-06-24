@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Sparkles, Upload, Download, Loader2, RotateCcw } from "lucide-react";
+import * as Icons from "lucide-react";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -733,7 +734,38 @@ export function EffectsStudio({ onBack }: EffectsStudioProps) {
 
           {imageUrl && (
             <>
-              <ToolSection title="Effects">
+              <ToolSection title="Quick Presets">
+                <div className="space-y-1.5">
+                  {[
+                    { name: "DTF Print Ready", effect: "posterize" as EffectId, intensity: 40, desc: "Limited colors for DTF" },
+                    { name: "Screen Print Prep", effect: "halftone" as EffectId, intensity: 50, desc: "Halftone dots for screening" },
+                    { name: "Vintage Tee", effect: "vintage" as EffectId, intensity: 70, desc: "Faded retro look" },
+                    { name: "Embroidery Preview", effect: "embroidery" as EffectId, intensity: 60, desc: "Stitched thread mockup" },
+                    { name: "Glitter Transfer", effect: "glitter" as EffectId, intensity: 80, desc: "Sparkly DTF glitter" },
+                    { name: "Foil Print", effect: "foil" as EffectId, intensity: 70, desc: "Metallic foil effect" },
+                    { name: "Distressed Look", effect: "distress" as EffectId, intensity: 60, desc: "Worn vintage feel" },
+                    { name: "Tattoo Style", effect: "outline" as EffectId, intensity: 80, desc: "Bold outline for tattoos" },
+                  ].map((preset) => (
+                    <button
+                      key={preset.name}
+                      onClick={() => {
+                        setActiveEffect(preset.effect);
+                        setIntensity(preset.intensity);
+                        toast.success(`Applied: ${preset.name}`);
+                      }}
+                      className="flex items-center justify-between w-full rounded-md border border-border bg-background/30 px-2.5 py-1.5 text-left text-xs hover:border-primary/40 hover:bg-primary/5 transition"
+                    >
+                      <div>
+                        <div className="font-semibold">{preset.name}</div>
+                        <div className="text-[10px] text-muted-foreground">{preset.desc}</div>
+                      </div>
+                      <Icons.ArrowRight className="h-3 w-3 text-primary shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </ToolSection>
+
+              <ToolSection title="All Effects">
                 <div className="grid grid-cols-2 gap-1.5">
                   {EFFECTS.map((e) => (
                     <button

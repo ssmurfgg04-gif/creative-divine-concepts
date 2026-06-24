@@ -388,6 +388,45 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
+      {/* === CREATIVE ACADEMY (NEW SECTION) === */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-10">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-primary">MAFUNZO YA UCHAPISHAJI</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50 block mt-1">MODULE-05C</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              Creative <span className="text-gradient-cyan">Academy</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
+              Learn full-stack development, graphic design, and digital marketing. Online teaching with on-site supervision in Kiambu.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3 mb-8">
+            {[
+              { icon: "Code2", title: "Full-Stack Development", desc: "Next.js, React, TypeScript, Prisma. 12 weeks. Taught by Jack Blessed.", color: "text-blue-500" },
+              { icon: "Palette", title: "Graphic Design & Print", desc: "Photoshop, DTF/DTG prep, brand identity. 8 weeks. Print shop workflows.", color: "text-primary" },
+              { icon: "TrendingUp", title: "Digital Marketing", desc: "Social media, lead gen, WhatsApp marketing. 6 weeks. Kenya-focused.", color: "text-green-500" },
+            ].map((course, i) => {
+              const Icon = (Icons as any)[course.icon];
+              return (
+                <div key={course.title} className="nura-card p-6 group cursor-pointer hover:border-primary/40 transition" onClick={() => onNavigate("academy")}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-lg bg-background/60 mb-4 ${course.color} group-hover:scale-110 transition`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-display font-bold mb-2 text-foreground">{course.title}</h3>
+                  <p className="text-sm text-muted-foreground">{course.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="text-center">
+            <button onClick={() => onNavigate("academy")} className="cyber-btn-filled h-12 px-8">
+              <span>Explore Academy</span> <Icons.ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* === TRUST & PROOF (MODULE-06) === */}
       <section className="py-12 md:py-16 relative overflow-hidden px-4">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
