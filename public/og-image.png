@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;700&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Primary Meta Tags -->
+    <title>Creative Divine Concepts | Premium Web Design & Development Services</title>
+    <meta name="title" content="Creative Divine Concepts | Premium Web Design & Development Services" />
+    <meta name="description" content="Creative Divine Concepts offers professional web design, development, and digital solutions. Create stunning websites, e-commerce stores, and custom web applications with our expert team." />
+    <meta name="author" content="Creative Divine Concepts" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://creativedivineconcepts.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://creativedivineconcepts.com/" />
+    <meta property="og:title" content="Creative Divine Concepts | Premium Web Design & Development Services" />
+    <meta property="og:description" content="Creative Divine Concepts offers professional web design, development, and digital solutions. Create stunning websites, e-commerce stores, and custom web applications." />
+    <meta property="og:image" content="https://creativedivineconcepts.com/logo.jpeg" />
+    <meta property="og:site_name" content="Creative Divine Concepts" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://creativedivineconcepts.com/" />
+    <meta name="twitter:title" content="Creative Divine Concepts | Premium Web Design & Development Services" />
+    <meta name="twitter:description" content="Creative Divine Concepts offers professional web design, development, and digital solutions. Create stunning websites, e-commerce stores, and custom web applications." />
+    <meta name="twitter:image" content="https://creativedivineconcepts.com/logo.jpeg" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Creative Divine Concepts",
+      "url": "https://creativedivineconcepts.com",
+      "logo": "https://creativedivineconcepts.com/logo.jpeg",
+      "description": "Professional web design, development, and digital solutions.",
+      "sameAs": [
+        "https://twitter.com/divineconcepts",
+        "https://linkedin.com/company/divineconcepts"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableTime": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        }
+      }
+    }
+    </script>
+
+    <!-- WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Creative Divine Concepts",
+      "url": "https://creativedivineconcepts.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://creativedivineconcepts.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'dark');
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DNnzKB3d.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DxwGnU86.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

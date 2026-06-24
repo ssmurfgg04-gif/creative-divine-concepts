@@ -131,11 +131,11 @@ export const TOOLS: ToolMeta[] = [
     category: "ai",
     badge: "ai",
   },
-  // Existing simple tools
+  // Existing simple tools (icons match original site)
   {
     id: "vat-calculator",
     name: "VAT Calculator",
-    tagline: "Kenya 16% VAT add / remove",
+    tagline: "Finance Engine — Kenya 16% VAT",
     description: "Calculate Kenya VAT instantly. Add or remove 16% VAT from any amount.",
     icon: "Calculator",
     category: "utility",
@@ -143,25 +143,25 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "image-resizer",
     name: "Image Resizer",
-    tagline: "Resize for any platform",
+    tagline: "Canvas API Engine — Resize for any platform",
     description: "Resize images for any social platform or print spec instantly.",
-    icon: "Maximize2",
+    icon: "Wrench",
     category: "utility",
   },
   {
     id: "color-palette",
     name: "Color Palette",
-    tagline: "Generate brand color schemes",
+    tagline: "HSL Generator Module — Brand colors",
     description: "Generate beautiful brand color palettes using HSL harmony rules.",
-    icon: "Palette",
+    icon: "Sparkles",
     category: "utility",
   },
   {
     id: "caption-gen",
     name: "Caption Gen",
-    tagline: "Social media caption writer",
+    tagline: "Template Parser v2 — Social captions",
     description: "Create engaging social media captions for any post or platform.",
-    icon: "MessageSquare",
+    icon: "CheckCircle2",
     category: "ai",
   },
 ];

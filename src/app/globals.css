@@ -155,6 +155,87 @@
   .font-button {
     font-family: var(--font-button), sans-serif;
   }
+
+  /* === EXACT original CDC classes (from compiled CSS) === */
+
+  /* nura-card — used for tool cards, service cards, etc. */
+  .nura-card {
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, #ede8deb3, #f0ece6cc);
+    backdrop-filter: blur(12px) saturate(1.3);
+    -webkit-backdrop-filter: blur(12px) saturate(1.3);
+    border: 1px solid var(--divine-border);
+    box-shadow: 0 0 0 1px #f36a2008 inset, var(--shadow-card);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .nura-card:hover {
+    border-color: var(--divine-border-hover);
+    box-shadow: 0 0 0 1px #f36a201a inset, var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* cyber-btn-filled — primary CTA button */
+  .cyber-btn-filled {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--divine-border);
+    background: #f36a20;
+    color: #fff;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .cyber-btn-filled:hover {
+    background: #f36a20;
+    border-color: #f36a2066;
+    box-shadow: 0 0 0 1px #f36a2040 inset, 0 8px 32px -8px #f36a2066;
+    transform: translateY(-1px);
+  }
+
+  /* cyber-btn — outline variant */
+  .cyber-btn {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--divine-border);
+    background: transparent;
+    color: #f36a20;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .cyber-btn:hover {
+    background: #f36a201a;
+    border-color: #f36a2066;
+  }
+
+  /* text-gradient-cyan — gradient text (orange → bright orange → orange) */
+  .text-gradient-cyan {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(135deg, #f36a20, #ff9933, #f36a20);
+  }
+
   /* EXACT original box-glow */
   .box-glow {
     box-shadow: 0 0 15px #f36a2026, inset 0 0 15px #f36a200d;

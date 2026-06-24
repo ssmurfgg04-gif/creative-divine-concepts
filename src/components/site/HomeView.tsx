@@ -2,8 +2,6 @@
 
 import * as Icons from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { TOOLS, TOOL_CATEGORIES, ToolId } from "@/lib/tools";
 
 interface HomeViewProps {
@@ -11,91 +9,137 @@ interface HomeViewProps {
   onOpenTool: (id: ToolId) => void;
 }
 
+// The 4 original tools shown in the main "Creative Tools Hub" section (matching original site)
+const ORIGINAL_TOOLS: { id: ToolId; label: string; icon: string; subtitle: string; desc: string }[] = [
+  { id: "vat-calculator", label: "TOOL-00", icon: "Calculator", subtitle: "Finance Engine", desc: "Calculate Kenya VAT instantly. Add or remove 16% VAT." },
+  { id: "image-resizer", label: "TOOL-01", icon: "Wrench", subtitle: "Canvas API Engine", desc: "Resize images for any platform instantly." },
+  { id: "color-palette", label: "TOOL-02", icon: "Sparkles", subtitle: "HSL Generator Module", desc: "Generate beautiful brand color palettes." },
+  { id: "caption-gen", label: "TOOL-03", icon: "CheckCircle2", subtitle: "Template Parser v2", desc: "Create engaging social media captions." },
+];
+
 export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
+  // The 10 new GangFX-style tools (categorized)
+  const newToolsByCategory = TOOL_CATEGORIES.map((cat) => ({
+    ...cat,
+    tools: TOOLS.filter((t) => t.category === cat.id && !ORIGINAL_TOOLS.some((o) => o.id === t.id)),
+  })).filter((c) => c.tools.length > 0);
+
   return (
     <div className="min-h-screen">
-      {/* === HERO SECTION === */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 px-6">
-        <div className="absolute inset-0 bg-grid pointer-events-none" />
+      {/* === HERO SECTION (matches original) === */}
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
+        <div className="absolute inset-0 bg-background/90 z-[1]" />
+        <div className="absolute inset-0 bg-grid opacity-50 z-[2] pointer-events-none" />
         {/* Decorative glow orbs (matches original) */}
-        <div className="glow-orb bg-primary/20" style={{ width: 500, height: 500, top: "-10%", right: "-10%" }} />
-        <div className="glow-orb bg-accent/15" style={{ width: 400, height: 400, bottom: "-5%", left: "-5%" }} />
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.06] blur-[120px] z-[2] pointer-events-none" style={{ background: "rgb(0, 234, 255)" }} />
+        <div className="absolute bottom-1/3 left-[16%] w-[400px] h-[400px] rounded-full opacity-[0.04] blur-[100px] z-[2] pointer-events-none" style={{ background: "rgb(0, 234, 255)" }} />
 
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.05] mb-6">
-              We Design, Build<br />
-              &amp; Scale Businesses<br />
-              <span className="text-primary">From Anywhere.</span>
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-8">
-              We help startups, SMEs, and diaspora founders launch and manage successful businesses in Kenya through design, technology, sales, and operations.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Button
-                onClick={() => onNavigate("contact")}
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 box-glow text-base h-12 px-8"
-              >
-                Start Your Business
-              </Button>
-              <Button
-                onClick={() => onNavigate("tools")}
-                size="lg"
-                variant="outline"
-                className="text-base h-12 px-8 border-primary/40 hover:bg-primary/10"
-              >
-                View Tools
-              </Button>
-            </div>
-          </motion.div>
-
-          {/* How It Works hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mt-12 text-center"
-          >
-            <span className="inline-block text-xs font-mono uppercase tracking-widest text-muted-foreground">
-              LIVE_SYSTEM_FEED
-            </span>
-          </motion.div>
-
-          {/* Stats — STAT-01, STAT-02, STAT-03 (exact from original) */}
-          <div className="mt-8 grid grid-cols-3 gap-4 max-w-3xl mx-auto">
-            {[
-              { label: "STAT-01", value: "200+", desc: "Projects Delivered" },
-              { label: "STAT-02", value: "50+", desc: "Active Clients" },
-              { label: "STAT-03", value: "98%", desc: "Client Retention" },
-            ].map((stat, i) => (
+        <div className="container mx-auto px-4 relative z-10 pt-16 max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="max-w-2xl">
               <motion.div
-                key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6 text-center"
+                transition={{ duration: 0.6 }}
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{stat.label}</div>
-                <div className="font-display text-4xl font-bold text-primary mt-1">{stat.value}</div>
-                <div className="text-xs text-muted-foreground mt-1">{stat.desc}</div>
+                <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 mt-16 leading-tight text-foreground">
+                  We Design, Build<br />
+                  &amp; Scale Businesses<br />
+                  <span className="text-gradient-cyan">From Anywhere.</span>
+                </h1>
+                <div className="flex items-center gap-4 mb-10">
+                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse" />
+                  <p className="text-lg md:text-xl max-w-xl leading-relaxed text-muted-foreground font-body">
+                    We help startups, SMEs, and diaspora founders launch and manage successful businesses in Kenya through design, technology, sales, and operations.
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:flex-wrap sm:gap-4">
+                  <button
+                    onClick={() => onNavigate("contact")}
+                    className="cyber-btn-filled h-12 px-8 col-span-2 sm:w-auto"
+                  >
+                    <span>Start Your Business</span>
+                    <Icons.ArrowRight className="h-4 w-4 shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => onNavigate("tools")}
+                    className="cyber-btn col-span-1 px-8 h-12"
+                  >
+                    View Tools
+                  </button>
+                  <button
+                    onClick={() => onNavigate("tools")}
+                    className="cyber-btn col-span-1 px-8 h-12"
+                  >
+                    How It Works
+                  </button>
+                </div>
               </motion.div>
-            ))}
+
+              {/* Stats — STAT-01, STAT-02, STAT-03 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-16 flex flex-wrap gap-6 border-t border-border/30 pt-8"
+              >
+                {[
+                  { label: "STAT-01", value: "200+", desc: "Projects Delivered" },
+                  { label: "STAT-02", value: "50+", desc: "Active Clients" },
+                  { label: "STAT-03", value: "98%", desc: "Client Retention" },
+                ].map((stat) => (
+                  <div key={stat.label} className="nura-card px-6 py-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[10px] font-mono text-accent/30 tracking-widest">{stat.label}</span>
+                      <Icons.Activity className="h-3 w-3 text-accent/30" />
+                    </div>
+                    <div className="font-display text-3xl font-bold text-accent">{stat.value}</div>
+                    <div className="text-xs text-muted-foreground mt-1">{stat.desc}</div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Right side - decorative visual */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="hidden lg:flex items-center justify-center relative"
+            >
+              <div className="relative w-full max-w-md aspect-square">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 via-accent/10 to-transparent blur-2xl" />
+                <div className="relative nura-card p-8 h-full flex flex-col items-center justify-center text-center">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/15 text-primary box-glow">
+                    <Icons.Sparkles className="h-10 w-10" />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold mb-2">Creative Tools Hub</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {TOOLS.length} free browser-based tools for designers, printers, and founders.
+                  </p>
+                  <button
+                    onClick={() => onNavigate("tools")}
+                    className="cyber-btn-filled h-10 px-6"
+                  >
+                    Explore Tools <Icons.ArrowRight className="h-3 w-3" />
+                  </button>
+                  <div className="mt-6 text-[10px] font-mono text-accent/30 tracking-widest">
+                    LIVE_SYSTEM_FEED
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* === WHO WE SERVE === */}
-      <section className="py-12 md:py-16 bg-background relative px-6">
+      {/* === WHO WE SERVE (MODULE-02) === */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">MODULE-02</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-3 mt-2">Built for Ambitious Founders</h2>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Who We Serve</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-02</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Built for Ambitious Founders</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Whether you&apos;re on the ground or abroad, we become your local execution team.
             </p>
@@ -105,7 +149,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market." },
               { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales." },
               { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy." },
-              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you&apos;re abroad." },
+              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad." },
             ].map((n, i) => (
               <motion.div
                 key={n.label}
@@ -113,11 +157,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6 hover:border-primary/40 hover:shadow-card-hover transition"
+                className="nura-card p-6"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-primary mb-2">{n.label}</div>
-                <h3 className="font-display text-lg font-bold mb-2">{n.title}</h3>
-                <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: n.desc }} />
+                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30 mb-2">{n.label}</div>
+                <h3 className="font-display font-bold text-lg mb-2 text-foreground">{n.title}</h3>
+                <p className="text-sm text-muted-foreground">{n.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -129,13 +173,14 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
-      {/* === WHAT WE DO === */}
-      <section className="py-12 md:py-16 relative overflow-hidden px-6">
-        <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
+      {/* === WHAT WE DO (MODULE-03) === */}
+      <section className="py-12 md:py-16 relative overflow-hidden px-4">
+        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="container mx-auto max-w-6xl relative">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">MODULE-03</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-3 mt-2">Your One-Stop Business Engine</h2>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">What We Do</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-03</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Your One-Stop Business Engine</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               From concept to scale: business architecture, branding, technology, marketing, and operations.
             </p>
@@ -157,20 +202,21 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
-                  className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6 hover:border-primary/40 hover:shadow-card-hover transition"
+                  className="nura-card p-6 group relative overflow-hidden"
                 >
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-700" />
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{p.label}</span>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{p.label}</span>
                   </div>
-                  <h3 className="font-display text-lg font-bold">{p.title}</h3>
-                  <p className="text-xs text-primary font-semibold uppercase tracking-wider mb-3">{p.subtitle}</p>
+                  <h3 className="font-display font-bold text-foreground">{p.title}</h3>
+                  <p className="text-xs font-mono text-accent/50 tracking-widest uppercase mb-3 mt-1">{p.subtitle}</p>
                   <ul className="space-y-1.5 text-xs text-muted-foreground">
                     {p.items.map((item) => (
                       <li key={item} className="flex items-start gap-2">
-                        <Icons.ChevronRight className="h-3 w-3 mt-0.5 text-primary shrink-0" />
+                        <Icons.ChevronRight className="h-3 w-3 mt-0.5 text-accent shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -180,19 +226,20 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             })}
           </div>
           <div className="mt-8 text-center">
-            <Button onClick={() => onNavigate("services")} variant="outline" className="border-primary/40 hover:bg-primary/10">
-              View All Services <Icons.ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <button onClick={() => onNavigate("services")} className="cyber-btn h-12 px-8">
+              View All Services <Icons.ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* === PROCESS === */}
-      <section className="py-12 md:py-16 bg-background relative px-6">
+      {/* === PROCESS (MODULE-04) === */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">MODULE-04</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-3 mt-2">Five Steps to Growth</h2>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Process</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-04</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Five Steps to Growth</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Transparent reporting. Real-time communication. Local execution.
             </p>
@@ -211,14 +258,14 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-5 relative"
+                className="nura-card p-5 relative"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-primary">{p.label}</div>
-                <div className="font-display text-3xl font-bold text-primary/30 mt-1">{p.num}</div>
-                <h3 className="font-display font-bold text-sm mt-2 mb-1">{p.title}</h3>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30">{p.label}</div>
+                <div className="font-display text-3xl font-bold text-accent/30 mt-1">{p.num}</div>
+                <h3 className="font-display font-bold text-sm mt-2 mb-1 text-foreground">{p.title}</h3>
                 <p className="text-xs text-muted-foreground">{p.desc}</p>
                 {i < 4 && (
-                  <Icons.ArrowRight className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/40" />
+                  <Icons.ArrowRight className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-accent/40 z-10" />
                 )}
               </motion.div>
             ))}
@@ -226,85 +273,129 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
-      {/* === CREATIVE TOOLS HUB (the new section we added) === */}
-      <section className="py-12 md:py-16 relative overflow-hidden px-6">
-        <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
+      {/* === CREATIVE TOOLS HUB (MODULE-05) — matches original 4-tool layout === */}
+      <section className="py-12 md:py-16 relative overflow-hidden px-4">
+        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="container mx-auto max-w-6xl relative">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">MODULE-05</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-3 mt-2">Creative Tools Hub</h2>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Creative Tools Hub</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-05</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              Built for Founders <span className="text-gradient-cyan">&amp; Creatives</span>
+            </h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Built for Founders &amp; Creatives. Free, browser-based creative and business tools.
-              Use free tools, upgrade for full business support.
+              Free, browser-based creative and business tools. Use free tools, upgrade for full business support.
             </p>
           </div>
-
-          {/* Tool grid by category */}
-          {TOOL_CATEGORIES.map((cat) => {
-            const tools = TOOLS.filter((t) => t.category === cat.id);
-            return (
-              <div key={cat.id} className="mb-8">
-                <div className="mb-4 flex items-baseline justify-between">
-                  <div>
-                    <h3 className="font-display text-xl font-bold">{cat.label}</h3>
-                    <p className="text-xs text-muted-foreground">{cat.description}</p>
+          {/* Original 4-tool grid (matches original site exactly) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {ORIGINAL_TOOLS.map((tool, i) => {
+              const Icon = (Icons as any)[tool.icon] || Icons.Wrench;
+              return (
+                <motion.button
+                  key={tool.id}
+                  onClick={() => onOpenTool(tool.id)}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.08 }}
+                  className="nura-card p-6 cursor-pointer group relative overflow-hidden text-left"
+                >
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-700" />
+                  <span className="absolute top-3 right-3 text-[10px] font-mono text-accent/25 tracking-widest">{tool.label}</span>
+                  <Icon className="h-8 w-8 text-accent mb-4" />
+                  <h3 className="font-display font-semibold text-foreground mb-1 text-sm tracking-wider">{tool.id === "vat-calculator" ? "VAT Calculator" : tool.id === "image-resizer" ? "Image Resizer" : tool.id === "color-palette" ? "Color Palette" : "Caption Gen"}</h3>
+                  <span className="inline-block text-xs font-mono text-accent/50 tracking-widest uppercase mb-3">{tool.subtitle}</span>
+                  <p className="text-sm text-muted-foreground">{tool.desc}</p>
+                  <div className="mt-3 flex items-center gap-1.5 text-accent text-xs font-display font-semibold tracking-wider">
+                    Try Now <Icons.ArrowRight className="h-3 w-3" />
                   </div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-                    {tools.length} TOOL{tools.length !== 1 ? "S" : ""}
-                  </span>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {tools.map((tool, i) => {
-                    const Icon = (Icons as any)[tool.icon] || Icons.Wrench;
-                    return (
-                      <motion.button
-                        key={tool.id}
-                        onClick={() => onOpenTool(tool.id)}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: i * 0.04 }}
-                        whileHover={{ y: -3 }}
-                        className="group relative overflow-hidden rounded-xl border border-border bg-card/40 backdrop-blur-sm p-5 text-left transition hover:border-primary/50 hover:bg-card/60 hover:shadow-card-hover"
-                      >
-                        <div className="flex items-start gap-3 mb-3">
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition">
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          {tool.badge && (
-                            <Badge className="ml-auto bg-primary/10 text-primary border-primary/30 text-[10px] uppercase">
-                              {tool.badge === "ai" && <Icons.Sparkles className="mr-1 h-3 w-3" />}
-                              {tool.badge}
-                            </Badge>
-                          )}
-                        </div>
-                        <h4 className="font-display font-bold mb-1">{tool.name}</h4>
-                        <p className="text-xs text-primary mb-2">{tool.tagline}</p>
-                        <p className="text-xs text-muted-foreground/70 line-clamp-2">{tool.description}</p>
-                        <div className="mt-3 flex items-center text-xs text-primary font-semibold opacity-0 group-hover:opacity-100 transition">
-                          Open tool <Icons.ArrowRight className="ml-1 h-3 w-3" />
-                        </div>
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-          <div className="mt-8 text-center">
-            <Button onClick={() => onNavigate("tools")} variant="outline" className="border-primary/40 hover:bg-primary/10">
-              Access All Tools <Icons.ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+                </motion.button>
+              );
+            })}
+          </div>
+          <div className="text-center mt-12">
+            <button onClick={() => onNavigate("tools")} className="cyber-btn-filled h-12 px-8">
+              <span>Access All Tools</span> <Icons.ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* === TRUST & PROOF === */}
-      <section className="py-12 md:py-16 bg-background relative px-6">
+      {/* === EXPANDED TOOLS SECTION (NEW - the 10 GangFX-style tools) === */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">MODULE-06</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-3 mt-2">Built in Kenya. Serving the World.</h2>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Pro Design Tools</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-05B</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              Pro Tools for <span className="text-gradient-cyan">T-Shirt Printers</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
+              Built for DTF/DTG printing, apparel design, and client mockups. All tools work 100% in your browser — no sign-up, no API keys.
+            </p>
+          </div>
+
+          {/* Tool grid by category */}
+          {newToolsByCategory.map((cat) => (
+            <div key={cat.id} className="mb-10">
+              <div className="mb-4 flex items-baseline justify-between">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-foreground">{cat.label}</h3>
+                  <p className="text-xs text-muted-foreground">{cat.description}</p>
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-accent/30">
+                  {cat.tools.length} TOOL{cat.tools.length !== 1 ? "S" : ""}
+                </span>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {cat.tools.map((tool, i) => {
+                  const Icon = (Icons as any)[tool.icon] || Icons.Wrench;
+                  return (
+                    <motion.button
+                      key={tool.id}
+                      onClick={() => onOpenTool(tool.id)}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.04 }}
+                      className="nura-card p-5 cursor-pointer group relative overflow-hidden text-left"
+                    >
+                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-700" />
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        {tool.badge && (
+                          <span className="ml-auto text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-accent/15 text-accent border border-accent/30">
+                            {tool.badge === "ai" && <Icons.Sparkles className="inline mr-0.5 h-2.5 w-2.5" />}
+                            {tool.badge}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-display font-bold text-foreground mb-1">{tool.name}</h4>
+                      <p className="text-xs text-accent mb-2">{tool.tagline}</p>
+                      <p className="text-xs text-muted-foreground/70 line-clamp-2">{tool.description}</p>
+                      <div className="mt-3 flex items-center text-xs text-accent font-display font-semibold tracking-wider opacity-0 group-hover:opacity-100 transition">
+                        Open tool <Icons.ArrowRight className="ml-1 h-3 w-3" />
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* === TRUST & PROOF (MODULE-06) === */}
+      <section className="py-12 md:py-16 relative overflow-hidden px-4">
+        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
+        <div className="container mx-auto max-w-6xl relative">
+          <div className="text-center mb-10">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Trust &amp; Proof</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">MODULE-06</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Built in Kenya. Serving the World.</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Trusted by founders and businesses across East Africa and the diaspora.
             </p>
@@ -313,7 +404,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           {/* Trusted by logos (text logos) */}
           <div className="flex flex-wrap items-center justify-center gap-6 mb-10 opacity-50">
             {["Safaricom", "Jumia Kenya", "KCB Group", "KPMG East Africa", "Nairobi Garage"].map((logo) => (
-              <span key={logo} className="font-display font-bold text-lg">{logo}</span>
+              <span key={logo} className="font-display font-bold text-lg text-foreground">{logo}</span>
             ))}
           </div>
 
@@ -330,17 +421,17 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="rounded-xl border border-border bg-card/40 backdrop-blur-sm p-6"
+                className="nura-card p-6"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-primary mb-2">{r.label}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30 mb-2">{r.label}</div>
                 <p className="text-sm italic text-muted-foreground mb-4">&ldquo;{r.quote}&rdquo;</p>
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 text-accent font-bold text-sm">
                     {r.name.charAt(0)}
                   </div>
                   <div>
-                    <div className="font-semibold text-sm">{r.name}</div>
-                    <div className="text-xs text-primary">{r.role}</div>
+                    <div className="font-semibold text-sm text-foreground">{r.name}</div>
+                    <div className="text-xs text-accent">{r.role}</div>
                   </div>
                 </div>
               </motion.div>
@@ -350,25 +441,26 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       </section>
 
       {/* === CTA === */}
-      <section className="py-12 md:py-16 px-6">
+      <section className="py-12 md:py-16 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-10 text-center relative overflow-hidden">
-            <div className="glow-orb bg-primary/20" style={{ width: 300, height: 300, top: "-50%", right: "-10%" }} />
+          <div className="nura-card p-10 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+            <div className="absolute -top-1/2 -right-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] pointer-events-none" />
             <div className="relative">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-primary">COMMAND: INITIATE</span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 mt-2">
-                Ready to Build a Business That Runs Even When You&apos;re Abroad?
+              <span className="text-[10px] font-mono uppercase tracking-widest text-accent">COMMAND: INITIATE</span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 mt-2 text-foreground">
+                Ready to Build a Business That Runs<br />Even When You&apos;re Abroad?
               </h2>
               <p className="max-w-xl mx-auto text-muted-foreground mb-6">
                 Join founders across Kenya and the diaspora who trust Creative Divine Concepts to bring their vision to life.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Button onClick={() => onNavigate("contact")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 box-glow">
-                  Start a Project
-                </Button>
-                <Button onClick={() => onNavigate("contact")} size="lg" variant="outline" className="border-primary/40 hover:bg-primary/10">
+                <button onClick={() => onNavigate("contact")} className="cyber-btn-filled h-12 px-8">
+                  Start a Project <Icons.ArrowRight className="h-4 w-4" />
+                </button>
+                <button onClick={() => onNavigate("contact")} className="cyber-btn h-12 px-8">
                   Strategy Call
-                </Button>
+                </button>
               </div>
             </div>
           </div>
