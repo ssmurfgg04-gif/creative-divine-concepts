@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState, Suspense, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, ContactShadows, Environment, Center, Float, RoundedBox, Torus } from "@react-three/drei";
-import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette, Coffee, ShoppingBag, HardHat, RefreshCw } from "lucide-react";
+import { OrbitControls, ContactShadows, Environment, useGLTF } from "@react-three/drei";
+import { Shirt, Upload, Download, Loader2, RotateCw, Sun, Palette, Coffee, ShoppingBag, HardHat } from "lucide-react";
 import * as THREE from "three";
 import { ToolLayout, ToolSection, EmptyState } from "@/components/site/ToolLayout";
 import { Button } from "@/components/ui/button";
@@ -36,10 +36,7 @@ const PRODUCT_COLORS = [
 
 const PRODUCTS = [
   { id: "tshirt", name: "T-Shirt", icon: Shirt },
-  { id: "hoodie", name: "Hoodie", icon: Shirt },
   { id: "mug", name: "Mug", icon: Coffee },
-  { id: "tote", name: "Tote Bag", icon: ShoppingBag },
-  { id: "cap", name: "Cap", icon: HardHat },
 ] as const;
 
 type ProductType = typeof PRODUCTS[number]["id"];
@@ -48,9 +45,6 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
   const [designUrl, setDesignUrl] = useState<string | null>(null);
   const [productType, setProductType] = useState<ProductType>("tshirt");
   const [productColor, setProductColor] = useState("#f5f5f5");
-  const [designScale, setDesignScale] = useState(0.5);
-  const [designX, setDesignX] = useState(0);
-  const [designY, setDesignY] = useState(0.2);
   const [autoRotate, setAutoRotate] = useState(false);
   const [lighting, setLighting] = useState(1);
   const [bgColor, setBgColor] = useState("#f0ede8");
@@ -80,7 +74,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
   return (
     <ToolLayout
       title="Mockup Generator"
-      tagline="3D rotatable product mockups with realistic depth"
+      tagline="3D product mockups with real GLB models — upload design to see it wrapped"
       icon={<Shirt className="h-5 w-5" />}
       badge="new"
       onBack={onBack}
@@ -112,7 +106,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
               }}
             />
             <p className="mt-2 text-xs text-muted-foreground">
-              Upload a PNG (ideally transparent). Run through <span className="text-foreground">Image Clipper</span> first for best results.
+              Upload a PNG (ideally transparent). Run through <span className="text-foreground">Image Clipper</span> first for best results. Design wraps onto the 3D model via UV mapping.
             </p>
           </ToolSection>
 
@@ -163,34 +157,6 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
             </div>
           </ToolSection>
 
-          {designUrl && (
-            <ToolSection title="Design Placement">
-              <div className="space-y-3">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <Label className="text-xs">Scale</Label>
-                    <span className="text-xs text-muted-foreground">{Math.round(designScale * 100)}%</span>
-                  </div>
-                  <Slider value={[designScale]} min={0.1} max={1} step={0.05} onValueChange={(v) => setDesignScale(v[0])} />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <Label className="text-xs">Horizontal</Label>
-                    <span className="text-xs text-muted-foreground">{designX.toFixed(2)}</span>
-                  </div>
-                  <Slider value={[designX]} min={-1} max={1} step={0.05} onValueChange={(v) => setDesignX(v[0])} />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <Label className="text-xs">Vertical</Label>
-                    <span className="text-xs text-muted-foreground">{designY.toFixed(2)}</span>
-                  </div>
-                  <Slider value={[designY]} min={-1.5} max={1.5} step={0.05} onValueChange={(v) => setDesignY(v[0])} />
-                </div>
-              </div>
-            </ToolSection>
-          )}
-
           <ToolSection title="Scene">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -234,10 +200,10 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
             <ul className="space-y-1.5 text-xs text-muted-foreground">
               <li>• <span className="text-foreground">Drag</span> to rotate 360°</li>
               <li>• <span className="text-foreground">Scroll</span> to zoom in/out</li>
-              <li>• Use transparent PNGs for best placement</li>
-              <li>• Design wraps onto curved 3D surface</li>
+              <li>• Uses real 3D GLB models with UV mapping</li>
+              <li>• Design texture wraps onto product surface</li>
+              <li>• Change color — model updates instantly</li>
               <li>• Export high-res PNG for client proofs</li>
-              <li>• Real 3D depth with fabric shading</li>
             </ul>
           </ToolSection>
         </>
@@ -247,7 +213,10 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
         <Suspense
           fallback={
             <div className="flex h-full w-full items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <div className="text-center">
+                <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+                <p className="mt-3 text-sm text-muted-foreground">Loading 3D model…</p>
+              </div>
             </div>
           }
         >
@@ -259,7 +228,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
           >
             <color attach="background" args={[bgColor]} />
             {/* 3-point studio lighting */}
-            <ambientLight intensity={0.3 * lighting} />
+            <ambientLight intensity={0.4 * lighting} />
             <directionalLight
               position={[4, 6, 4]}
               intensity={1.5 * lighting}
@@ -280,9 +249,6 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
                 type={productType}
                 color={productColor}
                 designUrl={designUrl}
-                designScale={designScale}
-                designX={designX}
-                designY={designY}
                 autoRotate={autoRotate}
                 captureRef={captureRef}
               />
@@ -290,7 +256,7 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
 
             {/* Contact shadow for grounding */}
             <ContactShadows
-              position={[0, -2.2, 0]}
+              position={[0, -1.8, 0]}
               opacity={0.5}
               scale={12}
               blur={2.5}
@@ -315,43 +281,35 @@ export function MockupGenerator({ onBack }: MockupGeneratorProps) {
 
         {/* Hint overlay */}
         <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-background/80 px-4 py-1.5 text-xs text-muted-foreground backdrop-blur">
-          Drag to rotate 360° • Scroll to zoom
+          Drag to rotate 360° • Scroll to zoom • Real 3D GLB model
         </div>
       </div>
     </ToolLayout>
   );
 }
 
-// ============== 3D PRODUCT MODELS ==============
+// ============== PRODUCT MODEL LOADER ==============
 
 interface ProductModelProps {
   type: ProductType;
   color: string;
   designUrl: string | null;
-  designScale: number;
-  designX: number;
-  designY: number;
   autoRotate: boolean;
   captureRef: React.MutableRefObject<(() => void) | null>;
 }
 
-function ProductModel({ type, color, designUrl, designScale, designX, designY, autoRotate, captureRef }: ProductModelProps) {
+function ProductModel({ type, color, designUrl, autoRotate, captureRef }: ProductModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { gl, scene, camera } = useThree();
-  const [designTexture, setDesignTexture] = useState<THREE.Texture | null>(null);
 
   // Load design texture
-  useEffect(() => {
-    if (!designUrl) {
-      setDesignTexture(null);
-      return;
-    }
+  const designTexture = useMemo(() => {
+    if (!designUrl) return null;
     const loader = new THREE.TextureLoader();
-    loader.load(designUrl, (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
-      tex.needsUpdate = true;
-      setDesignTexture(tex);
-    });
+    const tex = loader.load(designUrl);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.needsUpdate = true;
+    return tex;
   }, [designUrl]);
 
   // Setup capture function for export
@@ -368,94 +326,10 @@ function ProductModel({ type, color, designUrl, designScale, designX, designY, a
     };
   }, [gl, scene, camera, captureRef, type]);
 
-  // Convert hex to THREE.Color
-  const fabricColor = useMemo(() => new THREE.Color(color), [color]);
-
-  // Fabric material with proper PBR settings + procedural fabric texture
-  const fabricMaterial = useMemo(() => {
-    // Create a procedural fabric normal map (weave pattern)
-    const canvas = document.createElement("canvas");
-    canvas.width = 256;
-    canvas.height = 256;
-    const ctx = canvas.getContext("2d")!;
-    // Base
-    ctx.fillStyle = "#808080";
-    ctx.fillRect(0, 0, 256, 256);
-    // Weave pattern — cross-hatch of lighter/darker lines
-    for (let i = 0; i < 256; i += 4) {
-      ctx.fillStyle = i % 8 === 0 ? "#c0c0c0" : "#909090";
-      ctx.fillRect(i, 0, 2, 256);
-      ctx.fillRect(0, i, 256, 2);
-    }
-    // Add noise
-    const imgData = ctx.getImageData(0, 0, 256, 256);
-    for (let i = 0; i < imgData.data.length; i += 4) {
-      const noise = (Math.random() - 0.5) * 30;
-      imgData.data[i] = Math.max(0, Math.min(255, imgData.data[i] + noise));
-      imgData.data[i + 1] = Math.max(0, Math.min(255, imgData.data[i + 1] + noise));
-      imgData.data[i + 2] = Math.max(0, Math.min(255, imgData.data[i + 2] + noise));
-    }
-    ctx.putImageData(imgData, 0, 0);
-    const normalTex = new THREE.CanvasTexture(canvas);
-    normalTex.wrapS = THREE.RepeatWrapping;
-    normalTex.wrapT = THREE.RepeatWrapping;
-    normalTex.repeat.set(4, 4);
-
-    const mat = new THREE.MeshStandardMaterial({
-      color: fabricColor,
-      roughness: 0.85,
-      metalness: 0.0,
-      side: THREE.DoubleSide,
-      normalMap: normalTex,
-      normalScale: new THREE.Vector2(0.8, 0.8),
-    });
-    return mat;
-  }, [fabricColor]);
-
-  // Mug material (glossy ceramic)
-  const mugMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: fabricColor,
-      roughness: 0.15,
-      metalness: 0.05,
-      side: THREE.DoubleSide,
-    });
-  }, [fabricColor]);
-
-  // Design material (uses the loaded texture)
-  const designMaterial = useMemo(() => {
-    if (!designTexture) return null;
-    return new THREE.MeshBasicMaterial({
-      map: designTexture,
-      transparent: true,
-      toneMapped: false,
-    });
-  }, [designTexture]);
-
   if (type === "tshirt") {
     return (
-      <group ref={groupRef} position={[0, -0.3, 0]}>
-        <TShirtMesh material={fabricMaterial} />
-        {designMaterial && (
-          <mesh position={[designX * 0.5, designY * 0.6, 0.32]}>
-            <planeGeometry args={[1.5 * designScale, 1.8 * designScale]} />
-            <primitive object={designMaterial} />
-          </mesh>
-        )}
-      </group>
-    );
-  }
-
-  if (type === "hoodie") {
-    return (
-      <group ref={groupRef} position={[0, -0.3, 0]}>
-        <HoodieMesh material={fabricMaterial} />
-        {designMaterial && (
-          <mesh position={[designX * 0.5, designY * 0.5, 0.45]}>
-            <planeGeometry args={[1.3 * designScale, 1.5 * designScale]} />
-            <primitive object={designMaterial} />
-          </mesh>
-        )}
+      <group ref={groupRef} position={[0, -0.5, 0]}>
+        <TShirtGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
       </group>
     );
   }
@@ -463,41 +337,7 @@ function ProductModel({ type, color, designUrl, designScale, designX, designY, a
   if (type === "mug") {
     return (
       <group ref={groupRef} position={[0, -0.5, 0]}>
-        <MugMesh material={mugMaterial} />
-        {designMaterial && (
-          <mesh position={[designX * 0.3, designY * 0.3, 0.75]} rotation={[0, 0, 0]}>
-            <cylinderGeometry args={[0.76, 0.76, 1.2 * designScale, 32, 1, true, -Math.PI / 3, Math.PI * 2 / 3]} />
-            <primitive object={designMaterial} />
-          </mesh>
-        )}
-      </group>
-    );
-  }
-
-  if (type === "tote") {
-    return (
-      <group ref={groupRef} position={[0, -0.3, 0]}>
-        <ToteBagMesh material={fabricMaterial} />
-        {designMaterial && (
-          <mesh position={[designX * 0.4, designY * 0.4, 0.16]}>
-            <planeGeometry args={[1.4 * designScale, 1.6 * designScale]} />
-            <primitive object={designMaterial} />
-          </mesh>
-        )}
-      </group>
-    );
-  }
-
-  if (type === "cap") {
-    return (
-      <group ref={groupRef} position={[0, 0, 0]}>
-        <CapMesh material={fabricMaterial} />
-        {designMaterial && (
-          <mesh position={[designX * 0.2, designY * 0.15, 0.6]} rotation={[-0.3, 0, 0]}>
-            <planeGeometry args={[0.7 * designScale, 0.5 * designScale]} />
-            <primitive object={designMaterial} />
-          </mesh>
-        )}
+        <MugGLB color={color} designTexture={designTexture} autoRotate={autoRotate} groupRef={groupRef} />
       </group>
     );
   }
@@ -505,337 +345,101 @@ function ProductModel({ type, color, designUrl, designScale, designX, designY, a
   return null;
 }
 
-// ============== T-SHIRT 3D MODEL ==============
-// Organic, cloth-like geometry with natural fabric drape via vertex displacement
+// ============== T-SHIRT (loads shirt_baked.glb) ==============
 
-function TShirtMesh({ material }: { material: THREE.Material }) {
-  // Build a smooth T-shirt using a custom parametric geometry with fabric drape
-  const bodyGeometry = useMemo(() => {
-    // Use a high-resolution plane that we deform into a T-shirt shape
-    // This gives smooth, organic curves instead of blocky extrusion
-    const width = 3.4;
-    const height = 3.2;
-    const segments = 80; // High poly for smoothness
+function TShirtGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  // Preload the GLB model
+  const gltf = useGLTF("/models/shirt_baked.glb");
 
-    const geo = new THREE.PlaneGeometry(width, height, segments, segments);
+  // Clone the mesh so we don't modify the cached original
+  const mesh = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(1.2, 1.2, 1.2);
+    return cloned;
+  }, [gltf]);
 
-    // Get position attribute for deformation
-    const pos = geo.attributes.position;
-    const vec = new THREE.Vector3();
+  // Apply color and design texture to the mesh material
+  useEffect(() => {
+    mesh.traverse((child: any) => {
+      if (child.isMesh) {
+        // Clone the material so each instance is independent
+        child.material = child.material.clone();
+        child.material.color = new THREE.Color(color);
+        child.material.roughness = 0.8;
+        child.material.metalness = 0.0;
 
-    for (let i = 0; i < pos.count; i++) {
-      vec.fromBufferAttribute(pos, i);
-      const x = vec.x;
-      const y = vec.y;
-
-      // Distance from center axis (for cylindrical body curve)
-      const distFromCenter = Math.abs(x);
-
-      // T-shirt silhouette mask: 1 = shirt, 0 = cut away
-      let mask = 1;
-
-      // Sleeves region (top 30%)
-      if (y > 0.3) {
-        const sleeveWidth = 1.7 - (y - 0.3) * 0.5;
-        if (distFromCenter > sleeveWidth) {
-          mask = 0;
+        // If we have a design texture, use it as the map (UV-mapped onto shirt)
+        if (designTexture) {
+          child.material.map = designTexture;
+        } else {
+          child.material.map = null;
         }
+        child.material.needsUpdate = true;
       }
-      // Neck cutout (top center)
-      if (y > 1.2 && distFromCenter < 0.4) {
-        const neckDepth = (y - 1.2) / 0.3;
-        if (distFromCenter < 0.4 * (1 - neckDepth * 0.5)) {
-          mask = 0.2; // Lower alpha for neck
-        }
-      }
-      // Body taper at bottom (slight)
-      if (y < -1.2) {
-        const taper = (-1.2 - y) / 0.4;
-        if (distFromCenter > 1.0 - taper * 0.1) {
-          mask = Math.max(0, 1 - taper);
-        }
-      }
+    });
+  }, [mesh, color, designTexture]);
 
-      if (mask > 0) {
-        // Z displacement: curved body (cylinder-like)
-        // Front of shirt curves toward viewer
-        const bodyCurve = Math.cos(x * 0.8) * 0.35;
-        // Add natural fabric folds (subtle waves)
-        const foldNoise =
-          Math.sin(y * 3 + x * 2) * 0.02 +
-          Math.sin(x * 5) * 0.015 +
-          Math.cos(y * 4) * 0.01;
-        // Shoulder bump
-        const shoulderBump = y > 0.5 ? Math.exp(-Math.pow((y - 0.8) / 0.4, 2)) * 0.1 : 0;
-        // Bottom hem slight curve
-        const hemCurve = y < -1.0 ? Math.cos(x * 0.5) * 0.05 : 0;
-
-        vec.z = bodyCurve + foldNoise + shoulderBump + hemCurve;
-        pos.setXYZ(i, vec.x, vec.y, vec.z);
-      } else {
-        // Move cut-away vertices far away (will be hidden)
-        pos.setXYZ(i, vec.x, vec.y, -100);
-      }
+  // Auto-rotate
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) {
+      groupRef.current.rotation.y += delta * 1.5;
     }
+  });
 
-    geo.computeVertexNormals();
-    return geo;
-  }, []);
+  return <primitive object={mesh} />;
+}
 
-  // Back of shirt (mirrored)
-  const backGeometry = useMemo(() => {
-    const geo = bodyGeometry.clone();
-    const pos = geo.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-      const z = pos.getZ(i);
-      pos.setZ(i, -z - 0.6); // Mirror and offset for body thickness
+// ============== MUG (loads teacup.glb) ==============
+
+function MugGLB({ color, designTexture, autoRotate, groupRef }: {
+  color: string;
+  designTexture: THREE.Texture | null;
+  autoRotate: boolean;
+  groupRef: React.RefObject<THREE.Group>;
+}) {
+  const gltf = useGLTF("/models/teacup.glb");
+
+  // Scale and position the mug (inside useMemo so it's done at creation time)
+  const mugMesh = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(2.5, 2.5, 2.5);
+    cloned.rotation.y = -0.5;
+    return cloned;
+  }, [gltf]);
+
+  // Apply color and design texture
+  useEffect(() => {
+    mugMesh.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = child.material.clone();
+        child.material.color = new THREE.Color(color);
+        child.material.roughness = 0.15;
+        child.material.metalness = 0.05;
+
+        if (designTexture) {
+          child.material.map = designTexture;
+        } else {
+          child.material.map = null;
+        }
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [mugMesh, color, designTexture]);
+
+  useFrame((_, delta) => {
+    if (autoRotate && groupRef.current) {
+      groupRef.current.rotation.y += delta * 1.5;
     }
-    geo.computeVertexNormals();
-    return geo;
-  }, [bodyGeometry]);
+  });
 
-  // Collar (smooth torus)
-  const collarGeometry = useMemo(() => new THREE.TorusGeometry(0.38, 0.06, 16, 48, Math.PI * 1.2), []);
-
-  // Sleeve cap (rounded)
-  const sleeveCapGeo = useMemo(() => {
-    return new THREE.SphereGeometry(0.25, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-  }, []);
-
-  return (
-    <group>
-      {/* Front of shirt */}
-      <mesh geometry={bodyGeometry} castShadow receiveShadow material={material} />
-      {/* Back of shirt */}
-      <mesh geometry={backGeometry} castShadow receiveShadow material={material} />
-
-      {/* Collar — smooth ribbed neckline */}
-      <mesh geometry={collarGeometry} position={[0, 1.25, 0.15]} rotation={[0, 0, Math.PI]} material={material} castShadow />
-
-      {/* Sleeve caps (rounded ends) */}
-      <mesh geometry={sleeveCapGeo} position={[-1.55, 0.65, 0.1]} rotation={[0, -0.3, -0.4]} scale={[1, 0.6, 1]} material={material} castShadow />
-      <mesh geometry={sleeveCapGeo} position={[1.55, 0.65, 0.1]} rotation={[0, 0.3, 0.4]} scale={[1, 0.6, 1]} material={material} castShadow />
-
-      {/* Sleeve openings (cuffs) */}
-      <mesh position={[-1.55, 0.55, 0]} rotation={[0, 0, Math.PI / 2.5]} castShadow material={material}>
-        <cylinderGeometry args={[0.18, 0.2, 0.15, 24]} />
-      </mesh>
-      <mesh position={[1.55, 0.55, 0]} rotation={[0, 0, -Math.PI / 2.5]} castShadow material={material}>
-        <cylinderGeometry args={[0.18, 0.2, 0.15, 24]} />
-      </mesh>
-
-      {/* Bottom hem — smooth curved edge */}
-      <mesh position={[0, -1.5, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <torusGeometry args={[0.95, 0.05, 12, 48, Math.PI]} />
-      </mesh>
-    </group>
-  );
+  return <primitive object={mugMesh} />;
 }
 
-// ============== HOODIE 3D MODEL ==============
-
-function HoodieMesh({ material }: { material: THREE.Material }) {
-  const bodyGeometry = useMemo(() => {
-    const shape = new THREE.Shape();
-    // Hoodie silhouette (wider, with hood area)
-    shape.moveTo(0, 1.6);
-    shape.lineTo(-0.5, 1.5);
-    shape.quadraticCurveTo(0, 1.1, 0.5, 1.5);
-    shape.lineTo(1.0, 1.55);
-    shape.lineTo(1.8, 0.85);
-    shape.lineTo(1.6, 0.4);
-    shape.lineTo(1.1, 0.6);
-    shape.lineTo(1.1, -1.6);
-    shape.lineTo(-1.1, -1.6);
-    shape.lineTo(-1.1, 0.6);
-    shape.lineTo(-1.6, 0.4);
-    shape.lineTo(-1.8, 0.85);
-    shape.lineTo(-1.0, 1.55);
-    shape.lineTo(-0.5, 1.5);
-    shape.quadraticCurveTo(0, 1.1, 0.5, 1.5);
-
-    const geo = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.7,
-      bevelEnabled: true,
-      bevelThickness: 0.2,
-      bevelSize: 0.2,
-      bevelSegments: 8,
-      curveSegments: 24,
-    });
-    geo.center();
-    geo.computeVertexNormals();
-    return geo;
-  }, []);
-
-  // Hood (half sphere)
-  const hoodGeometry = useMemo(() => {
-    return new THREE.SphereGeometry(0.55, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-  }, []);
-
-  // Pocket (box)
-  const pocketGeometry = useMemo(() => new THREE.BoxGeometry(1.2, 0.5, 0.1), []);
-
-  return (
-    <group>
-      <mesh geometry={bodyGeometry} castShadow receiveShadow material={material} />
-      {/* Hood */}
-      <mesh geometry={hoodGeometry} position={[0, 1.5, -0.1]} material={material} castShadow />
-      {/* Collar */}
-      <mesh position={[0, 1.1, 0.2]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <torusGeometry args={[0.35, 0.07, 8, 24, Math.PI]} />
-      </mesh>
-      {/* Pocket */}
-      <mesh geometry={pocketGeometry} position={[0, -0.5, 0.4]} material={material} castShadow />
-      {/* Drawstrings */}
-      <mesh position={[-0.2, 0.8, 0.35]} material={material}>
-        <cylinderGeometry args={[0.02, 0.02, 0.5, 8]} />
-      </mesh>
-      <mesh position={[0.2, 0.8, 0.35]} material={material}>
-        <cylinderGeometry args={[0.02, 0.02, 0.5, 8]} />
-      </mesh>
-      {/* Drawstring balls */}
-      <mesh position={[-0.2, 0.5, 0.35]} material={material}>
-        <sphereGeometry args={[0.04, 8, 8]} />
-      </mesh>
-      <mesh position={[0.2, 0.5, 0.35]} material={material}>
-        <sphereGeometry args={[0.04, 8, 8]} />
-      </mesh>
-      {/* Sleeve cuffs (ribbed) */}
-      <mesh position={[-1.65, 0.6, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={material}>
-        <cylinderGeometry args={[0.18, 0.18, 0.35, 16]} />
-      </mesh>
-      <mesh position={[1.65, 0.6, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={material}>
-        <cylinderGeometry args={[0.18, 0.18, 0.35, 16]} />
-      </mesh>
-      {/* Bottom hem */}
-      <mesh position={[0, -1.55, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <torusGeometry args={[1.0, 0.08, 8, 32, Math.PI]} />
-      </mesh>
-    </group>
-  );
-}
-
-// ============== MUG 3D MODEL ==============
-
-function MugMesh({ material }: { material: THREE.Material }) {
-  // Inner cavity (slightly smaller, darker)
-  const innerMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: "#d0d0d0",
-      roughness: 0.1,
-      metalness: 0.1,
-      side: THREE.BackSide,
-    });
-  }, []);
-
-  return (
-    <group rotation={[0, -0.3, 0]}>
-      {/* Main body — cylinder */}
-      <mesh castShadow receiveShadow material={material}>
-        <cylinderGeometry args={[0.8, 0.75, 1.8, 64, 1, false]} />
-      </mesh>
-      {/* Top rim (torus) */}
-      <mesh position={[0, 0.9, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <torusGeometry args={[0.78, 0.04, 12, 64]} />
-      </mesh>
-      {/* Inner cavity */}
-      <mesh position={[0, 0, 0]} material={innerMaterial}>
-        <cylinderGeometry args={[0.72, 0.68, 1.7, 64, 1, true]} />
-      </mesh>
-      {/* Inside bottom (darker for coffee/liquid) */}
-      <mesh position={[0, 0.85, 0]} material={innerMaterial}>
-        <circleGeometry args={[0.7, 64]} />
-      </mesh>
-      {/* Handle — torus */}
-      <mesh position={[0.85, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={material}>
-        <torusGeometry args={[0.45, 0.1, 16, 32]} />
-      </mesh>
-      {/* Bottom */}
-      <mesh position={[0, -0.9, 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-        <circleGeometry args={[0.75, 64]} />
-      </mesh>
-    </group>
-  );
-}
-
-// ============== TOTE BAG 3D MODEL ==============
-
-function ToteBagMesh({ material }: { material: THREE.Material }) {
-  // Front face
-  const frontGeometry = useMemo(() => {
-    const shape = new THREE.Shape();
-    // Tote bag shape: rounded rectangle bottom
-    shape.moveTo(-1.0, -1.2);
-    shape.lineTo(-1.0, 0.9);
-    shape.quadraticCurveTo(-1.0, 1.0, -0.9, 1.0);
-    shape.lineTo(0.9, 1.0);
-    shape.quadraticCurveTo(1.0, 1.0, 1.0, 0.9);
-    shape.lineTo(1.0, -1.2);
-    shape.quadraticCurveTo(1.0, -1.3, 0.9, -1.3);
-    shape.lineTo(-0.9, -1.3);
-    shape.quadraticCurveTo(-1.0, -1.3, -1.0, -1.2);
-
-    const geo = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.3,
-      bevelEnabled: true,
-      bevelThickness: 0.05,
-      bevelSize: 0.05,
-      bevelSegments: 4,
-      curveSegments: 16,
-    });
-    geo.center();
-    geo.computeVertexNormals();
-    return geo;
-  }, []);
-
-  return (
-    <group>
-      {/* Main body */}
-      <mesh geometry={frontGeometry} castShadow receiveShadow material={material} />
-      {/* Handles — two torus shapes */}
-      <mesh position={[-0.5, 1.3, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow material={material}>
-        <torusGeometry args={[0.4, 0.04, 12, 32, Math.PI]} />
-      </mesh>
-      <mesh position={[0.5, 1.3, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow material={material}>
-        <torusGeometry args={[0.4, 0.04, 12, 32, Math.PI]} />
-      </mesh>
-      {/* Top opening (darker) */}
-      <mesh position={[0, 0.95, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[1.8, 0.3]} />
-        <meshStandardMaterial color="#000" opacity={0.3} transparent />
-      </mesh>
-    </group>
-  );
-}
-
-// ============== CAP 3D MODEL ==============
-
-function CapMesh({ material }: { material: THREE.Material }) {
-  // Crown (half sphere)
-  const crownGeometry = useMemo(() => {
-    return new THREE.SphereGeometry(1.0, 32, 24, 0, Math.PI * 2, 0, Math.PI / 2);
-  }, []);
-
-  // Brim/visor — flattened half torus
-  const brimGeometry = useMemo(() => {
-    return new THREE.SphereGeometry(1.0, 32, 8, 0, Math.PI, Math.PI / 2, Math.PI / 2);
-  }, []);
-
-  return (
-    <group rotation={[0.2, 0, 0]} position={[0, 0.3, 0]}>
-      {/* Crown */}
-      <mesh geometry={crownGeometry} castShadow receiveShadow material={material} />
-      {/* Brim */}
-      <mesh geometry={brimGeometry} position={[0, 0, 0]} scale={[1, 0.3, 1.5]} castShadow material={material} />
-      {/* Button on top */}
-      <mesh position={[0, 1.0, 0]} material={material}>
-        <sphereGeometry args={[0.06, 12, 12]} />
-      </mesh>
-      {/* Front panel stitching (decorative line) */}
-      <mesh position={[0, 0.5, 0.85]} rotation={[0, 0, 0]}>
-        <planeGeometry args={[0.02, 0.8]} />
-        <meshStandardMaterial color="#000" opacity={0.2} transparent />
-      </mesh>
-    </group>
-  );
-}
+// Preload GLB models
+useGLTF.preload("/models/shirt_baked.glb");
+useGLTF.preload("/models/teacup.glb");

@@ -150,32 +150,47 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               Whether you&apos;re on the ground or abroad, we become your local execution team.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        </div>
+
+        {/* Scrolling marquee of "Who We Serve" cards with original section 2 images */}
+        <div className="flex overflow-hidden group">
+          <div className="flex space-x-4 animate-scroll-left group-hover:[animation-play-state:paused] w-max">
             {[
-              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market." },
-              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales." },
-              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy." },
-              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad." },
+              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.png" },
+              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.png" },
+              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.png" },
+              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.png" },
+              // Duplicate for seamless loop
+              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.png" },
+              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.png" },
+              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.png" },
+              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.png" },
             ].map((n, i) => (
-              <motion.div
-                key={n.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.1 }}
-                className="nura-card p-6"
+              <div
+                key={i}
+                className="w-[280px] md:w-[350px] aspect-square shrink-0 rounded-xl border border-accent/10 relative group/card overflow-hidden"
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-accent/30 mb-2">{n.label}</div>
-                <h3 className="font-display font-bold text-lg mb-2 text-foreground">{n.title}</h3>
-                <p className="text-sm text-muted-foreground">{n.desc}</p>
-              </motion.div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={n.img}
+                  alt={n.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <span className="text-[10px] font-mono text-accent/50 tracking-widest block mb-2">{n.label}</span>
+                  <h3 className="font-display font-semibold text-foreground mb-1 text-sm tracking-wider">{n.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{n.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
-          <div className="mt-6 text-center">
-            <span className="inline-block text-[10px] font-mono uppercase tracking-widest text-muted-foreground border border-border rounded-full px-3 py-1">
-              REMOTE-OPS ENABLED
-            </span>
-          </div>
+        </div>
+
+        <div className="container mx-auto max-w-6xl mt-6 text-center">
+          <span className="inline-block text-[10px] font-mono uppercase tracking-widest text-muted-foreground border border-border rounded-full px-3 py-1">
+            REMOTE-OPS ENABLED
+          </span>
         </div>
       </section>
 

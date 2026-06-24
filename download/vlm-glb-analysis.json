@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) Yes, the T-shirt has natural fabric drape, curves, and a non-blocky shape (e.g., rounded shoulders, slight torso contour).  \n2) Yes, there is realistic depth, soft lighting, and subtle shading (e.g., gentle shadows under the collar/arms, gradient on the torso).  \n3) 7/10 (Good 3D form, but lacks fine details).  \n4) Yes, it resembles a professional e-commerce mockup (clean layout, product customization options).  \n5) Missing/improvable: Subtle wrinkles (fabric looks overly smooth), more defined fabric texture (e.g., cotton weave), sharper shadows (edges are slightly soft), and minor color vibrancy (white appears slightly flat).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1782306070,
+  "id": "20260624210106fb7a33e9cda8409b",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260624210106fb7a33e9cda8409b",
+  "usage": {
+    "completion_tokens": 155,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1114,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 1269
+  }
+}
