@@ -321,6 +321,17 @@ function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skin
   const groupRef = useRef<THREE.Group>(null);
   const { gl, scene, camera } = useThree();
 
+  // Load the real GLB human model
+  const gltf = useGLTF("/models/mannequin.glb");
+
+  // Clone the model so we can modify materials
+  const model = useMemo(() => {
+    const cloned = gltf.scene.clone(true);
+    cloned.scale.set(1.5, 1.5, 1.5);
+    cloned.position.set(0, -1.2, 0);
+    return cloned;
+  }, [gltf]);
+
   // Load shirt design texture
   const shirtTexture = useMemo(() => {
     if (!shirtDesign) return null;
@@ -355,21 +366,27 @@ function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skin
     };
   }, [gl, scene, camera, captureRef]);
 
+  // Apply materials to the model
+  useEffect(() => {
+    model.traverse((child: any) => {
+      if (child.isMesh) {
+        // Apply skin color to all meshes (the model is a single-piece human)
+        child.material = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(skinColor),
+          roughness: 0.6,
+          metalness: 0.0,
+        });
+      }
+    });
+  }, [model, skinColor]);
+
   useFrame((_, delta) => {
     if (autoRotate && groupRef.current) {
       groupRef.current.rotation.y += delta * 1.5;
     }
   });
 
-  // Materials
-  const skinMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(skinColor),
-      roughness: 0.6,
-      metalness: 0.0,
-    });
-  }, [skinColor]);
-
+  // Shirt material (for overlay plane)
   const shirtMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
       color: new THREE.Color(shirtColor),
@@ -380,81 +397,30 @@ function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skin
     });
   }, [shirtColor, shirtTexture]);
 
-  const pantsMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(pantsColor),
-      roughness: 0.85,
-      metalness: 0.0,
-      map: pantsTexture || null,
-    });
-  }, [pantsColor, pantsTexture]);
-
-  // Build a simple mannequin from primitives (head, torso, arms, legs)
+  // Render the GLB model + design overlays
   return (
-    <group ref={groupRef} position={[0, -0.5, 0]}>
-      {/* Head */}
-      <mesh position={[0, 1.5, 0]} castShadow material={skinMaterial}>
-        <sphereGeometry args={[0.25, 32, 32]} />
-      </mesh>
-      {/* Neck */}
-      <mesh position={[0, 1.2, 0]} castShadow material={skinMaterial}>
-        <cylinderGeometry args={[0.08, 0.1, 0.15, 16]} />
-      </mesh>
-
-      {/* Torso (shirt area) */}
-      <mesh position={[0, 0.5, 0]} castShadow receiveShadow material={shirtMaterial}>
-        <capsuleGeometry args={[0.35, 0.7, 8, 16]} />
-      </mesh>
+    <group ref={groupRef}>
+      {/* Real 3D human model from GLB */}
+      <primitive object={model} />
 
       {/* Shirt design overlay (on chest) */}
       {shirtTexture && (
-        <mesh position={[shirtX * 0.3, 0.5 + shirtY * 0.3, 0.36]}>
+        <mesh position={[shirtX * 0.3, 0.3 + shirtY * 0.3, 0.38]}>
           <planeGeometry args={[0.5 * shirtScale, 0.6 * shirtScale]} />
           <meshBasicMaterial map={shirtTexture} transparent toneMapped={false} />
         </mesh>
       )}
 
-      {/* Arms */}
-      <mesh position={[-0.5, 0.5, 0]} rotation={[0, 0, 0.3]} castShadow material={shirtMaterial}>
-        <capsuleGeometry args={[0.1, 0.7, 8, 16]} />
-      </mesh>
-      <mesh position={[0.5, 0.5, 0]} rotation={[0, 0, -0.3]} castShadow material={shirtMaterial}>
-        <capsuleGeometry args={[0.1, 0.7, 8, 16]} />
-      </mesh>
-
-      {/* Hands */}
-      <mesh position={[-0.65, 0.0, 0]} castShadow material={skinMaterial}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-      </mesh>
-      <mesh position={[0.65, 0.0, 0]} castShadow material={skinMaterial}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-      </mesh>
-
-      {/* Legs (pants area) */}
-      <mesh position={[-0.15, -0.5, 0]} castShadow material={pantsMaterial}>
-        <capsuleGeometry args={[0.12, 0.8, 8, 16]} />
-      </mesh>
-      <mesh position={[0.15, -0.5, 0]} castShadow material={pantsMaterial}>
-        <capsuleGeometry args={[0.12, 0.8, 8, 16]} />
-      </mesh>
-
       {/* Pants design overlay (on left thigh) */}
       {pantsTexture && (
-        <mesh position={[-0.15, -0.4, 0.13]}>
+        <mesh position={[-0.12, -0.35, 0.15]}>
           <planeGeometry args={[0.2, 0.3]} />
           <meshBasicMaterial map={pantsTexture} transparent toneMapped={false} />
         </mesh>
       )}
-
-      {/* Shoes */}
-      <mesh position={[-0.15, -1.0, 0.05]} castShadow>
-        <boxGeometry args={[0.15, 0.1, 0.3]} />
-        <meshStandardMaterial color="#1a1a1a" roughness={0.5} />
-      </mesh>
-      <mesh position={[0.15, -1.0, 0.05]} castShadow>
-        <boxGeometry args={[0.15, 0.1, 0.3]} />
-        <meshStandardMaterial color="#1a1a1a" roughness={0.5} />
-      </mesh>
     </group>
   );
 }
+
+// Preload the mannequin model
+useGLTF.preload("/models/mannequin.glb");
