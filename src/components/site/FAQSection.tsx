@@ -72,7 +72,7 @@ export function FAQSection() {
       <div className="container mx-auto max-w-3xl">
         <div className="text-center mb-10">
           <p className="text-[10px] font-mono uppercase tracking-widest text-primary">FAQ</p>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50 block mt-1">MODULE-07</span>
+          
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
             Frequently Asked <span className="text-gradient-cyan">Questions</span>
           </h2>

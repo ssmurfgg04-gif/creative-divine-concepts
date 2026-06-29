@@ -28,6 +28,7 @@ const ImageUpscaler = lazy(() => import("@/components/tools/ImageUpscaler").then
 const StickerGen = lazy(() => import("@/components/tools/StickerGen").then((m) => ({ default: m.StickerGen })));
 const ImageClipper = lazy(() => import("@/components/tools/ImageClipper").then((m) => ({ default: m.ImageClipper })));
 const FileShare = lazy(() => import("@/components/tools/FileShare").then((m) => ({ default: m.FileShare })));
+const PrintConverter = lazy(() => import("@/components/tools/PrintConverter").then((m) => ({ default: m.PrintConverter })));
 
 type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
 
@@ -98,6 +99,7 @@ export default function Home() {
       "color-palette": <ColorPalette {...props} />,
       "caption-gen": <CaptionGen {...props} />,
       "file-share": <FileShare {...props} />,
+      "print-converter": <PrintConverter {...props} />,
     };
     return (
       <Suspense

@@ -18,7 +18,8 @@ export type ToolId =
   | "image-resizer"
   | "color-palette"
   | "caption-gen"
-  | "file-share";
+  | "file-share"
+  | "print-converter";
 
 export interface ToolMeta {
   id: ToolId;
@@ -172,6 +173,15 @@ export const TOOLS: ToolMeta[] = [
     description: "Upload documents, images, or designs. Set passwords, download limits, and expiry. Perfect for printing services.",
     icon: "Shield",
     category: "utility",
+    badge: "new",
+  },
+  {
+    id: "print-converter",
+    name: "AI Print Converter",
+    tagline: "Convert AI images to print-ready files (300 DPI)",
+    description: "Upload AI-generated images and auto-fix: upscale to 300 DPI, remove backgrounds, denoise, sharpen, add bleed. Perfect for DTF/DTG.",
+    icon: "Wand2",
+    category: "print",
     badge: "new",
   },
 ];

@@ -252,7 +252,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
         {/* How It Works */}
         <section className="mb-16">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50">MODULE-01</span>
+            
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">How It Works</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Online learning with on-site supervision. The best of both worlds for serious learners.
@@ -275,7 +275,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
                   transition={{ duration: 0.3, delay: i * 0.1 }}
                   className="nura-card p-5 relative"
                 >
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-primary/30">PHASE-{step.num}</div>
+                  
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary mt-2 mb-3">
                     <Icon className="h-5 w-5" />
                   </div>
@@ -290,7 +290,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
         {/* Courses */}
         <section id="courses" className="mb-16">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50">MODULE-02</span>
+            
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Our Courses</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Three specialized tracks taught by industry professionals. Choose one or combine them for a complete skill set.
@@ -452,7 +452,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
         {/* Pricing */}
         <section id="pricing" className="mb-16">
           <div className="text-center mb-10">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50">MODULE-03</span>
+            
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">Pricing Plans</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Affordable for startups, with options for serious learners and teams. Knowledge that pays for itself.
@@ -518,7 +518,7 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
             <div className="absolute -top-1/2 -right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[100px] pointer-events-none" />
             <div className="relative">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-primary">COMMAND: ENROLL</span>
+              
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 mt-2 text-foreground">
                 Ready to Invest in Your Future?
               </h2>

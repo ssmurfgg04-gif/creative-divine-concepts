@@ -26,7 +26,7 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
     <div className="min-h-screen pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">MODULE-03</Badge>
+          
           <h1 className="font-display text-5xl font-bold mb-4">
             Your One-Stop <span className="text-primary text-glow">Business Engine</span>
           </h1>
