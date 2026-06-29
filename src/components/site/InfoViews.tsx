@@ -495,110 +495,90 @@ export function ContactView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
 /* ============== Work View (Portfolio) ============== */
 
-export function WorkView({ onNavigate }: { onNavigate: (v: any) => void }) {
-  const projects = [
-    {
-      title: "Moenviron Environmental Services",
-      client: "moenviron.com",
-      location: "Nairobi, Kenya",
-      service: "Web Design + SEO",
-      desc: "Complete corporate website built with Next.js. SEO optimized with service catalog, contact forms, and blog. Live in 14 days.",
-      result: "Website live in 14 days",
-      tag: "Web Design",
-      link: "https://moenviron.com",
-      size: "lg",
-    },
-    {
-      title: "Githunguri Primary School Uniforms",
-      client: "Githunguri Primary",
-      location: "Kiambu, Kenya",
-      service: "DTF Printing",
-      desc: "120 branded T-shirts with school logo. DTF printing delivered in 3 days during exam week. Used the school's existing logo and matched exact pantone colors.",
-      result: "120 T-shirts in 3 days",
-      tag: "DTF Printing",
-    },
-    {
-      title: "PCEA Githunguri Church Event",
-      client: "PCEA Githunguri",
-      location: "Kiambu, Kenya",
-      service: "Bulk Printing",
-      desc: "500 event T-shirts with custom design for annual youth conference. Gang sheet built, printed, and delivered in 5 days with same-day pickup option.",
-      result: "500 T-shirts in 5 days",
-      tag: "Bulk Printing",
-    },
-    {
-      title: "Nai Wear Apparel Store",
-      client: "Nai Wear Apparel",
-      location: "Nairobi, Kenya",
-      service: "Web Design + Branding",
-      desc: "Custom Shopify store with M-PESA integration, social media setup, brand identity design, and supplier onboarding training.",
-      result: "Store live + 3 staff trained",
-      tag: "Web Design",
-    },
-    {
-      title: "Kamau General Store Rebrand",
-      client: "Kamau General Store",
-      location: "Kiambu County",
-      service: "Branding + Marketing",
-      desc: "Logo design, business cards, signage, and staff training on WhatsApp marketing. Rebranded from a tired 90s logo to a clean modern identity.",
-      result: "Now sells across Kenya",
-      tag: "Branding",
-    },
-    {
-      title: "Diaspora Business Setup",
-      client: "James, London UK",
-      location: "Diaspora / Remote",
-      service: "Diaspora Operations",
-      desc: "Registered Kenyan company, built website, set up M-PESA till, and managed operations remotely. Owner never visited Kenya during setup.",
-      result: "Company launched remotely",
-      tag: "Diaspora Ops",
-    },
-  ];
+import { PROJECTS } from "@/lib/projects";
+
+export function WorkView({
+  onNavigate,
+  onOpenProject,
+}: {
+  onNavigate: (v: any) => void;
+  onOpenProject?: (slug: string) => void;
+}) {
+  const handleOpen = (slug: string, link?: string) => {
+    if (onOpenProject) {
+      onOpenProject(slug);
+    } else if (link) {
+      window.open(link, "_blank");
+    }
+  };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-6">
+    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6">
       <Breadcrumbs items={[{ label: "Work" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 md:mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">PORTFOLIO</Badge>
-          <h1 className="font-display text-5xl font-bold mb-4">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Work We&apos;re <span className="text-primary text-glow">Proud Of</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-muted-foreground">
-            Real projects for real clients across Kenya. From T-shirt printing to full brand identities and e-commerce websites.
+          <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground px-2">
+            Real projects for real clients across Kenya. Click any project to see the full gallery, process, and results.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {projects.map((p, i) => (
-            <motion.div
-              key={i}
+        <div className="grid gap-5 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {PROJECTS.map((p, i) => (
+            <motion.button
+              key={p.slug}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: i * 0.05 }}
-              className={`nura-card p-6 group hover:border-primary/40 transition ${p.size === "lg" ? "md:col-span-2" : ""}`}
-              onClick={() => p.link && window.open(p.link, "_blank")}
-              style={p.link ? { cursor: "pointer" } : undefined}
+              onClick={() => handleOpen(p.slug, p.link)}
+              className="nura-card p-0 group hover:border-primary/40 transition text-left overflow-hidden flex flex-col cursor-pointer"
             >
-              <div className="flex items-start justify-between mb-3">
-                <Badge className="bg-primary/10 text-primary border-primary/30 text-[10px]">{p.tag}</Badge>
-                {p.link && <Icons.ExternalLink className="h-4 w-4 text-accent/40 group-hover:text-accent transition" />}
+              {/* Project image */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                <img
+                  src={p.gallery[0].src}
+                  alt={p.gallery[0].alt}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                <div className="absolute top-3 left-3">
+                  <Badge className="bg-background/90 text-primary border-primary/30 text-[10px] backdrop-blur-sm">
+                    {p.tag}
+                  </Badge>
+                </div>
+                <div className="absolute bottom-3 right-3 flex items-center gap-1 text-xs text-foreground bg-background/90 backdrop-blur-sm rounded-full px-2.5 py-1 opacity-0 group-hover:opacity-100 transition">
+                  View Project <Icons.ArrowRight className="h-3 w-3" />
+                </div>
               </div>
-              <h3 className="font-display font-bold text-lg mb-1 text-foreground">{p.title}</h3>
-              <p className="text-sm text-accent mb-2">{p.client} - {p.location}</p>
-              <p className="text-xs text-muted-foreground mb-4">{p.service}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.desc}</p>
-              <div className="flex items-center gap-2 pt-4 border-t border-border">
-                <Icons.CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                <span className="text-sm font-semibold text-primary">{p.result}</span>
+
+              {/* Project content */}
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="font-display font-bold text-base md:text-lg mb-1 text-foreground line-clamp-1">
+                  {p.title}
+                </h3>
+                <p className="text-xs text-accent mb-1">{p.client} - {p.location}</p>
+                <p className="text-[11px] text-muted-foreground mb-3">{p.service}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2 flex-1">
+                  {p.description}
+                </p>
+                <div className="flex items-center gap-2 pt-3 border-t border-border">
+                  <Icons.CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                  <span className="text-xs font-semibold text-primary">{p.result}</span>
+                </div>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-10 text-center">
-          <h2 className="font-display text-3xl font-bold mb-3">Want to Be Our Next Success Story?</h2>
-          <p className="max-w-xl mx-auto text-muted-foreground mb-6">
+        <div className="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6 sm:p-10 text-center">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold mb-3 text-foreground">
+            Want to Be Our Next Success Story?
+          </h2>
+          <p className="max-w-xl mx-auto text-sm md:text-base text-muted-foreground mb-6">
             From a single T-shirt to a full brand launch, we deliver real work on real timelines.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">

@@ -10,6 +10,7 @@ import { ServicesView, PricingView, AboutView, ContactView, WorkView } from "@/c
 import { TeachingPortal } from "@/components/site/TeachingPortal";
 import { BlogView } from "@/components/site/BlogView";
 import { LocalSEOPage } from "@/components/site/LocalSEOPages";
+import { ProjectDetail } from "@/components/site/ProjectDetail";
 import {
   VATCalculator,
   ImageResizer,
@@ -34,12 +35,13 @@ const ColorSeparation = lazy(() => import("@/components/tools/ColorSeparation").
 const TypographyStudio = lazy(() => import("@/components/tools/TypographyStudio").then((m) => ({ default: m.TypographyStudio })));
 const MannequinDressUp = lazy(() => import("@/components/tools/MannequinDressUp").then((m) => ({ default: m.MannequinDressUp })));
 
-type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "work" | "tool" | "local";
+type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "work" | "project" | "tool" | "local";
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
   const [activeTool, setActiveTool] = useState<ToolId | null>(null);
   const [localPageId, setLocalPageId] = useState<string>("");
+  const [projectSlug, setProjectSlug] = useState<string>("");
 
   // Sync with URL hash
   useEffect(() => {
@@ -53,6 +55,10 @@ export default function Home() {
         const pageId = hash.replace("local/", "");
         setLocalPageId(pageId);
         setView("local");
+      } else if (hash.startsWith("project/")) {
+        const slug = hash.replace("project/", "");
+        setProjectSlug(slug);
+        setView("project");
       } else if (["home", "tools", "services", "pricing", "about", "contact", "academy", "blog", "work"].includes(hash)) {
         setActiveTool(null);
         setView(hash as View);
@@ -82,6 +88,17 @@ export default function Home() {
     setView("tool");
     history.replaceState(null, "", `#tool/${id}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openProject = (slug: string) => {
+    setProjectSlug(slug);
+    setView("project");
+    history.replaceState(null, "", `#project/${slug}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const backToWork = () => {
+    navigate("work");
   };
 
   const backToTools = () => {
@@ -119,7 +136,7 @@ export default function Home() {
           <div className="fixed inset-0 flex items-center justify-center bg-background">
             <div className="text-center">
               <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-              <p className="text-sm text-muted-foreground">Loading tool…</p>
+              <p className="text-sm text-muted-foreground">Loading tool...</p>
             </div>
           </div>
         }
@@ -138,9 +155,12 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar onNavigate={navigate} onOpenTool={openTool} currentView={view} />
       <main className="flex-1" id="main-content">
-        {view === "home" && <HomeView onNavigate={navigate} onOpenTool={openTool} />}
+        {view === "home" && <HomeView onNavigate={navigate} onOpenTool={openTool} onOpenProject={openProject} />}
         {view === "tools" && <ToolsHubView onOpenTool={openTool} />}
-        {view === "work" && <WorkView onNavigate={navigate} />}
+        {view === "work" && <WorkView onNavigate={navigate} onOpenProject={openProject} />}
+        {view === "project" && projectSlug && (
+          <ProjectDetail slug={projectSlug} onNavigate={navigate} onBack={backToWork} />
+        )}
         {view === "services" && <ServicesView onNavigate={navigate} />}
         {view === "pricing" && <PricingView onNavigate={navigate} />}
         {view === "about" && <AboutView onNavigate={navigate} />}

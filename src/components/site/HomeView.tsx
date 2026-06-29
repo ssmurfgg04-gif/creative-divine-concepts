@@ -6,10 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { ToolId } from "@/lib/tools";
 import { FAQSection } from "@/components/site/FAQSection";
 import { PricingCalculator } from "@/components/site/PricingCalculator";
+import { PROJECTS } from "@/lib/projects";
 
 interface HomeViewProps {
   onNavigate: (view: any) => void;
   onOpenTool: (id: ToolId) => void;
+  onOpenProject?: (slug: string) => void;
 }
 
 // Featured tools for the bottom "Free Tools" section (Phase 7)
@@ -18,47 +20,6 @@ const FEATURED_TOOLS: { id: ToolId; name: string; desc: string; icon: string }[]
   { id: "print-converter", name: "AI Print Converter", desc: "Prep AI images for DTF printing. Upscale, remove bg, sharpen.", icon: "Wand2" },
   { id: "mannequin-dressup", name: "3D Mannequin", desc: "Preview designs on a 3D mannequin before you print.", icon: "User" },
   { id: "image-resizer", name: "Image Resizer", desc: "Resize images for web or print in one click.", icon: "Wrench" },
-];
-
-// Real portfolio projects (Phase 5: real work only, no fake names)
-const REAL_PROJECTS = [
-  {
-    title: "Moenviron Environmental Services",
-    client: "moenviron.com",
-    desc: "Corporate website built with Next.js. SEO optimized with service catalog and contact forms. Live in 14 days.",
-    tag: "Web Design",
-    link: "https://moenviron.com",
-  },
-  {
-    title: "Githunguri Primary School Uniforms",
-    client: "Githunguri, Kiambu",
-    desc: "120 branded T-shirts with school logo. DTF printing, delivered in 3 days during exam week.",
-    tag: "DTF Printing",
-  },
-  {
-    title: "PCEA Githunguri Church Event",
-    client: "PCEA Githunguri",
-    desc: "500 event T-shirts with custom design. Gang sheet built, printed, and delivered in 5 days.",
-    tag: "Bulk Printing",
-  },
-  {
-    title: "Nai Wear Apparel Store",
-    client: "Nairobi",
-    desc: "Custom Shopify store with M-PESA integration, social media setup, and brand identity design.",
-    tag: "Web Design",
-  },
-  {
-    title: "Kamau General Store Rebrand",
-    client: "Kiambu County",
-    desc: "Logo design, business cards, and staff training on WhatsApp marketing. Now sells across Kenya.",
-    tag: "Branding",
-  },
-  {
-    title: "Diaspora Business Setup",
-    client: "James, London UK",
-    desc: "Registered Kenyan company, built website, and managed operations remotely. Owner never visited Kenya.",
-    tag: "Diaspora Ops",
-  },
 ];
 
 // Real testimonials (Phase 8: real names only, authentic Reddit-style Swahili)
@@ -86,10 +47,18 @@ const TESTIMONIALS = [
   },
 ];
 
-export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
+export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProps) {
   const whatsappLink =
     "https://wa.me/+254711669113?text=" +
     encodeURIComponent("Hi CDC, I would like to book a free 15-minute call about my project.");
+
+  const handleProjectClick = (slug: string, link?: string) => {
+    if (onOpenProject) {
+      onOpenProject(slug);
+    } else if (link) {
+      window.open(link, "_blank");
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -337,37 +306,58 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
               Work We&apos;re <span className="text-gradient-cyan">Proud Of</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">Real projects. Real results.</p>
+            <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground">
+              Real projects. Real results. Click any project to see the full gallery.
+            </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {REAL_PROJECTS.slice(0, 6).map((project, i) => (
-              <motion.div
-                key={i}
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {PROJECTS.slice(0, 6).map((project, i) => (
+              <motion.button
+                key={project.slug}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
-                className="nura-card p-5 group hover:border-primary/40 transition"
-                onClick={() => project.link && window.open(project.link, "_blank")}
-                style={project.link ? { cursor: "pointer" } : undefined}
+                onClick={() => handleProjectClick(project.slug, project.link)}
+                className="nura-card p-0 group hover:border-primary/40 transition text-left overflow-hidden flex flex-col cursor-pointer"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <Badge className="bg-primary/10 text-primary border-primary/30 text-[10px]">{project.tag}</Badge>
-                  <Icons.FolderKanban className="h-4 w-4 text-accent/30" />
-                </div>
-                <h3 className="font-display font-bold text-sm mb-1 text-foreground">{project.title}</h3>
-                <p className="text-xs text-accent mb-2">{project.client}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{project.desc}</p>
-                {project.link && (
-                  <div className="mt-3 text-xs text-primary font-semibold inline-flex items-center gap-1">
-                    View Project <Icons.ExternalLink className="h-3 w-3" />
+                {/* Project image */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <img
+                    src={project.gallery[0].src}
+                    alt={project.gallery[0].alt}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <Badge className="bg-background/90 text-primary border-primary/30 text-[10px] backdrop-blur-sm">
+                      {project.tag}
+                    </Badge>
                   </div>
-                )}
-              </motion.div>
+                  <div className="absolute bottom-3 right-3 flex items-center gap-1 text-xs text-foreground bg-background/90 backdrop-blur-sm rounded-full px-2.5 py-1 opacity-0 group-hover:opacity-100 transition">
+                    View <Icons.ArrowRight className="h-3 w-3" />
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="p-4 sm:p-5 flex flex-col flex-1">
+                  <h3 className="font-display font-bold text-sm md:text-base mb-1 text-foreground line-clamp-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs text-accent mb-2">{project.client} - {project.location}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
+                    {project.description}
+                  </p>
+                  <div className="flex items-center gap-2 pt-3 mt-3 border-t border-border">
+                    <Icons.CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                    <span className="text-xs font-semibold text-primary">{project.result}</span>
+                  </div>
+                </div>
+              </motion.button>
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-3 justify-center items-center">
-            <button onClick={() => onNavigate("work")} className="cyber-btn h-12 px-8">
+            <button onClick={() => onNavigate("work")} className="cyber-btn h-12 px-6 md:px-8">
               View All Projects <Icons.ArrowRight className="h-4 w-4" />
             </button>
             <a

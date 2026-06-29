@@ -115,7 +115,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly" as const,
   }));
 
-  return [...staticPages, ...localSeoPages, ...blogPages, ...toolPages].map((page) => ({
+  // Project detail pages (portfolio with images)
+  const projectSlugs = [
+    "moenviron-environmental-services",
+    "githunguri-primary-school-uniforms",
+    "pcea-githunguri-church-event",
+    "nai-wear-apparel-store",
+    "kamau-general-store-rebrand",
+    "diaspora-business-setup-james-london",
+  ];
+  const projectPages = projectSlugs.map((slug) => ({
+    url: `/#project/${slug}`,
+    priority: 0.8,
+    changeFrequency: "monthly" as const,
+  }));
+
+  return [...staticPages, ...localSeoPages, ...blogPages, ...toolPages, ...projectPages].map((page) => ({
     url: `${baseUrl}${page.url}`,
     lastModified,
     changeFrequency: page.changeFrequency,

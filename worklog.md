@@ -174,3 +174,74 @@ Stage Summary:
 - Mobile view massively improved: responsive font sizes, better touch targets, body scroll lock, backdrop overlay, smaller floating WhatsApp on mobile
 - All 4 "missing" items from v8 review now implemented: dark mode, exit-intent popup, pricing calculator, visible breadcrumbs (breadcrumbs were added in v3)
 - Files modified: Navbar.tsx, HomeView.tsx, Footer.tsx, FloatingWhatsApp.tsx, layout.tsx, globals.css, ThemeToggle.tsx (new)
+
+---
+Task ID: cdc-v5-project-detail-pages
+Agent: main (Super Z)
+Task: Make portfolio projects clickable to open detail pages with real images. Use Pinterest-style/Instagram-style images for each project. Apply to both homepage Work section and Work page.
+
+Work Log:
+- Searched and downloaded 18 real images from web (via z-ai image-search) for 6 portfolio projects:
+  * Moenviron: web design mockups + existing moenviron asset (4 images)
+  * Githunguri Primary: school children in branded uniforms, group photos, T-shirt detail (3 images)
+  * PCEA Githunguri: church youth groups, event T-shirts, custom design (3 images)
+  * Nai Wear: Shopify store screenshots, product catalog, apparel mockup (3 images)
+  * Kamau Store: store signage, business cards, logo mockup (3 images)
+  * Diaspora (James): remote work dashboard, entrepreneur, video call (3 images)
+- All images saved locally to /public/projects/ for stable hosting
+- Created /src/lib/projects.ts with Project interface and 6 detailed project entries:
+  * slug, title, client, location, service, tag, description, result, link, gallery[], highlights[], testimonial?
+  * Each project has 3-4 gallery images with alt text and captions
+  * Each project has 6-8 highlight bullets (what we did)
+  * 3 projects include real testimonials (Grace Wanjiru, Brian Otieno, Sarah Kamau)
+- Created /src/components/site/ProjectDetail.tsx with:
+  * Breadcrumb navigation (Home / Work / Project Title)
+  * Large main image with thumbnail strip (clickable)
+  * Sidebar with Project Overview, What We Did highlights, Get Quote CTA
+  * Testimonial section (if exists) with 5-star rating
+  * Full image gallery grid (clickable to change main image)
+  * Bottom CTA: "Ready to Start Your Project?" with WhatsApp link
+  * "Visit Live Site" badge for projects with live URLs (Moenviron)
+  * Responsive: mobile-friendly with stacked layout
+- Updated HomeView to use PROJECTS data instead of inline REAL_PROJECTS:
+  * Added onOpenProject prop
+  * Project cards now show image (gallery[0]) with hover zoom effect
+  * Badge overlay on image, "View" pill on hover
+  * Cards are clickable buttons that call onOpenProject(slug)
+  * Responsive grid: 1 col mobile, 2 col tablet, 3 col desktop
+- Updated WorkView to use PROJECTS data:
+  * Added onOpenProject prop
+  * Same image card design as homepage
+  * Responsive grid: 1 col mobile, 2 col tablet, 3 col desktop
+  * Updated heading and copy: "Click any project to see the full gallery"
+- Updated page.tsx with new routing:
+  * Added "project" to View type
+  * Added projectSlug state
+  * Added hash sync for #project/{slug} pattern
+  * Added openProject() function that updates hash and scrolls to top
+  * Added backToWork() function
+  * Rendered ProjectDetail component when view === "project"
+  * Passed onOpenProject to HomeView and WorkView
+- Updated sitemap.ts to include all 6 project detail pages (#project/{slug})
+- Removed all unused eslint-disable directives for cleaner code
+- Browser-verified:
+  * Homepage shows 6 project cards with real images
+  * Clicking a project navigates to #project/{slug} URL
+  * Project detail page shows breadcrumbs, main image, thumbnail strip, sidebar, gallery
+  * Moenviron project shows "Visit Live Site" badge
+  * Githunguri project shows Grace Wanjiru testimonial
+  * Work page shows all 6 projects with images in responsive grid
+  * Mobile view tested (375px) - project detail stacks properly
+  * Zero runtime errors, zero console errors
+
+Stage Summary:
+- 6 portfolio projects now have dedicated detail pages with real image galleries
+- Each project has 3-4 images representing different aspects of the work
+- Both homepage Work section and Work page link to detail pages
+- Project detail includes: overview, highlights, testimonial (where applicable), gallery, CTAs
+- All images stored locally for stable hosting (no external dependencies)
+- Sitemap updated with 6 new project URLs for SEO
+- Mobile-responsive: project detail stacks gracefully on small screens
+- Files created: /src/lib/projects.ts, /src/components/site/ProjectDetail.tsx
+- Files modified: HomeView.tsx, InfoViews.tsx, page.tsx, sitemap.ts
+- 18 new image files in /public/projects/
