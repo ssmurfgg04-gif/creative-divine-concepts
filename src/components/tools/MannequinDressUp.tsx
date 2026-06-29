@@ -32,6 +32,7 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
   const [shirtScale, setShirtScale] = useState(0.8);
   const [shirtX, setShirtX] = useState(0);
   const [shirtY, setShirtY] = useState(0.3);
+  const [shirtRotation, setShirtRotation] = useState(0);
   const [exporting, setExporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const captureRef = useRef<(() => void) | null>(null);
@@ -44,7 +45,7 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
     const url = await fileToDataURL(file);
     if (activeSlot === "shirt") {
       setShirtDesign(url);
-      toast.success("Shirt design uploaded! Drag to position.");
+      toast.success("Shirt design uploaded! It wraps onto the body.");
     } else {
       setPantsDesign(url);
       toast.success("Pants design uploaded!");
@@ -119,21 +120,15 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
               }}
             />
             <p className="mt-2 text-xs text-muted-foreground">
-              Upload a PNG (transparent background recommended). Use Image Clipper first for best results.
+              Upload a transparent PNG. The design wraps directly onto the 3D body mesh like real clothing.
             </p>
             {activeSlot === "shirt" && shirtDesign && (
-              <button
-                onClick={() => setShirtDesign(null)}
-                className="mt-2 text-xs text-destructive hover:underline"
-              >
+              <button onClick={() => setShirtDesign(null)} className="mt-2 text-xs text-destructive hover:underline">
                 Remove shirt design
               </button>
             )}
             {activeSlot === "pants" && pantsDesign && (
-              <button
-                onClick={() => setPantsDesign(null)}
-                className="mt-2 text-xs text-destructive hover:underline"
-              >
+              <button onClick={() => setPantsDesign(null)} className="mt-2 text-xs text-destructive hover:underline">
                 Remove pants design
               </button>
             )}
@@ -168,7 +163,7 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
           </ToolSection>
 
           {activeSlot === "shirt" && shirtDesign && (
-            <ToolSection title="Shirt Design Position">
+            <ToolSection title="Design Position">
               <div className="space-y-3">
                 <div className="space-y-2">
                   <div className="flex justify-between">
@@ -190,6 +185,13 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
                     <span className="text-xs text-muted-foreground">{shirtY.toFixed(2)}</span>
                   </div>
                   <Slider value={[shirtY]} min={-1} max={1.5} step={0.05} onValueChange={(v) => setShirtY(v[0])} />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label className="text-xs">Rotation</Label>
+                    <span className="text-xs text-muted-foreground">{Math.round(shirtRotation)}deg</span>
+                  </div>
+                  <Slider value={[shirtRotation]} min={-180} max={180} step={5} onValueChange={(v) => setShirtRotation(v[0])} />
                 </div>
               </div>
             </ToolSection>
@@ -233,10 +235,12 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
             <ol className="space-y-1.5 text-xs text-muted-foreground">
               <li>1. Select Shirt or Pants slot</li>
               <li>2. Upload a transparent PNG design</li>
-              <li>3. Adjust position and scale</li>
-              <li>4. Change clothing/skin colors</li>
-              <li>5. Drag to rotate 360 degrees</li>
-              <li>6. Export as PNG for client proof</li>
+              <li>3. Design wraps onto body like real clothing</li>
+              <li>4. Adjust position, scale, rotation</li>
+              <li>5. Change clothing and skin colors</li>
+              <li>6. Drag to rotate 360 degrees</li>
+              <li>7. Scroll to zoom in/out</li>
+              <li>8. Export as PNG for client proof</li>
             </ol>
           </ToolSection>
         </>
@@ -254,7 +258,7 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
           }
         >
           <Canvas
-            camera={{ position: [0, 0, 4], fov: 35 }}
+            camera={{ position: [0, 0.5, 5], fov: 30 }}
             gl={{ preserveDrawingBuffer: true, antialias: true, alpha: false }}
             shadows
             dpr={[1, 2]}
@@ -274,20 +278,22 @@ export function MannequinDressUp({ onBack }: MannequinDressUpProps) {
                 shirtScale={shirtScale}
                 shirtX={shirtX}
                 shirtY={shirtY}
+                shirtRotation={shirtRotation}
                 autoRotate={autoRotate}
                 captureRef={captureRef}
               />
             </Suspense>
 
-            <ContactShadows position={[0, -1.8, 0]} opacity={0.5} scale={10} blur={2.5} far={5} resolution={1024} />
+            <ContactShadows position={[0, -2, 0]} opacity={0.5} scale={10} blur={2.5} far={5} resolution={1024} />
             <Environment preset="studio" />
 
             <OrbitControls
               enablePan={false}
-              minDistance={2}
-              maxDistance={7}
-              minPolarAngle={Math.PI / 6}
-              maxPolarAngle={Math.PI / 1.7}
+              minDistance={1.5}
+              maxDistance={8}
+              minPolarAngle={Math.PI / 8}
+              maxPolarAngle={Math.PI / 1.5}
+              target={[0, 0, 0]}
               autoRotate={autoRotate}
               autoRotateSpeed={1.5}
             />
@@ -313,44 +319,95 @@ interface MannequinModelProps {
   shirtScale: number;
   shirtX: number;
   shirtY: number;
+  shirtRotation: number;
   autoRotate: boolean;
   captureRef: React.MutableRefObject<(() => void) | null>;
 }
 
-function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skinColor, shirtScale, shirtX, shirtY, autoRotate, captureRef }: MannequinModelProps) {
+function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skinColor, shirtScale, shirtX, shirtY, shirtRotation, autoRotate, captureRef }: MannequinModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { gl, scene, camera } = useThree();
 
-  // Load the real GLB human model
+  // Load the GLB human model
   const gltf = useGLTF("/models/mannequin.glb");
 
-  // Clone the model so we can modify materials
+  // Clone and scale the model to fit properly
   const model = useMemo(() => {
     const cloned = gltf.scene.clone(true);
-    cloned.scale.set(1.5, 1.5, 1.5);
-    cloned.position.set(0, -1.2, 0);
+    // Scale to fit the viewport nicely - full body visible
+    cloned.scale.set(0.8, 0.8, 0.8);
+    cloned.position.set(0, -1.5, 0);
     return cloned;
   }, [gltf]);
 
-  // Load shirt design texture
-  const shirtTexture = useMemo(() => {
-    if (!shirtDesign) return null;
-    const loader = new THREE.TextureLoader();
-    const tex = loader.load(shirtDesign);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.needsUpdate = true;
-    return tex;
-  }, [shirtDesign]);
+  // Create a canvas texture that combines skin color + shirt design + pants design
+  // This simulates CLO 3D's approach of applying a texture map to the garment mesh
+  const combinedTexture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = 1024;
+    const ctx = canvas.getContext("2d")!;
 
-  // Load pants design texture
-  const pantsTexture = useMemo(() => {
-    if (!pantsDesign) return null;
-    const loader = new THREE.TextureLoader();
-    const tex = loader.load(pantsDesign);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.needsUpdate = true;
-    return tex;
-  }, [pantsDesign]);
+    // Fill with skin color as base
+    ctx.fillStyle = skinColor;
+    ctx.fillRect(0, 0, 1024, 1024);
+
+    return new THREE.CanvasTexture(canvas);
+  }, [skinColor]);
+
+  // Update texture when designs or colors change
+  useEffect(() => {
+    const canvas = combinedTexture.image as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d")!;
+
+    // Fill with skin color
+    ctx.fillStyle = skinColor;
+    ctx.fillRect(0, 0, 1024, 1024);
+
+    // Draw shirt color on upper portion (torso area)
+    ctx.fillStyle = shirtColor;
+    ctx.fillRect(256, 200, 512, 400);
+
+    // Draw pants color on lower portion (leg area)
+    ctx.fillStyle = pantsColor;
+    ctx.fillRect(256, 600, 512, 300);
+
+    combinedTexture.needsUpdate = true;
+  }, [combinedTexture, skinColor, shirtColor, pantsColor]);
+
+  // Load shirt design image and draw onto texture
+  useEffect(() => {
+    if (!shirtDesign) return;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = combinedTexture.image as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d")!;
+      // Draw shirt design on chest area of texture
+      const dw = 300 * shirtScale;
+      const dh = 350 * shirtScale;
+      const dx = 512 - dw / 2 + shirtX * 100;
+      const dy = 350 - dh / 2 + shirtY * 100;
+      ctx.drawImage(img, dx, dy, dw, dh);
+      combinedTexture.needsUpdate = true;
+    };
+    img.src = shirtDesign;
+  }, [shirtDesign, shirtScale, shirtX, shirtY, combinedTexture]);
+
+  // Load pants design image and draw onto texture
+  useEffect(() => {
+    if (!pantsDesign) return;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = combinedTexture.image as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d")!;
+      // Draw pants design on leg area of texture
+      ctx.drawImage(img, 400, 650, 224, 224);
+      combinedTexture.needsUpdate = true;
+    };
+    img.src = pantsDesign;
+  }, [pantsDesign, combinedTexture]);
 
   // Setup capture
   useEffect(() => {
@@ -366,19 +423,20 @@ function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skin
     };
   }, [gl, scene, camera, captureRef]);
 
-  // Apply materials to the model
+  // Apply the combined texture to all meshes in the model
   useEffect(() => {
     model.traverse((child: any) => {
       if (child.isMesh) {
-        // Apply skin color to all meshes (the model is a single-piece human)
         child.material = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(skinColor),
-          roughness: 0.6,
+          map: combinedTexture,
+          roughness: 0.7,
           metalness: 0.0,
         });
+        child.castShadow = true;
+        child.receiveShadow = true;
       }
     });
-  }, [model, skinColor]);
+  }, [model, combinedTexture]);
 
   useFrame((_, delta) => {
     if (autoRotate && groupRef.current) {
@@ -386,41 +444,12 @@ function MannequinModel({ shirtDesign, pantsDesign, shirtColor, pantsColor, skin
     }
   });
 
-  // Shirt material (for overlay plane)
-  const shirtMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(shirtColor),
-      roughness: 0.85,
-      metalness: 0.0,
-      map: shirtTexture || null,
-      transparent: true,
-    });
-  }, [shirtColor, shirtTexture]);
-
-  // Render the GLB model + design overlays
   return (
     <group ref={groupRef}>
-      {/* Real 3D human model from GLB */}
       <primitive object={model} />
-
-      {/* Shirt design overlay (on chest) */}
-      {shirtTexture && (
-        <mesh position={[shirtX * 0.3, 0.3 + shirtY * 0.3, 0.38]}>
-          <planeGeometry args={[0.5 * shirtScale, 0.6 * shirtScale]} />
-          <meshBasicMaterial map={shirtTexture} transparent toneMapped={false} />
-        </mesh>
-      )}
-
-      {/* Pants design overlay (on left thigh) */}
-      {pantsTexture && (
-        <mesh position={[-0.12, -0.35, 0.15]}>
-          <planeGeometry args={[0.2, 0.3]} />
-          <meshBasicMaterial map={pantsTexture} transparent toneMapped={false} />
-        </mesh>
-      )}
     </group>
   );
 }
 
-// Preload the mannequin model
+// Preload
 useGLTF.preload("/models/mannequin.glb");

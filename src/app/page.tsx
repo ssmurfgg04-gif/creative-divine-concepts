@@ -9,6 +9,7 @@ import { ToolsHubView } from "@/components/site/ToolsHubView";
 import { ServicesView, PricingView, AboutView, ContactView } from "@/components/site/InfoViews";
 import { TeachingPortal } from "@/components/site/TeachingPortal";
 import { BlogView } from "@/components/site/BlogView";
+import { LocalSEOPage } from "@/components/site/LocalSEOPages";
 import {
   VATCalculator,
   ImageResizer,
@@ -33,11 +34,12 @@ const ColorSeparation = lazy(() => import("@/components/tools/ColorSeparation").
 const TypographyStudio = lazy(() => import("@/components/tools/TypographyStudio").then((m) => ({ default: m.TypographyStudio })));
 const MannequinDressUp = lazy(() => import("@/components/tools/MannequinDressUp").then((m) => ({ default: m.MannequinDressUp })));
 
-type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
+type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool" | "local";
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
   const [activeTool, setActiveTool] = useState<ToolId | null>(null);
+  const [localPageId, setLocalPageId] = useState<string>("");
 
   // Sync with URL hash
   useEffect(() => {
@@ -47,6 +49,10 @@ export default function Home() {
         const toolId = hash.replace("tool/", "") as ToolId;
         setActiveTool(toolId);
         setView("tool");
+      } else if (hash.startsWith("local/")) {
+        const pageId = hash.replace("local/", "");
+        setLocalPageId(pageId);
+        setView("local");
       } else if (["home", "tools", "services", "pricing", "about", "contact", "academy", "blog"].includes(hash)) {
         setActiveTool(null);
         setView(hash as View);
@@ -139,6 +145,7 @@ export default function Home() {
         {view === "about" && <AboutView onNavigate={navigate} />}
         {view === "academy" && <TeachingPortal onNavigate={navigate} />}
         {view === "blog" && <BlogView onNavigate={navigate} />}
+        {view === "local" && <LocalSEOPage onNavigate={navigate} pageId={localPageId} />}
         {view === "contact" && <ContactView />}
       </main>
       <Footer onNavigate={navigate} />

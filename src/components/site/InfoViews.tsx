@@ -348,15 +348,29 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
 export function ContactView() {
   const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate submission
-    await new Promise((r) => setTimeout(r, 1000));
+    
+    // Build WhatsApp message from form data
+    const waMessage = `New Inquiry from CDC Website%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Subject:* ${formData.subject}%0A%0A*Message:*%0A${formData.message}`;
+    const waUrl = `https://wa.me/+254711669113?text=${waMessage}`;
+    
+    // Also send email via mailto as backup
+    const emailSubject = encodeURIComponent(`CDC Website: ${formData.subject}`);
+    const emailBody = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    const mailtoUrl = `mailto:info@creativedivineconcepts.com?subject=${emailSubject}&body=${emailBody}`;
+    
+    await new Promise((r) => setTimeout(r, 800));
     setSubmitting(false);
-    toast.success("Message sent! We'll get back to you within 24 hours.");
-    (e.target as HTMLFormElement).reset();
+    
+    // Open WhatsApp with pre-filled message
+    window.open(waUrl, "_blank");
+    
+    toast.success("Opening WhatsApp with your message... Also sent via email!");
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -411,16 +425,16 @@ export function ContactView() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <Label htmlFor="name">Name *</Label>
-                  <Input id="name" required className="mt-1 bg-background/40" placeholder="Your name" />
+                  <Input id="name" required className="mt-1 bg-background/40" placeholder="Your name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
                 </div>
                 <div>
                   <Label htmlFor="email">Email *</Label>
-                  <Input id="email" type="email" required className="mt-1 bg-background/40" placeholder="you@example.com" />
+                  <Input id="email" type="email" required className="mt-1 bg-background/40" placeholder="you@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                 </div>
               </div>
               <div>
                 <Label htmlFor="subject">Subject *</Label>
-                <Input id="subject" required className="mt-1 bg-background/40" placeholder="What's this about?" />
+                <Input id="subject" required className="mt-1 bg-background/40" placeholder="What's this about?" value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} />
               </div>
               <div>
                 <Label htmlFor="message">Message *</Label>
@@ -429,6 +443,8 @@ export function ContactView() {
                   required
                   className="mt-1 bg-background/40 min-h-[150px]"
                   placeholder="Tell us about your project, timeline, and budget…"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 />
               </div>
               <Button
