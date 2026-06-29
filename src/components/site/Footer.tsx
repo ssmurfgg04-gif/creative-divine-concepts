@@ -13,7 +13,7 @@ export function Footer({ onNavigate }: FooterProps) {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-12 w-auto rounded-2xl" width="48" height="48" />
+            <img src="/logo.webp" alt="Creative Divine Concepts" className="h-12 w-auto rounded-2xl" width="48" height="48" />
             <p className="text-sm text-muted-foreground">
               Design, Build &amp; Scale Businesses From Anywhere. Your partner in business architecture &amp; growth.
             </p>
@@ -69,7 +69,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 <a href="https://facebook.com/creativedivineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Facebook">
                   <Facebook className="h-5 w-5" />
                 </a>
-                <a href="https://instagram.com/creativedivineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Instagram">
+                <a href="https://instagram.com/creative.divine.concepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Instagram">
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a href="https://twitter.com/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Twitter">

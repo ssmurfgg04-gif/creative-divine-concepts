@@ -42,7 +42,7 @@ export function FloatingWhatsApp() {
           <div className="bg-primary p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-10 w-10 rounded-lg object-cover" />
+              <img src="/logo.webp" alt="Creative Divine Concepts" className="h-10 w-10 rounded-lg object-cover" />
               <div>
                 <div className="font-display font-bold text-primary-foreground text-sm">Creative Divine Concepts</div>
                 <div className="text-xs text-primary-foreground/80 flex items-center gap-1">

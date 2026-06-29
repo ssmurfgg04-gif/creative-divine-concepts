@@ -2,6 +2,7 @@
 
 import * as Icons from "lucide-react";
 import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
 import { TOOLS, TOOL_CATEGORIES, ToolId } from "@/lib/tools";
 import { FAQSection } from "@/components/site/FAQSection";
 
@@ -129,7 +130,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                     playsInline
                     muted
                     preload="auto"
-                    poster="/logo.jpeg"
+                    poster="/logo.webp"
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover"
                   >
@@ -191,15 +192,15 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="flex overflow-hidden group">
           <div className="flex space-x-4 animate-scroll-left group-hover:[animation-play-state:paused] w-max">
             {[
-              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.png" },
-              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.png" },
-              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.png" },
-              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.png" },
+              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.webp" },
+              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.webp" },
+              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.webp" },
+              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.webp" },
               // Duplicate for seamless loop
-              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.png" },
-              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.png" },
-              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.png" },
-              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.png" },
+              { label: "NODE-01", title: "Small business", desc: "Streamline operations and build a brand that stands out in the market.", img: "/assets/section 2-01-CAuFk977.webp" },
+              { label: "NODE-02", title: "Start ups", desc: "Launch with the right foundation: registration, branding, digital, and sales.", img: "/assets/section 2-02-V2FBqkfR.webp" },
+              { label: "NODE-03", title: "Mid stage", desc: "Rebrand, digitize, and scale with professional systems and strategy.", img: "/assets/section 2-03-Dm-ZLFhS.webp" },
+              { label: "NODE-04", title: "Diaspora", desc: "Build and run your Kenya business remotely. We execute while you're abroad.", img: "/assets/section 2-04-BVvqs6is.webp" },
             ].map((n, i) => (
               <div
                 key={i}
@@ -244,11 +245,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { label: "PIL-01", title: "Business Architecture", subtitle: "Foundation Layer", items: ["Business setup & structure", "Market positioning", "Customer journey design", "Systems & workflows"], icon: "Building2", bg: "/assets/section 3-01-BKNVmHdt.png" },
-              { label: "PIL-02", title: "Creative & Branding", subtitle: "Visual Systems", items: ["Graphic design", "Brand identity", "Printing & packaging", "Visual storytelling"], icon: "Palette", bg: "/assets/section 3-02-D_fVE2lh.png" },
-              { label: "PIL-03", title: "Web & Technology", subtitle: "Digital Infrastructure", items: ["Website design & development", "eCommerce stores", "Custom dashboards", "AI-assisted tools"], icon: "Code2", bg: "/assets/section 3-03-CNZ6Cz5E.png" },
-              { label: "PIL-04", title: "Sales & Marketing", subtitle: "Growth Engine", items: ["Digital marketing", "Funnels & lead generation", "Social media management", "Customer care systems"], icon: "TrendingUp", bg: "/assets/section 3-04-DbZzLVQp.png" },
-              { label: "PIL-05", title: "Operations for Diaspora", subtitle: "Remote Ops Framework", items: ["Local business management", "Customer service handling", "Sales monitoring", "Reporting & tracking"], icon: "Globe", bg: "/assets/section 3-05-BMxOJZgu.png" },
+              { label: "PIL-01", title: "Business Architecture", subtitle: "Foundation Layer", items: ["Business setup & structure", "Market positioning", "Customer journey design", "Systems & workflows"], icon: "Building2", bg: "/assets/section 3-01-BKNVmHdt.webp" },
+              { label: "PIL-02", title: "Creative & Branding", subtitle: "Visual Systems", items: ["Graphic design", "Brand identity", "Printing & packaging", "Visual storytelling"], icon: "Palette", bg: "/assets/section 3-02-D_fVE2lh.webp" },
+              { label: "PIL-03", title: "Web & Technology", subtitle: "Digital Infrastructure", items: ["Website design & development", "eCommerce stores", "Custom dashboards", "AI-assisted tools"], icon: "Code2", bg: "/assets/section 3-03-CNZ6Cz5E.webp" },
+              { label: "PIL-04", title: "Sales & Marketing", subtitle: "Growth Engine", items: ["Digital marketing", "Funnels & lead generation", "Social media management", "Customer care systems"], icon: "TrendingUp", bg: "/assets/section 3-04-DbZzLVQp.webp" },
+              { label: "PIL-05", title: "Operations for Diaspora", subtitle: "Remote Ops Framework", items: ["Local business management", "Customer service handling", "Sales monitoring", "Reporting & tracking"], icon: "Globe", bg: "/assets/section 3-05-BMxOJZgu.webp" },
               { label: "PIL-06", title: "DTF / DTG Printing", subtitle: "Print Production", items: ["Direct-to-film transfers", "Direct-to-garment printing", "Gang sheet building", "Mockup previews"], icon: "Shirt", bg: null },
             ].map((p, i) => {
               const Icon = (Icons as any)[p.icon] || Icons.Wrench;
@@ -307,11 +308,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           </div>
           <div className="grid gap-4 md:grid-cols-5">
             {[
-              { label: "PHASE-01", num: "01", title: "Tell Us the Idea", desc: "Share your vision, market, and goals with our team.", icon: "/assets/icons 1 no bg-01-C51PbdB8.png" },
-              { label: "PHASE-02", num: "02", title: "Business Architecture", desc: "We design the structure, positioning, and systems.", icon: "/assets/icons 1 no bg-02-DcKtXQKH.png" },
-              { label: "PHASE-03", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools.", icon: "/assets/icons 1 no bg-03-kYhvdX97.png" },
-              { label: "PHASE-04", num: "04", title: "Launch & Manage", desc: "We launch, handle operations, and drive customers.", icon: "/assets/icons 1 no bg-04-owx734fi.png" },
-              { label: "PHASE-05", num: "05", title: "Track Remotely", desc: "Real-time reporting. Transparent communication. Full control.", icon: "/assets/icons 1 no bg-05-CpNQZ_TO.png" },
+              { label: "PHASE-01", num: "01", title: "Tell Us the Idea", desc: "Share your vision, market, and goals with our team.", icon: "/assets/icons 1 no bg-01-C51PbdB8.webp" },
+              { label: "PHASE-02", num: "02", title: "Business Architecture", desc: "We design the structure, positioning, and systems.", icon: "/assets/icons 1 no bg-02-DcKtXQKH.webp" },
+              { label: "PHASE-03", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools.", icon: "/assets/icons 1 no bg-03-kYhvdX97.webp" },
+              { label: "PHASE-04", num: "04", title: "Launch & Manage", desc: "We launch, handle operations, and drive customers.", icon: "/assets/icons 1 no bg-04-owx734fi.webp" },
+              { label: "PHASE-05", num: "05", title: "Track Remotely", desc: "Real-time reporting. Transparent communication. Full control.", icon: "/assets/icons 1 no bg-05-CpNQZ_TO.webp" },
             ].map((p, i) => (
               <motion.div
                 key={p.label}
@@ -488,6 +489,54 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
+      {/* === PORTFOLIO / PROOF OF WORK === */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-10">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Our Work</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block mt-1">PORTFOLIO</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              Projects We&apos;ve <span className="text-gradient-cyan">Delivered</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
+              Real work for real clients across Kenya. From T-shirt printing to full brand identities and e-commerce websites.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: "School Uniform Branding", client: "Githunguri Primary", desc: "120 branded T-shirts and sweaters with school logo. DTF printing, delivered in 3 days.", tag: "DTF Printing" },
+              { title: "Nai Wear E-Commerce", client: "Nai Wear Apparel", desc: "Full Shopify store with custom design, payment integration, and social media setup.", tag: "Web Design" },
+              { title: "Kamau General Store", client: "Kamau General Store", desc: "Branding, logo design, and staff training on digital marketing. Now sells across Kenya.", tag: "Branding" },
+              { title: "Diaspora Business Setup", client: "James from UK", desc: "Registered company in Kenya, built website, managed operations remotely from London.", tag: "Diaspora Ops" },
+              { title: "Church Event T-Shirts", client: "PCEA Githunguri", desc: "500 event T-shirts with custom design. Gang sheet built, printed, and delivered in 5 days.", tag: "Bulk Printing" },
+              { title: "Restaurant Branding", client: "Hotel ya Ndumberi", desc: "Menu design, branded staff uniforms, signage, and social media management.", tag: "Full Branding" },
+            ].map((project, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className="nura-card p-5 group hover:border-primary/40 transition"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-primary/10 text-primary border-primary/30 text-[10px]">{project.tag}</Badge>
+                  <Icons.FolderKanban className="h-4 w-4 text-accent/30" />
+                </div>
+                <h3 className="font-display font-bold text-sm mb-1 text-foreground">{project.title}</h3>
+                <p className="text-xs text-accent mb-2">{project.client}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{project.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <button onClick={() => onNavigate("contact")} className="cyber-btn h-12 px-8">
+              Start Your Project <Icons.ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* === TRUST & PROOF (MODULE-06) — with map background === */}
       <section
         className="py-12 md:py-16 bg-background relative px-4"
@@ -527,9 +576,9 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           {/* Testimonials with photos */}
           <div className="grid gap-4 md:grid-cols-3">
             {[
-              { label: "REV-01", quote: "They built our entire brand and digital presence while we were in London. Felt like having a team on the ground.", name: "James O.", role: "Diaspora Founder, UK", initials: "JO", color: "#1e3a5f" },
-              { label: "REV-02", quote: "From business registration to a full website and marketing system, all delivered in 6 weeks.", name: "Amina W.", role: "CEO, Nairobi Startup", initials: "AW", color: "#7c2d12" },
-              { label: "REV-03", quote: "The transparency and reporting made managing remotely feel effortless. Highly recommend.", name: "David K.", role: "Investor, USA", initials: "DK", color: "#166534" },
+              { label: "REV-01", quote: "Walitengeneza T-shirts za shule yetu ndani ya siku mbili. Quality nzuri sana, colors zilikuwa perfect. Nitawarudia tena sure.", name: "Grace Wanjiru", role: "Head Teacher, Githunguri Primary", initials: "GW", color: "#1e3a5f" },
+              { label: "REV-02", quote: "I run a clothing brand in Nairobi. Their DTF printing quality is the best I've used. Fast turnaround, fair prices, and the gang sheet builder saved me money.", name: "Brian Otieno", role: "Founder, Nai Wear Apparel", initials: "BO", color: "#7c2d12" },
+              { label: "REV-03", quote: "From Kiambu, they built my entire e-commerce website and trained my staff on social media marketing. I now sell across Kenya and get orders from Mombasa to Eldoret.", name: "Sarah Kamau", role: "Owner, Kamau General Store", initials: "SK", color: "#166534" },
             ].map((r, i) => (
               <motion.div
                 key={r.label}

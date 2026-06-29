@@ -178,7 +178,7 @@ export function Navbar({ onNavigate, onOpenTool, currentView }: NavbarProps) {
         {/* Logo only - Home is in the nav group below */}
         <button onClick={() => onNavigate("home")} className="flex items-center gap-2 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-10 w-auto object-contain rounded-2xl" width="40" height="40" />
+          <img src="/logo.webp" alt="Creative Divine Concepts" className="h-10 w-auto object-contain rounded-2xl" width="40" height="40" />
         </button>
 
         {/* ALL nav items in ONE container so spacing is identical */}
