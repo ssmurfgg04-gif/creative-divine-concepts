@@ -165,7 +165,16 @@ const localBusinessSchema = {
     "https://twitter.com/divineconcepts",
     "https://linkedin.com/company/divineconcepts",
     "https://wa.me/+254711669113",
+    "https://facebook.com/creativedivineconcepts",
+    "https://instagram.com/creative.divine.concepts",
   ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: "47",
+    bestRating: "5",
+    worstRating: "1",
+  },
   areaServed: [
     { "@type": "Country", name: "Kenya" },
     { "@type": "City", name: "Nairobi" },

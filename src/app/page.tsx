@@ -31,6 +31,7 @@ const FileShare = lazy(() => import("@/components/tools/FileShare").then((m) => 
 const PrintConverter = lazy(() => import("@/components/tools/PrintConverter").then((m) => ({ default: m.PrintConverter })));
 const ColorSeparation = lazy(() => import("@/components/tools/ColorSeparation").then((m) => ({ default: m.ColorSeparation })));
 const TypographyStudio = lazy(() => import("@/components/tools/TypographyStudio").then((m) => ({ default: m.TypographyStudio })));
+const MannequinDressUp = lazy(() => import("@/components/tools/MannequinDressUp").then((m) => ({ default: m.MannequinDressUp })));
 
 type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
 
@@ -104,6 +105,7 @@ export default function Home() {
       "print-converter": <PrintConverter {...props} />,
       "color-separation": <ColorSeparation {...props} />,
       "typography-studio": <TypographyStudio {...props} />,
+      "mannequin-dressup": <MannequinDressUp {...props} />,
     };
     return (
       <Suspense

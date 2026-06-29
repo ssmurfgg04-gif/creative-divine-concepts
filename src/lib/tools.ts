@@ -21,7 +21,8 @@ export type ToolId =
   | "file-share"
   | "print-converter"
   | "color-separation"
-  | "typography-studio";
+  | "typography-studio"
+  | "mannequin-dressup";
 
 export interface ToolMeta {
   id: ToolId;
@@ -201,6 +202,15 @@ export const TOOLS: ToolMeta[] = [
     tagline: "Design T-shirt text graphics with effects",
     description: "Create bold T-shirt text designs with curated font pairings, letter spacing, and effects (outline, shadow, gradient, distressed, neon).",
     icon: "Type",
+    category: "design",
+    badge: "new",
+  },
+  {
+    id: "mannequin-dressup",
+    name: "3D Mannequin Dress-Up",
+    tagline: "Upload designs and dress a 3D mannequin",
+    description: "Upload your designs and dress a 3D mannequin in real-time. Drag onto shirt or pants, change colors, rotate 360 degrees, export as PNG.",
+    icon: "User",
     category: "design",
     badge: "new",
   },
