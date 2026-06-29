@@ -63,7 +63,7 @@ const REAL_PROJECTS = [
 // Real testimonials (Phase 8: real names only, authentic Reddit-style Swahili)
 const TESTIMONIALS = [
   {
-    quote: "Real talk, hawa watu walinisaidia sana. Niliwhatsapp Jumatano jioni, Friday T-shirts 120 zote zilikuwa ready. Print quality ni top, colors zilikuwa exact kama design. Wash zimepita mara kumi bila kufade. Pricing ni fair ukilinganisha na watu wa town. Nikiwa na bulk order kingine ndio wao tu.",
+    quote: "hawa wasee walinisaidia sana. Niliwa-WhatsApp Wednesday jioni, by Friday T-shirts zote 120 zilikuwa ready. Print quality ni top sana, colors zilikuwa exactly kama design, na hata after kuoshwa mara kadhaa hazijafade. Bei pia ni fair ukicompare na wengi wa town. Nikifanya bulk order ingine, hawa ndio watu wangu.",
     name: "Grace Wanjiru",
     role: "Head Teacher, Githunguri Primary",
     initials: "GW",

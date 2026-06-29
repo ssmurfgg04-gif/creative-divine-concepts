@@ -147,7 +147,7 @@ export default function Home() {
         {view === "academy" && <TeachingPortal onNavigate={navigate} />}
         {view === "blog" && <BlogView onNavigate={navigate} />}
         {view === "local" && <LocalSEOPage onNavigate={navigate} pageId={localPageId} />}
-        {view === "contact" && <ContactView />}
+        {view === "contact" && <ContactView onNavigate={navigate} />}
       </main>
       <Footer onNavigate={navigate} />
     </div>

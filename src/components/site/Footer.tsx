@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, MapPin, Twitter, Linkedin, MessageCircle, Facebook, Instagram, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, Twitter, Linkedin, MessageCircle, Facebook, Instagram, ArrowRight, Star } from "lucide-react";
 
 interface FooterProps {
   onNavigate: (view: any) => void;
@@ -61,6 +61,10 @@ export function Footer({ onNavigate }: FooterProps) {
               <li className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4 text-primary shrink-0" />
                 <a href="https://wa.me/+254711669113" target="_blank" rel="noreferrer" className="hover:text-foreground">WhatsApp Support</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-primary shrink-0" />
+                <a href="https://www.google.com/search?q=Creative+Divine+Concepts+Kiambu" target="_blank" rel="noreferrer" className="hover:text-foreground">Leave a Google Review</a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />

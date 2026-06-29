@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { PricingCalculator } from "@/components/site/PricingCalculator";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 
 /* ============== Services View ============== */
 
@@ -25,6 +26,7 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
+      <Breadcrumbs items={[{ label: "Services" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           
@@ -190,6 +192,7 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
+      <Breadcrumbs items={[{ label: "Pricing" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">PRICING</Badge>
@@ -270,6 +273,7 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
 export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
+      <Breadcrumbs items={[{ label: "About" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">ABOUT US</Badge>
@@ -346,7 +350,7 @@ export function AboutView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
 /* ============== Contact View ============== */
 
-export function ContactView() {
+export function ContactView({ onNavigate }: { onNavigate: (v: any) => void }) {
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
 
@@ -375,6 +379,7 @@ export function ContactView() {
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
+      <Breadcrumbs items={[{ label: "Contact" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-5xl">
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">CONTACT</Badge>
@@ -394,6 +399,7 @@ export function ContactView() {
               { icon: "Phone", label: "Phone", value: "+254 711 669 113", href: "tel:+254711669113" },
               { icon: "MessageCircle", label: "WhatsApp", value: "Chat with us", href: "https://wa.me/+254711669113" },
               { icon: "MapPin", label: "Location", value: "Githunguri Ndumberi, Kiambu, Kenya", href: null },
+              { icon: "Star", label: "Leave a Google Review", value: "We appreciate your feedback", href: "https://www.google.com/search?q=Creative+Divine+Concepts+Kiambu" },
               { icon: "Twitter", label: "Twitter", value: "@divineconcepts", href: "https://twitter.com/divineconcepts" },
               { icon: "Linkedin", label: "LinkedIn", value: "Creative Divine Concepts", href: "https://linkedin.com/company/divineconcepts" },
             ].map((item) => {
@@ -551,6 +557,7 @@ export function WorkView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-6">
+      <Breadcrumbs items={[{ label: "Work" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">PORTFOLIO</Badge>

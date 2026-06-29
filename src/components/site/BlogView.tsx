@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BLOG_POSTS, BlogPost } from "@/lib/blog-posts";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 
 interface BlogViewProps {
   onNavigate: (view: any) => void;
@@ -20,6 +21,7 @@ export function BlogView({ onNavigate }: BlogViewProps) {
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
+      <Breadcrumbs items={[{ label: "Blog" }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">
@@ -88,6 +90,7 @@ function BlogArticle({ post, onBack, onNavigate }: { post: BlogPost; onBack: () 
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <Breadcrumbs items={[{ label: "Blog", view: "blog" }, { label: post.title }]} onNavigate={onNavigate} />
       <div className="container mx-auto max-w-3xl">
         <button
           onClick={onBack}
