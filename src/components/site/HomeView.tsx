@@ -311,7 +311,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             {[
               { label: "", num: "01", title: "Tell Us the Idea", desc: "Share your vision, market, and goals with our team.", icon: "/assets/icons 1 no bg-01-C51PbdB8.webp" },
               { label: "", num: "02", title: "Business Architecture", desc: "We design the structure, positioning, and systems.", icon: "/assets/icons 1 no bg-02-DcKtXQKH.webp" },
-              { label: "", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools.", icon: "/assets/icons 1 no bg-03-kYhvdX97.webp" },
+              { label: "", num: "03", title: "Build Brand & Systems", desc: "We create the brand, website, and operational tools.", icon: "/assets/icons 1 no bg-03-kYhvdX97.png" },
               { label: "", num: "04", title: "Launch & Manage", desc: "We launch, handle operations, and drive customers.", icon: "/assets/icons 1 no bg-04-owx734fi.webp" },
               { label: "", num: "05", title: "Track Remotely", desc: "Real-time reporting. Transparent communication. Full control.", icon: "/assets/icons 1 no bg-05-CpNQZ_TO.webp" },
             ].map((p, i) => (
@@ -532,10 +532,19 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               </motion.div>
             ))}
           </div>
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-wrap gap-3 justify-center items-center">
             <button onClick={() => onNavigate("contact")} className="cyber-btn h-12 px-8">
               Start Your Project <Icons.ArrowRight className="h-4 w-4" />
             </button>
+            <a
+              href="https://instagram.com/creative.divine.concepts"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-semibold"
+            >
+              <Icons.Instagram className="h-4 w-4" />
+              See more on Instagram
+            </a>
           </div>
         </div>
       </section>

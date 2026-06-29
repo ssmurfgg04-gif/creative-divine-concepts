@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 import { ExitIntentPopup } from "@/components/site/ExitIntentPopup";
-import { SocialProofNotifications } from "@/components/site/SocialProofNotifications";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -298,7 +297,6 @@ export default function RootLayout({
         {children}
         <FloatingWhatsApp />
         <ExitIntentPopup />
-        <SocialProofNotifications />
         <Toaster />
         <SonnerToaster richColors position="top-right" />
         {/* SEO: Noscript fallback for crawlers that don't execute JavaScript */}
