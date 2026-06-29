@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { PricingCalculator } from "@/components/site/PricingCalculator";
 
 /* ============== Services View ============== */
 
@@ -60,6 +61,46 @@ export function ServicesView({ onNavigate }: { onNavigate: (v: any) => void }) {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Service Comparison Table */}
+        <div className="mt-16">
+          <h2 className="font-display text-2xl font-bold mb-4 text-center text-foreground">Compare Service Tiers</h2>
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-primary/10">
+                  <th className="text-left p-3 font-display font-bold text-foreground">Feature</th>
+                  <th className="text-center p-3 font-display font-bold text-foreground">Starter</th>
+                  <th className="text-center p-3 font-display font-bold text-primary bg-primary/5">Growth</th>
+                  <th className="text-center p-3 font-display font-bold text-foreground">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Web Pages", "1-5", "5-15", "Unlimited"],
+                  ["Design Hours", "10h", "30h", "100h+"],
+                  ["Revisions", "2 rounds", "5 rounds", "Unlimited"],
+                  ["Support", "Email", "Priority + WhatsApp", "Dedicated manager"],
+                  ["Tools Access", "Free tier", "All tools", "All + API"],
+                  ["Turnaround", "4-6 weeks", "2-4 weeks", "1-2 weeks"],
+                  ["DTF Printing", "Add-on", "15% discount", "25% discount"],
+                  ["SEO Optimization", "Basic", "Full", "Advanced + monthly"],
+                ].map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-card/20" : ""}>
+                    <td className="p-3 font-semibold text-foreground">{row[0]}</td>
+                    <td className="p-3 text-center text-muted-foreground">{row[1]}</td>
+                    <td className="p-3 text-center text-primary font-semibold bg-primary/5">{row[2]}</td>
+                    <td className="p-3 text-center text-muted-foreground">{row[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3 justify-center">
+            <Button onClick={() => onNavigate("pricing")} variant="outline" className="border-primary/40">View Pricing</Button>
+            <Button onClick={() => onNavigate("contact")} className="bg-primary text-primary-foreground hover:bg-primary/90">Book Strategy Call</Button>
+          </div>
         </div>
 
         <div className="mt-16 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-10 text-center">
@@ -158,6 +199,14 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
           <p className="max-w-2xl mx-auto text-muted-foreground">
             No per-click credits. No hidden fees. Subscribe to unlock tools and capabilities, not discrete actions.
           </p>
+        </div>
+
+        {/* Interactive Pricing Calculator */}
+        <div className="mb-16">
+          <h2 className="font-display text-2xl font-bold mb-4 text-center text-foreground">
+            Instant Price Calculator
+          </h2>
+          <PricingCalculator onNavigate={onNavigate} />
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
