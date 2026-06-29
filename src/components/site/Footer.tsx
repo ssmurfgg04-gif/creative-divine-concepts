@@ -83,7 +83,21 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-muted-foreground">
+        {/* Google Map in footer */}
+        <div className="mt-8 rounded-xl overflow-hidden border border-border max-w-md mx-auto">
+          <iframe
+            src="https://maps.google.com/maps?q=Githunguri%20Ndumberi%20Kiambu%20Kenya&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="200"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Creative Divine Concepts Location"
+          />
+        </div>
+
+        <div className="mt-8 border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} Creative Divine Concepts Ltd. All rights reserved.</p>
           <p>Built in Kenya. Serving the World.</p>
         </div>

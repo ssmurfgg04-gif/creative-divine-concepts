@@ -430,7 +430,7 @@ function TShirtGLB({ color, designTexture, autoRotate, groupRef }: {
   return <primitive object={mesh} />;
 }
 
-// ============== MUG (loads teacup.glb) ==============
+// ============== MUG (procedural — realistic cylinder with handle) ==============
 
 function MugGLB({ color, designTexture, autoRotate, groupRef }: {
   color: string;
@@ -438,34 +438,28 @@ function MugGLB({ color, designTexture, autoRotate, groupRef }: {
   autoRotate: boolean;
   groupRef: React.RefObject<THREE.Group>;
 }) {
-  const gltf = useGLTF("/models/teacup.glb");
+  const fabricColor = useMemo(() => new THREE.Color(color), [color]);
 
-  // Scale and position the mug (inside useMemo so it's done at creation time)
-  const mugMesh = useMemo(() => {
-    const cloned = gltf.scene.clone(true);
-    cloned.scale.set(2.5, 2.5, 2.5);
-    cloned.rotation.y = -0.5;
-    return cloned;
-  }, [gltf]);
-
-  // Apply color and design texture
-  useEffect(() => {
-    mugMesh.traverse((child: any) => {
-      if (child.isMesh) {
-        child.material = child.material.clone();
-        child.material.color = new THREE.Color(color);
-        child.material.roughness = 0.15;
-        child.material.metalness = 0.05;
-
-        if (designTexture) {
-          child.material.map = designTexture;
-        } else {
-          child.material.map = null;
-        }
-        child.material.needsUpdate = true;
-      }
+  // Mug body material (glossy ceramic)
+  const mugMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: fabricColor,
+      roughness: 0.15,
+      metalness: 0.05,
+      side: THREE.DoubleSide,
+      map: designTexture || null,
     });
-  }, [mugMesh, color, designTexture]);
+  }, [fabricColor, designTexture]);
+
+  // Inner material (darker for depth)
+  const innerMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: fabricColor.clone().multiplyScalar(0.7),
+      roughness: 0.1,
+      metalness: 0.1,
+      side: THREE.BackSide,
+    });
+  }, [fabricColor]);
 
   useFrame((_, delta) => {
     if (autoRotate && groupRef.current) {
@@ -473,7 +467,39 @@ function MugGLB({ color, designTexture, autoRotate, groupRef }: {
     }
   });
 
-  return <primitive object={mugMesh} />;
+  return (
+    <group rotation={[0, -0.3, 0]}>
+      {/* Main body — cylinder */}
+      <mesh castShadow receiveShadow material={mugMaterial}>
+        <cylinderGeometry args={[0.85, 0.8, 1.8, 64, 1, false]} />
+      </mesh>
+      {/* Top rim */}
+      <mesh position={[0, 0.92, 0]} rotation={[Math.PI / 2, 0, 0]} material={mugMaterial}>
+        <torusGeometry args={[0.83, 0.04, 12, 64]} />
+      </mesh>
+      {/* Inner cavity */}
+      <mesh position={[0, 0, 0]} material={innerMaterial}>
+        <cylinderGeometry args={[0.77, 0.73, 1.7, 64, 1, true]} />
+      </mesh>
+      {/* Inside bottom (darker) */}
+      <mesh position={[0, 0.85, 0]} rotation={[Math.PI / 2, 0, 0]} material={innerMaterial}>
+        <circleGeometry args={[0.75, 64]} />
+      </mesh>
+      {/* Handle — full torus */}
+      <mesh position={[0.85, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow material={mugMaterial}>
+        <torusGeometry args={[0.5, 0.11, 16, 48]} />
+      </mesh>
+      {/* Bottom */}
+      <mesh position={[0, -0.92, 0]} rotation={[Math.PI / 2, 0, 0]} material={mugMaterial}>
+        <circleGeometry args={[0.8, 64]} />
+      </mesh>
+      {/* Glossy highlight strip */}
+      <mesh position={[-0.3, 0, 0.7]} rotation={[0, 0, 0]}>
+        <planeGeometry args={[0.08, 1.5]} />
+        <meshBasicMaterial color="#ffffff" opacity={0.15} transparent />
+      </mesh>
+    </group>
+  );
 }
 
 // ============== BOTTLE (loads water_bottle.glb) ==============
@@ -520,7 +546,7 @@ function BottleGLB({ color, designTexture, autoRotate, groupRef }: {
   return <primitive object={bottleMesh} />;
 }
 
-// ============== CAP (procedural, no GLB available) ==============
+// ============== CAP (procedural — realistic baseball cap) ==============
 
 function CapGLB({ color, designTexture, autoRotate, groupRef }: {
   color: string;
@@ -528,7 +554,6 @@ function CapGLB({ color, designTexture, autoRotate, groupRef }: {
   autoRotate: boolean;
   groupRef: React.RefObject<THREE.Group>;
 }) {
-  // Cap is built procedurally since we don't have a GLB for it
   const fabricColor = useMemo(() => new THREE.Color(color), [color]);
 
   const material = useMemo(() => {
@@ -541,25 +566,80 @@ function CapGLB({ color, designTexture, autoRotate, groupRef }: {
     });
   }, [fabricColor, designTexture]);
 
+  // Darker material for brim underside
+  const brimMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: fabricColor.clone().multiplyScalar(0.6),
+      roughness: 0.9,
+      metalness: 0.0,
+      side: THREE.DoubleSide,
+    });
+  }, [fabricColor]);
+
   useFrame((_, delta) => {
     if (autoRotate && groupRef.current) {
       groupRef.current.rotation.y += delta * 1.5;
     }
   });
 
+  // Cap geometry: use a lathe for the crown shape
+  const crownPoints = useMemo(() => {
+    const points: THREE.Vector2[] = [];
+    for (let i = 0; i <= 12; i++) {
+      const t = i / 12;
+      const y = t * 1.0;
+      const r = Math.cos(t * Math.PI * 0.4) * 1.0 + 0.05;
+      points.push(new THREE.Vector2(Math.max(0.05, r), y));
+    }
+    return points;
+  }, []);
+
   return (
-    <group rotation={[0.2, 0, 0]} position={[0, 0.3, 0]}>
-      {/* Crown (half sphere) */}
+    <group rotation={[0.15, 0, 0]} position={[0, -0.2, 0]}>
+      {/* Crown — lathe geometry for smooth dome */}
       <mesh castShadow receiveShadow material={material}>
-        <sphereGeometry args={[1.0, 32, 24, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <latheGeometry args={[crownPoints, 48]} />
       </mesh>
-      {/* Brim */}
-      <mesh castShadow material={material} position={[0, 0, 0]} scale={[1, 0.3, 1.5]}>
-        <sphereGeometry args={[1.0, 32, 8, 0, Math.PI, Math.PI / 2, Math.PI / 2]} />
+      {/* Crown panels stitching (decorative lines) */}
+      <mesh position={[0, 0.5, 0.85]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.015, 0.6]} />
+        <meshBasicMaterial color="#000" opacity={0.15} transparent />
+      </mesh>
+      <mesh position={[0.42, 0.45, 0.73]} rotation={[Math.PI / 2, 0, Math.PI / 6]}>
+        <planeGeometry args={[0.015, 0.5]} />
+        <meshBasicMaterial color="#000" opacity={0.12} transparent />
+      </mesh>
+      <mesh position={[-0.42, 0.45, 0.73]} rotation={[Math.PI / 2, 0, -Math.PI / 6]}>
+        <planeGeometry args={[0.015, 0.5]} />
+        <meshBasicMaterial color="#000" opacity={0.12} transparent />
+      </mesh>
+      {/* Brim/visor — curved using a flattened half-torus */}
+      <mesh
+        castShadow
+        material={material}
+        position={[0, 0, 0.3]}
+        rotation={[-0.2, 0, 0]}
+        scale={[1.0, 0.25, 1.4]}
+      >
+        <sphereGeometry args={[1.0, 48, 12, 0, Math.PI, Math.PI / 2, Math.PI / 2]} />
+      </mesh>
+      {/* Brim underside (darker) */}
+      <mesh
+        material={brimMaterial}
+        position={[0, 0, 0.3]}
+        rotation={[Math.PI - 0.2, 0, 0]}
+        scale={[1.0, 0.25, 1.4]}
+      >
+        <sphereGeometry args={[1.0, 48, 12, 0, Math.PI, Math.PI / 2, Math.PI / 2]} />
       </mesh>
       {/* Button on top */}
       <mesh position={[0, 1.0, 0]} material={material}>
-        <sphereGeometry args={[0.06, 12, 12]} />
+        <sphereGeometry args={[0.07, 16, 16]} />
+      </mesh>
+      {/* Sweatband line */}
+      <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.95, 0.03, 8, 48]} />
+        <meshStandardMaterial color={fabricColor.clone().multiplyScalar(0.5)} roughness={0.9} />
       </mesh>
     </group>
   );
@@ -641,7 +721,6 @@ function WatchGLB({ color, designTexture, autoRotate, groupRef }: {
 
 // Preload GLB models
 useGLTF.preload("/models/shirt_baked.glb");
-useGLTF.preload("/models/teacup.glb");
 useGLTF.preload("/models/water_bottle.glb");
 useGLTF.preload("/models/shoe.glb");
 useGLTF.preload("/models/watch.glb");
