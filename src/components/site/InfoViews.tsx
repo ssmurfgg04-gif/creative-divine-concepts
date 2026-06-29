@@ -401,6 +401,20 @@ export function ContactView() {
                 We typically respond within 24 hours during business days.
               </p>
             </form>
+
+            {/* Google Maps embed */}
+            <div className="mt-6 rounded-xl overflow-hidden border border-border">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8!2d36.6667!3d-1.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMDInNDAuMCJTIDM2wrA0MCcwMC4wIkU!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Creative Divine Concepts Location - Githunguri Ndumberi, Kiambu"
+              />
+            </div>
           </div>
         </div>
       </div>

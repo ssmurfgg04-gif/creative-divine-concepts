@@ -102,6 +102,37 @@ const COURSES = [
   },
 ];
 
+// Holiday Camp program
+const HOLIDAY_CAMP = {
+  title: "CDCL Digital Creators Holiday Camp",
+  description: "School holiday program for kids and teens (10-18 years). Learn graphic design, coding, digital marketing, and AI tools. Physical classes in Ndumberi or online.",
+  ageGroups: [
+    {
+      name: "Junior Creators (10-13 Years)",
+      focus: ["Canva", "Poster design", "Basic coding (Scratch)", "Safe internet use", "AI basics"],
+    },
+    {
+      name: "Teen Creators (14-18 Years)",
+      focus: ["Canva Pro techniques", "Photoshop basics", "HTML/CSS", "Website creation", "Social media marketing", "Content creation", "Entrepreneurship"],
+    },
+  ],
+  schedule: "4 Weeks | Mon, Wed, Fri | 9am-12pm or 2pm-5pm | 36 hours total",
+  pricing: [
+    { type: "Physical Classes", price: "KES 7,500", note: "Per student, 4 weeks" },
+    { type: "Online Classes", price: "KES 4,500", note: "Per student, 4 weeks" },
+    { type: "Hybrid (Best Value)", price: "KES 6,500", note: "Physical or online" },
+  ],
+  weeklyPlan: [
+    { week: "Week 1", title: "Digital Foundations", topics: "Computer basics, Internet, Canva intro, AI tools. Project: Personal poster." },
+    { week: "Week 2", title: "Graphic Design", topics: "Posters, flyers, social media graphics, branding. Project: Business poster." },
+    { week: "Week 3", title: "Coding", topics: "Scratch, HTML, CSS, simple websites. Project: Personal webpage." },
+    { week: "Week 4", title: "Digital Marketing", topics: "Facebook, Instagram, TikTok, content creation, online business. Project: Marketing campaign." },
+  ],
+  maxStudents: "10-15 students per class (limited office space)",
+  graduation: "Certificate, Digital Badge & Portfolio. Parents invited to see projects.",
+  income: "15 students x KES 7,500 = KES 112,500 per holiday intake. 4 seasons/year = KES 900,000+",
+};
+
 const PRICING_PLANS = [
   {
     name: "Starter",
@@ -343,6 +374,78 @@ export function TeachingPortal({ onNavigate }: TeachingPortalProps) {
                 </motion.div>
               );
             })}
+          </div>
+        </section>
+
+        {/* Holiday Camp */}
+        <section className="mb-16">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-primary/50">SPECIAL PROGRAM</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              {HOLIDAY_CAMP.title}
+            </h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">{HOLIDAY_CAMP.description}</p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 mb-6">
+            {HOLIDAY_CAMP.ageGroups.map((group) => (
+              <div key={group.name} className="nura-card p-6">
+                <h3 className="font-display font-bold text-lg mb-3 text-foreground">{group.name}</h3>
+                <ul className="space-y-2">
+                  {group.focus.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-muted-foreground">
+                      <Icons.CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="nura-card p-6 mb-6">
+            <h3 className="font-display font-bold text-sm mb-3 text-foreground">4-Week Curriculum</h3>
+            <div className="grid gap-3 md:grid-cols-4">
+              {HOLIDAY_CAMP.weeklyPlan.map((week) => (
+                <div key={week.week} className="rounded-lg border border-border p-3">
+                  <div className="text-[10px] font-mono text-primary/50 uppercase tracking-widest">{week.week}</div>
+                  <div className="font-display font-bold text-sm mt-1 text-foreground">{week.title}</div>
+                  <p className="text-xs text-muted-foreground mt-1">{week.topics}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3 mb-6">
+            {HOLIDAY_CAMP.pricing.map((p) => (
+              <div key={p.type} className="nura-card p-4 text-center">
+                <div className="text-xs text-muted-foreground">{p.type}</div>
+                <div className="font-display text-xl font-bold text-primary">{p.price}</div>
+                <div className="text-[10px] text-muted-foreground">{p.note}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2 mb-6">
+            <div className="nura-card p-4">
+              <div className="text-xs text-muted-foreground">Schedule</div>
+              <div className="text-sm font-semibold text-foreground">{HOLIDAY_CAMP.schedule}</div>
+            </div>
+            <div className="nura-card p-4">
+              <div className="text-xs text-muted-foreground">Class Size</div>
+              <div className="text-sm font-semibold text-foreground">{HOLIDAY_CAMP.maxStudents}</div>
+            </div>
+          </div>
+
+          <div className="nura-card p-4 mb-6 bg-primary/5">
+            <div className="text-xs text-muted-foreground">Graduation</div>
+            <div className="text-sm font-semibold text-foreground">{HOLIDAY_CAMP.graduation}</div>
+          </div>
+
+          <div className="text-center">
+            <Button onClick={() => onNavigate("contact")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 box-glow">
+              Enroll Your Child <Icons.ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </section>
 
