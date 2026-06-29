@@ -588,7 +588,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           {/* Testimonials with photos */}
           <div className="grid gap-4 md:grid-cols-3">
             {[
-              { label: "", quote: "Walitengeneza T-shirts za shule yetu ndani ya siku mbili. Quality nzuri sana, colors zilikuwa perfect. Nitawarudia tena sure.", name: "Grace Wanjiru", role: "Head Teacher, Githunguri Primary", initials: "GW", color: "#1e3a5f" },
+              { label: "", quote: "Walituongezea T-shirts za shule ndani ya siku mbili. Quality ni nzuri sana, colors zimetosha. Tukifanya event tena ndio wao nitawacall.", name: "Grace Wanjiru", role: "Head Teacher, Githunguri Primary", initials: "GW", color: "#1e3a5f" },
               { label: "", quote: "I run a clothing brand in Nairobi. Their DTF printing quality is the best I've used. Fast turnaround, fair prices, and the gang sheet builder saved me money.", name: "Brian Otieno", role: "Founder, Nai Wear Apparel", initials: "BO", color: "#7c2d12" },
               { label: "", quote: "From Kiambu, they built my entire e-commerce website and trained my staff on social media marketing. I now sell across Kenya and get orders from Mombasa to Eldoret.", name: "Sarah Kamau", role: "Owner, Kamau General Store", initials: "SK", color: "#166534" },
             ].map((r, i) => (
