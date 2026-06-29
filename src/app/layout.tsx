@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, League_Spartan, DM_Sans } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
@@ -332,15 +333,17 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${league.variable} ${dmSans.variable} antialiased bg-background text-foreground`}
       >
-        {/* Skip to content for accessibility */}
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
-          Skip to content
-        </a>
-        {children}
-        <FloatingWhatsApp />
-        <ExitIntentPopup />
-        <Toaster />
-        <SonnerToaster richColors position="top-right" />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+          {/* Skip to content for accessibility */}
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+            Skip to content
+          </a>
+          {children}
+          <FloatingWhatsApp />
+          <ExitIntentPopup />
+          <Toaster />
+          <SonnerToaster richColors position="top-right" />
+        </ThemeProvider>
         {/* SEO: Noscript fallback for crawlers that don't execute JavaScript */}
         <noscript>
           <div style={{ padding: "2rem", textAlign: "center" }}>

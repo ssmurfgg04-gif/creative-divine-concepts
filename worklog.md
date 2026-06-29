@@ -103,3 +103,74 @@ Stage Summary:
 - All 13 blog posts now correctly referenced in sitemap
 - Code compiles cleanly, no new lint errors
 - Files modified: HomeView.tsx, InfoViews.tsx, BlogView.tsx, Footer.tsx, page.tsx, layout.tsx, sitemap.ts, blog-posts.ts, BACKLINKS.md
+
+---
+Task ID: cdc-v4-navbar-darkmode-mobile
+Agent: main (Super Z)
+Task: Re-add Free Tools to navbar with new order, add dark mode, verify exit-intent popup, add pricing calculator to homepage, improve mobile view for 70%+ mobile users.
+
+Work Log:
+- Updated Navbar with new nav order: Home | Services | Work | Free Tools | Pricing | Blog | About | Contact
+- Re-added Free Tools dropdown showing 8 popular tools + View All link (560px panel)
+- Mobile menu shows same order with collapsible Free Tools and Services dropdowns
+- Added ThemeToggle component (sun/moon icon, switches light/dark)
+- ThemeToggle appears on both desktop (in nav) and mobile (next to hamburger)
+- Updated layout.tsx to wrap children in ThemeProvider (next-themes, attribute="class", defaultTheme="light")
+- Updated globals.css .dark class with proper warm dark theme:
+  * background: hsl(20 14% 8%) - warm dark
+  * card: hsl(20 14% 11%) - slightly lighter for cards
+  * primary: hsl(21 90% 58%) - brighter orange for dark mode contrast
+  * accent: hsl(351 74% 45%) - brighter crimson
+  * All sidebar, chart, and shadow tokens updated
+- Added html.dark { color-scheme: dark } for native form controls
+- Added PricingCalculator section to homepage between Free Tools and FAQ
+  * Section title: "Calculate Your Project Cost"
+  * Subtitle: "Get a real, all-inclusive price in seconds. No hidden fees"
+  * Interactive calculator with T-Shirt / Web / Branding tabs
+- Verified ExitIntentPopup works (tested via sessionStorage reset + mouseleave event)
+  * Triggers on mouse leave, scroll up, or 30s timer
+  * Shows "Free Business Starter Checklist" offer
+  * Email capture form with success state
+- Major mobile view improvements across HomeView:
+  * Hero: reduced pt/pb on mobile (pt-20 vs pt-24), smaller font sizes (text-3xl sm:text-4xl), tighter margins
+  * Stats bar: text-xl sm:text-2xl on mobile, gap-3, smaller padding
+  * All section headings: text-2xl sm:text-3xl md:text-4xl (was text-3xl md:text-4xl)
+  * Final CTA: p-6 sm:p-10, gap-2 md:gap-3, text-[11px] md:text-xs on badges
+  * Used min-h-[100svh] instead of min-h-screen for better mobile viewport handling
+- Navbar mobile improvements:
+  * Body scroll lock when mobile menu open
+  * Escape key closes mobile menu
+  * Backdrop overlay (click to close)
+  * Larger touch targets (py-3 vs py-2.5)
+  * Rounded-b-2xl/3xl on mobile menu for visual polish
+  * Top-3 inset-x-3 on mobile (was top-4 inset-x-4) for more space
+- FloatingWhatsApp updates for dark mode:
+  * Changed bg from #f5f5f5 to var(--card) so it adapts to theme
+  * Badge border uses var(--card) too
+  * Smaller on mobile (h-14 w-14 vs h-16 w-16)
+  * Added active:scale-95 for tactile feedback
+  * Badge hidden when expanded (cleaner look)
+- Footer mobile improvements:
+  * grid-cols-2 md:grid-cols-4 (was md:grid-cols-4 only)
+  * Connect column spans 2 cols on mobile (col-span-2 md:col-span-1) due to long content
+  * Reduced padding on mobile (px-4 sm:px-6, py-10 sm:py-12)
+- Browser-verified all changes:
+  * Desktop: navbar shows correct 8-item order + theme toggle + Get Started
+  * Dark mode toggles correctly (html class changes to "dark")
+  * Mobile (375px): theme toggle + hamburger visible, menu opens with correct order
+  * Free Tools dropdown works on desktop (shows 8 tools + View All)
+  * Free Tools mobile dropdown shows 6 tools + View All link
+  * Pricing Calculator section renders on homepage
+  * Exit-intent popup triggers correctly
+  * Breadcrumbs show on Services page
+  * Zero runtime errors, zero console errors
+
+Stage Summary:
+- Dark mode fully working with ThemeToggle in navbar (light/dark switch with proper warm dark palette)
+- Free Tools back in navbar at position 4 (after Work, before Pricing) per spec
+- Navbar order: Home | Services | Work | Free Tools | Pricing | Blog | About | Contact (both desktop and mobile)
+- Pricing Calculator added to homepage as interactive section
+- Exit-intent popup verified working (was already implemented, just needed verification)
+- Mobile view massively improved: responsive font sizes, better touch targets, body scroll lock, backdrop overlay, smaller floating WhatsApp on mobile
+- All 4 "missing" items from v8 review now implemented: dark mode, exit-intent popup, pricing calculator, visible breadcrumbs (breadcrumbs were added in v3)
+- Files modified: Navbar.tsx, HomeView.tsx, Footer.tsx, FloatingWhatsApp.tsx, layout.tsx, globals.css, ThemeToggle.tsx (new)

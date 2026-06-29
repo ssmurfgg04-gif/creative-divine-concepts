@@ -9,8 +9,8 @@ interface FooterProps {
 export function Footer({ onNavigate }: FooterProps) {
   return (
     <footer className="mt-auto border-t border-border bg-card/30 backdrop-blur-sm">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
+      <div className="container mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <div className="grid gap-6 sm:gap-8 grid-cols-2 md:grid-cols-4">
           {/* Column 1: Services */}
           <div>
             <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-primary">Services</h3>
@@ -47,7 +47,7 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
 
           {/* Column 4: Connect */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h3 className="mb-3 font-display text-sm font-bold uppercase tracking-wider text-primary">Connect</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">

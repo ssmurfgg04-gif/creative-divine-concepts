@@ -116,36 +116,38 @@ export function FloatingWhatsApp() {
 
       {/* Floating WhatsApp button - exact spec:
           - Perfect circle ~64px
-          - Soft white/light grey background (#f5f5f5)
+          - Soft white/light grey background (uses CSS variable for dark mode)
           - Subtle drop shadow
           - WhatsApp icon in outline style, warm orange (#E8820C)
           - Notification badge: solid orange dot, no number, white ring
       */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full transition-all hover:scale-110"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95"
         style={{
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "var(--card)",
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06)",
-          border: "1px solid rgba(232, 130, 12, 0.08)",
+          border: "1px solid rgba(232, 130, 12, 0.18)",
         }}
         aria-label="Contact us on WhatsApp"
         title="Chat with us on WhatsApp"
       >
         {expanded ? (
-          <X className="h-6 w-6" style={{ color: "#E8820C" }} />
+          <X className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: "#E8820C" }} />
         ) : (
           <span style={{ color: "#E8820C" }}>
-            <WhatsAppIcon className="h-9 w-9" />
+            <WhatsAppIcon className="h-8 w-8 sm:h-9 sm:w-9" />
           </span>
         )}
-        <span
-          className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full"
-          style={{
-            backgroundColor: "#E8820C",
-            border: "2px solid #f5f5f5",
-          }}
-        />
+        {!expanded && (
+          <span
+            className="absolute -top-0.5 -right-0.5 h-4 w-4 sm:h-5 sm:w-5 rounded-full"
+            style={{
+              backgroundColor: "#E8820C",
+              border: "2px solid var(--card)",
+            }}
+          />
+        )}
       </button>
     </>
   );

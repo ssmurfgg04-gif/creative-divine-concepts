@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { ToolId } from "@/lib/tools";
 import { FAQSection } from "@/components/site/FAQSection";
+import { PricingCalculator } from "@/components/site/PricingCalculator";
 
 interface HomeViewProps {
   onNavigate: (view: any) => void;
@@ -94,7 +95,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
     <div className="min-h-screen">
       {/* ============= PHASE 1: HERO ============= */}
       <section
-        className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16"
+        className="relative min-h-[100svh] flex items-center overflow-hidden pt-20 pb-12 md:pt-24 md:pb-16"
         aria-label="Hero - Creative Divine Concepts introduction"
       >
         <div className="absolute inset-0 bg-background/90 z-[1]" />
@@ -109,36 +110,36 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
           style={{ background: "rgb(0, 234, 255)", animationDelay: "5s" }}
         />
 
-        <div className="container mx-auto px-4 relative z-10 pt-16 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="container mx-auto px-4 relative z-10 pt-10 md:pt-16 max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             <div className="max-w-2xl">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 mt-16 leading-tight text-foreground">
+                <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 mt-8 md:mt-16 leading-tight text-foreground">
                   Web Design, Branding<br />
                   &amp; DTF Printing<br />
-                  <span className="text-gradient-cyan text-3xl md:text-4xl lg:text-5xl">in Kenya.</span>
+                  <span className="text-gradient-cyan text-2xl sm:text-3xl md:text-4xl lg:text-5xl">in Kenya.</span>
                 </h1>
-                <div className="flex items-center gap-4 mb-10">
+                <div className="flex items-center gap-4 mb-6 md:mb-10">
                   <div className="h-3 w-3 rounded-full bg-accent animate-pulse-node shrink-0" />
-                  <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground font-body">
+                  <p className="text-sm md:text-lg max-w-xl leading-relaxed text-muted-foreground font-body">
                     From first sketch to final print. We build brands that founders, designers, and creators trust.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:flex sm:flex-row sm:flex-wrap sm:gap-4 gap-3">
                   <button
                     onClick={() => onNavigate("work")}
-                    className="cyber-btn-filled h-12 px-8"
+                    className="cyber-btn-filled h-12 px-6 md:px-8"
                   >
                     <span>See Our Work</span>
                     <Icons.ArrowRight className="h-4 w-4 shrink-0" />
                   </button>
                   <button
                     onClick={() => onNavigate("tools")}
-                    className="cyber-btn h-12 px-8"
+                    className="cyber-btn h-12 px-6 md:px-8"
                   >
                     Try Free Tools
                   </button>
@@ -192,18 +193,18 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       </section>
 
       {/* ============= PHASE 2: STATS BAR (trust signals, no prices) ============= */}
-      <section className="py-6 bg-primary/5 border-y border-primary/10 px-4" aria-label="Trust signals">
+      <section className="py-5 md:py-6 bg-primary/5 border-y border-primary/10 px-4" aria-label="Trust signals">
         <div className="container mx-auto max-w-5xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
             {[
               { value: "200+", label: "Projects Delivered" },
               { value: "50+", label: "Happy Clients" },
               { value: "19", label: "Free Tools" },
               { value: "4.9", label: "Google Rating" },
             ].map((stat) => (
-              <div key={stat.label}>
-                <div className="font-display text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
-                <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{stat.label}</div>
+              <div key={stat.label} className="px-1">
+                <div className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -211,11 +212,11 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       </section>
 
       {/* ============= PHASE 3: WHO WE HELP (4 cards, one row, designers visible) ============= */}
-      <section className="py-12 md:py-16 bg-background relative px-4">
+      <section className="py-10 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 text-foreground">Who We Help</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">Who We Help</h2>
+            <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground px-2">
               Whether you are launching, designing, scaling, or running your business from abroad, we are your local team.
             </p>
           </div>
@@ -254,7 +255,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="container mx-auto max-w-6xl relative">
           <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 text-foreground">What We Do</h2>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">What We Do</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">Three ways we help your brand grow.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -333,7 +334,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
             <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block">PORTFOLIO</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
               Work We&apos;re <span className="text-gradient-cyan">Proud Of</span>
             </h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">Real projects. Real results.</p>
@@ -395,7 +396,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="absolute inset-0 bg-circuit opacity-40" />
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 text-foreground">What People Say</h2>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">What People Say</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Real reviews from clients across Kenya. No anonymous initials, no made up quotes.
             </p>
@@ -453,7 +454,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
       <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 text-foreground">How It Works</h2>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">How It Works</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">From first message to finished project.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -505,7 +506,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="container mx-auto max-w-6xl relative">
           <div className="text-center mb-10">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3 text-foreground">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">
               Free Tools for <span className="text-gradient-cyan">Designers &amp; Founders</span>
             </h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">Speed up your workflow. No signup needed.</p>
@@ -557,26 +558,42 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
         </div>
       </section>
 
+      {/* ============= PRICING CALCULATOR (interactive, transparent pricing) ============= */}
+      <section className="py-12 md:py-16 bg-background relative px-4">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-8">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/50 block">INSTANT QUOTE</span>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 mt-2 text-foreground">
+              Calculate Your <span className="text-gradient-cyan">Project Cost</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
+              Get a real, all-inclusive price in seconds. No hidden fees, no waiting for a quote.
+            </p>
+          </div>
+          <PricingCalculator onNavigate={onNavigate} />
+        </div>
+      </section>
+
       {/* ============= FAQ SECTION (SEO-optimized with FAQ schema) ============= */}
       <FAQSection />
 
       {/* ============= PHASE 9: FINAL CTA (one clear action) ============= */}
       <section className="py-12 md:py-16 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="nura-card p-10 text-center relative overflow-hidden">
+          <div className="nura-card p-6 sm:p-10 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
             <div className="absolute -top-1/2 -right-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] pointer-events-none" />
             <div className="relative">
               <span className="text-[10px] font-mono uppercase tracking-widest text-accent">Get Started</span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 mt-2 text-foreground">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4 mt-2 text-foreground">
                 Ready to Build Your Brand?
               </h2>
-              <p className="max-w-xl mx-auto text-muted-foreground mb-6">
+              <p className="max-w-xl mx-auto text-sm md:text-base text-muted-foreground mb-5 md:mb-6">
                 Free 15-minute call. No commitment.
               </p>
 
               {/* Trust badges */}
-              <div className="flex flex-wrap gap-3 justify-center mb-8">
+              <div className="flex flex-wrap gap-2 md:gap-3 justify-center mb-6 md:mb-8">
                 {[
                   { icon: "MessageCircle", label: "Free consultation" },
                   { icon: "ShieldCheck", label: "No hidden fees" },
@@ -586,7 +603,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                   return (
                     <span
                       key={badge.label}
-                      className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-background/60 border border-border rounded-full px-3 py-1.5"
+                      className="inline-flex items-center gap-1.5 text-[11px] md:text-xs text-muted-foreground bg-background/60 border border-border rounded-full px-2.5 py-1.5 md:px-3"
                     >
                       <Icon className="h-3.5 w-3.5 text-accent" />
                       {badge.label}
