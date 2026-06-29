@@ -27,6 +27,7 @@ const ScreenshotFX = lazy(() => import("@/components/tools/ScreenshotFX").then((
 const ImageUpscaler = lazy(() => import("@/components/tools/ImageUpscaler").then((m) => ({ default: m.ImageUpscaler })));
 const StickerGen = lazy(() => import("@/components/tools/StickerGen").then((m) => ({ default: m.StickerGen })));
 const ImageClipper = lazy(() => import("@/components/tools/ImageClipper").then((m) => ({ default: m.ImageClipper })));
+const FileShare = lazy(() => import("@/components/tools/FileShare").then((m) => ({ default: m.FileShare })));
 
 type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
 
@@ -96,6 +97,7 @@ export default function Home() {
       "image-resizer": <ImageResizer {...props} />,
       "color-palette": <ColorPalette {...props} />,
       "caption-gen": <CaptionGen {...props} />,
+      "file-share": <FileShare {...props} />,
     };
     return (
       <Suspense

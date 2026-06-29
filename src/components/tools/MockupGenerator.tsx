@@ -403,17 +403,17 @@ function TShirtGLB({ color, designTexture, autoRotate, groupRef }: {
   useEffect(() => {
     mesh.traverse((child: any) => {
       if (child.isMesh) {
-        // Clone the material so each instance is independent
-        child.material = child.material.clone();
-        child.material.color = new THREE.Color(color);
-        child.material.roughness = 0.8;
-        child.material.metalness = 0.0;
+        // Create a fresh material — do NOT clone the original (it has a baked "W" logo texture)
+        child.material = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(color),
+          roughness: 0.85,
+          metalness: 0.0,
+          side: THREE.DoubleSide,
+        });
 
         // If we have a design texture, use it as the map (UV-mapped onto shirt)
         if (designTexture) {
           child.material.map = designTexture;
-        } else {
-          child.material.map = null;
         }
         child.material.needsUpdate = true;
       }

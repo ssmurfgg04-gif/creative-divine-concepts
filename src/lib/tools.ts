@@ -17,7 +17,8 @@ export type ToolId =
   | "vat-calculator"
   | "image-resizer"
   | "color-palette"
-  | "caption-gen";
+  | "caption-gen"
+  | "file-share";
 
 export interface ToolMeta {
   id: ToolId;
@@ -163,6 +164,15 @@ export const TOOLS: ToolMeta[] = [
     description: "Create engaging social media captions for any post or platform.",
     icon: "CheckCircle2",
     category: "ai",
+  },
+  {
+    id: "file-share",
+    name: "Secure File Share",
+    tagline: "Upload & share files securely with expiry",
+    description: "Upload documents, images, or designs. Set passwords, download limits, and expiry. Perfect for printing services.",
+    icon: "Shield",
+    category: "utility",
+    badge: "new",
   },
 ];
 

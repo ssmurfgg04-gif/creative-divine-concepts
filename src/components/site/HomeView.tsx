@@ -118,7 +118,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden lg:flex items-center justify-center relative"
+              className="flex items-center justify-center relative mt-8 lg:mt-0"
             >
               <div className="relative w-full max-w-2xl">
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 via-accent/10 to-transparent blur-2xl" />
