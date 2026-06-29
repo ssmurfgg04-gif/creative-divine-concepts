@@ -197,7 +197,7 @@ function BlogArticle({ post, onBack, onNavigate }: { post: BlogPost; onBack: () 
             <p className="text-sm text-muted-foreground mb-4">Contact Creative Divine Concepts for T-shirt printing, web design, and branding in Kenya.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <button onClick={() => onNavigate("contact")} className="cyber-btn-filled h-10 px-6">Get a Quote</button>
-              <a href="https://wa.me/254711669113" target="_blank" rel="noopener noreferrer" className="cyber-btn h-10 px-6">WhatsApp Us</a>
+              <a href="https://wa.me/+254711669113" target="_blank" rel="noopener noreferrer" className="cyber-btn h-10 px-6">WhatsApp Us</a>
             </div>
           </div>
         </article>

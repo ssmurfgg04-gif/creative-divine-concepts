@@ -122,7 +122,7 @@ export function FAQSection() {
             Still have questions? We&apos;re here to help.
           </p>
           <a
-            href="https://wa.me/254711669113"
+            href="https://wa.me/+254711669113"
             target="_blank"
             rel="noopener noreferrer"
             className="cyber-btn-filled h-12 px-8 inline-flex"

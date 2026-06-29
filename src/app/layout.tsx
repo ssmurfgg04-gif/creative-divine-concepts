@@ -164,7 +164,7 @@ const localBusinessSchema = {
   sameAs: [
     "https://twitter.com/divineconcepts",
     "https://linkedin.com/company/divineconcepts",
-    "https://wa.me/254711669113",
+    "https://wa.me/+254711669113",
   ],
   areaServed: [
     { "@type": "Country", name: "Kenya" },

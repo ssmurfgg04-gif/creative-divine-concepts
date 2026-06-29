@@ -329,7 +329,7 @@ export function ContactView() {
             {[
               { icon: "Mail", label: "Email", value: "info@creativedivineconcepts.com", href: "mailto:info@creativedivineconcepts.com" },
               { icon: "Phone", label: "Phone", value: "+254 711 669 113", href: "tel:+254711669113" },
-              { icon: "MessageCircle", label: "WhatsApp", value: "Chat with us", href: "https://wa.me/254711669113" },
+              { icon: "MessageCircle", label: "WhatsApp", value: "Chat with us", href: "https://wa.me/+254711669113" },
               { icon: "MapPin", label: "Location", value: "Githunguri Ndumberi, Kiambu, Kenya", href: null },
               { icon: "Twitter", label: "Twitter", value: "@divineconcepts", href: "https://twitter.com/divineconcepts" },
               { icon: "Linkedin", label: "LinkedIn", value: "Creative Divine Concepts", href: "https://linkedin.com/company/divineconcepts" },
@@ -405,7 +405,7 @@ export function ContactView() {
             {/* Google Maps embed */}
             <div className="mt-6 rounded-xl overflow-hidden border border-border">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8!2d36.6667!3d-1.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMDInNDAuMCJTIDM2wrA0MCcwMC4wIkU!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                src="https://maps.google.com/maps?q=Githunguri%20Ndumberi%20Kiambu%20Kenya&t=&z=14&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
