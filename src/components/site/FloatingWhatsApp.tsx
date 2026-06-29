@@ -64,7 +64,7 @@ export function FloatingWhatsApp() {
               Hi! Need help with T-shirt printing, web design, or branding? We typically reply within minutes!
             </p>
             <a
-              href="https://wa.me/254711669113?text=Hello%20Creative%20Divine%20Concepts,%20I%20would%20like%20to%20know%20more%20about%20your%20services"
+              href="https://wa.me/+254711669113?text=Hello%20Creative%20Divine%20Concepts,%20I%20would%20like%20to%20know%20more%20about%20your%20services"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-lg border border-border p-3 hover:bg-primary/5 transition"

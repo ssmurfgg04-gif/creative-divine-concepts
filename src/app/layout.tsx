@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s | Creative Divine Concepts",
   },
   description:
-    "Kenya's #1 creative studio for T-shirt printing (DTF/DTG), custom apparel design, web development & branding. 14 free online design tools. Based in Kiambu, serving East Africa & diaspora. Get a quote today!",
+    "Kenya's creative studio for T-shirt printing (DTF/DTG), custom apparel design, web development & branding. 15 free online design tools. Based in Kiambu, serving East Africa & diaspora. Get a quote today!",
   keywords: [
     "t-shirt printing Kenya",
     "DTF printing Kenya",
@@ -280,6 +280,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${league.variable} ${dmSans.variable} antialiased bg-background text-foreground`}
       >
+        {/* Skip to content for accessibility */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+          Skip to content
+        </a>
         {children}
         <FloatingWhatsApp />
         <Toaster />

@@ -129,6 +129,8 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
                     playsInline
                     muted
                     preload="auto"
+                    poster="/logo.jpeg"
+                    aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover"
                   >
                     <source src="/assets/creative-CPuRkwzY.mp4" type="video/mp4" />
@@ -201,6 +203,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             ].map((n, i) => (
               <div
                 key={i}
+                aria-hidden={i >= 4 ? "true" : undefined}
                 className="w-[280px] md:w-[350px] aspect-square shrink-0 rounded-xl border border-accent/10 relative group/card overflow-hidden"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -575,7 +578,7 @@ export function HomeView({ onNavigate, onOpenTool }: HomeViewProps) {
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
             <div className="absolute -top-1/2 -right-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] pointer-events-none" />
             <div className="relative">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-accent">COMMAND: INITIATE</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-accent">Get Started</span>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 mt-2 text-foreground">
                 Ready to Build a Business That Runs<br />Even When You&apos;re Abroad?
               </h2>

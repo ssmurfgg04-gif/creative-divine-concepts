@@ -123,7 +123,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar onNavigate={navigate} onOpenTool={openTool} currentView={view} />
-      <main className="flex-1">
+      <main className="flex-1" id="main-content">
         {view === "home" && <HomeView onNavigate={navigate} onOpenTool={openTool} />}
         {view === "tools" && <ToolsHubView onOpenTool={openTool} />}
         {view === "services" && <ServicesView onNavigate={navigate} />}

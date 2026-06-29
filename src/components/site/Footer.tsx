@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, MapPin, Twitter, Linkedin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Twitter, Linkedin, MessageCircle, Facebook, Instagram } from "lucide-react";
 
 interface FooterProps {
   onNavigate: (view: any) => void;
@@ -13,7 +13,7 @@ export function Footer({ onNavigate }: FooterProps) {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-12 w-auto rounded-2xl" />
+            <img src="/logo.jpeg" alt="Creative Divine Concepts" className="h-12 w-auto rounded-2xl" width="48" height="48" />
             <p className="text-sm text-muted-foreground">
               Design, Build &amp; Scale Businesses From Anywhere. Your partner in business architecture &amp; growth.
             </p>
@@ -56,13 +56,22 @@ export function Footer({ onNavigate }: FooterProps) {
               </li>
               <li className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4 text-primary" />
-                <a href="https://wa.me/254711669113" target="_blank" rel="noreferrer" className="hover:text-foreground">WhatsApp Support</a>
+                <a href="https://wa.me/+254711669113" target="_blank" rel="noreferrer" className="hover:text-foreground">WhatsApp Support</a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-primary" />
                 <span>Githunguri Ndumberi, Kiambu, Kenya</span>
               </li>
               <li className="flex items-center gap-3 pt-2">
+                <a href="https://wa.me/+254711669113" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="WhatsApp">
+                  <MessageCircle className="h-5 w-5" />
+                </a>
+                <a href="https://facebook.com/creativedivineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Facebook">
+                  <Facebook className="h-5 w-5" />
+                </a>
+                <a href="https://instagram.com/creativedivineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Instagram">
+                  <Instagram className="h-5 w-5" />
+                </a>
                 <a href="https://twitter.com/divineconcepts" target="_blank" rel="noreferrer" className="hover:text-primary" aria-label="Twitter">
                   <Twitter className="h-5 w-5" />
                 </a>
