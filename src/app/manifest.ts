@@ -5,10 +5,10 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Creative Divine Concepts - T-Shirt Printing & Web Design Kenya",
     short_name: "Creative Divine",
     description:
-      "Kenya's #1 creative studio for T-shirt printing (DTF/DTG), web design & branding. 14 free online design tools.",
+      "Kenya's creative studio for T-shirt printing (DTF/DTG), web design & branding. 19 free online design tools.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0f172a",
+    background_color: "#f5e9d7",
     theme_color: "#f36a21",
     orientation: "portrait-primary",
     icons: [

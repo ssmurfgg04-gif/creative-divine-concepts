@@ -1,14 +1,49 @@
 # robots.txt - Creative Divine Concepts
-# Allow all crawlers full access
+# https://creativedivineconcepts.com
+
+# Allow all major crawlers full access to public content
 User-agent: *
 Allow: /
+Allow: /assets/
+Allow: /og-image.png
+Allow: /logo.webp
+Allow: /favicon.png
 Disallow: /api/
 Disallow: /_next/
 Disallow: /models/
+Disallow: /dev.log
 
-# Block AI training bots (optional - remove if you want AI crawlers)
-# User-agent: GPTBot
-# Disallow: /
+# Explicitly allow AI search crawlers (good for backlinks & brand discovery)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block known content scrapers (preserve content for real users)
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
 
 # Sitemap location
 Sitemap: https://creativedivineconcepts.com/sitemap.xml

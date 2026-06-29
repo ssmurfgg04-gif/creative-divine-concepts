@@ -497,7 +497,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "You do not need to be a professional designer to run a T-shirt printing business. At Creative Divine Concepts, we provide 14 free online design tools that let you and your clients prepare artwork without any design experience.",
+        text: "You do not need to be a professional designer to run a T-shirt printing business. At Creative Divine Concepts, we provide 19 free online design tools that let you and your clients prepare artwork without any design experience.",
       },
       {
         type: "list",

@@ -18,7 +18,7 @@ const FAQS = [
   },
   {
     q: "Can I use your design tools for free?",
-    a: "Absolutely! All 14 of our browser-based design tools are free to use. No sign-up required. This includes Canvas Designer, Image Clipper (background removal), Vectorizer, Mockup Generator, Effects Studio, AI Design Gen, and more. Tools run 100% in your browser, so your images are never uploaded to a server.",
+    a: "Absolutely! All 19 of our browser-based design tools are free to use. No sign-up required. This includes Canvas Designer, Image Clipper (background removal), Vectorizer, Mockup Generator, Effects Studio, AI Design Gen, 3D Mannequin Dress-Up, and more. Tools run 100% in your browser, so your images are never uploaded to a server.",
   },
   {
     q: "Do you serve clients outside Kenya?",

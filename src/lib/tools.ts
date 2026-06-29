@@ -51,7 +51,7 @@ export const TOOLS: ToolMeta[] = [
     name: "Effects Studio",
     tagline: "Embroidery, glitter, neon, halftone & more",
     description:
-      "Apply realistic print effects — embroidery, glitter, halftone, neon, vintage — with live preview. Optimized for T-shirt artwork preview.",
+      "Apply realistic print effects like embroidery, glitter, halftone, neon, and vintage with live preview. Optimized for T-shirt artwork preview.",
     icon: "Sparkles",
     category: "design",
     badge: "new",
@@ -140,7 +140,7 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "vat-calculator",
     name: "VAT Calculator",
-    tagline: "Finance Engine — Kenya 16% VAT",
+    tagline: "Finance Engine: Kenya 16% VAT",
     description: "Calculate Kenya VAT instantly. Add or remove 16% VAT from any amount.",
     icon: "Calculator",
     category: "utility",
@@ -148,7 +148,7 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "image-resizer",
     name: "Image Resizer",
-    tagline: "Canvas API Engine — Resize for any platform",
+    tagline: "Canvas API Engine: Resize for any platform",
     description: "Resize images for any social platform or print spec instantly.",
     icon: "Wrench",
     category: "utility",
@@ -156,7 +156,7 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "color-palette",
     name: "Color Palette",
-    tagline: "HSL Generator Module — Brand colors",
+    tagline: "HSL Generator Module: Brand colors",
     description: "Generate beautiful brand color palettes using HSL harmony rules.",
     icon: "Sparkles",
     category: "utility",
@@ -164,7 +164,7 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "caption-gen",
     name: "Caption Gen",
-    tagline: "Template Parser v2 — Social captions",
+    tagline: "Template Parser v2: Social captions",
     description: "Create engaging social media captions for any post or platform.",
     icon: "CheckCircle2",
     category: "ai",

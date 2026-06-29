@@ -31,23 +31,23 @@ const SITE_URL = "https://creativedivineconcepts.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Creative Divine Concepts | T-Shirt Printing, DTF/DTG & Web Design in Kenya",
+    default: "Creative Divine Concepts | Web Design, Branding & DTF Printing in Kenya",
     template: "%s | Creative Divine Concepts",
   },
   description:
-    "Kenya's creative studio for T-shirt printing (DTF/DTG), custom apparel design, web development & branding. 15 free online design tools. Based in Kiambu, serving East Africa & diaspora. Get a quote today!",
+    "Web design, branding and DTF/DTG printing in Kenya. From first sketch to final print, we build brands that founders, designers, and creators trust. Based in Kiambu, serving Nairobi, Mombasa, diaspora & beyond.",
   keywords: [
-    "t-shirt printing Kenya",
+    "web design Kenya",
     "DTF printing Kenya",
     "DTG printing Nairobi",
+    "branding Kenya",
+    "T-shirt printing Kenya",
     "custom apparel Kenya",
     "gang sheet builder",
     "T-shirt design tools",
     "background remover online",
     "vectorizer online free",
     "mockup generator 3D",
-    "web design Kenya",
-    "branding Kenya",
     "Creative Divine Concepts",
     "Kiambu printing",
     "Nairobi design studio",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     "digital marketing Kenya",
     "DTF transfers Kenya",
     "custom printed t-shirts Nairobi",
-    "embroidery Kenya",
+    "logo design Kenya",
   ],
   authors: [{ name: "Creative Divine Concepts Ltd" }],
   creator: "Creative Divine Concepts Ltd",
@@ -80,9 +80,9 @@ export const metadata: Metadata = {
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Creative Divine Concepts | T-Shirt Printing, DTF/DTG & Web Design Kenya",
+    title: "Creative Divine Concepts | Web Design, Branding & DTF Printing in Kenya",
     description:
-      "Kenya's #1 creative studio for T-shirt printing, DTF/DTG, web design & branding. 14 free online design tools. Based in Kiambu, serving East Africa & diaspora.",
+      "Web design, branding and DTF/DTG printing in Kenya. From first sketch to final print. 19 free online design tools. Based in Kiambu, serving Nairobi, Mombasa, diaspora & beyond.",
     url: SITE_URL,
     siteName: "Creative Divine Concepts",
     images: [
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Creative Divine Concepts - T-Shirt Printing, DTF/DTG & Web Design in Kenya",
+        alt: "Creative Divine Concepts - Web Design, Branding & DTF Printing in Kenya",
       },
     ],
     locale: "en_KE",
@@ -98,9 +98,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Creative Divine Concepts | T-Shirt Printing & Web Design Kenya",
+    title: "Creative Divine Concepts | Web Design, Branding & DTF Printing Kenya",
     description:
-      "Kenya's #1 creative studio for T-shirt printing (DTF/DTG), web design & branding. 14 free online design tools.",
+      "Web design, branding and DTF/DTG printing in Kenya. 19 free online design tools. Built in Kiambu, serving East Africa & diaspora.",
     images: ["/og-image.png"],
   },
   category: "Business & Industrial",
@@ -128,7 +128,7 @@ const localBusinessSchema = {
   name: "Creative Divine Concepts Ltd",
   alternateName: "Creative Divine Concepts",
   description:
-    "Kenya's #1 creative studio for T-shirt printing (DTF/DTG), custom apparel design, web development & branding. 14 free online design tools.",
+    "Web design, branding and DTF/DTG printing in Kenya. From first sketch to final print, we build brands that founders, designers, and creators trust.",
   url: SITE_URL,
   telephone: "+254711669113",
   email: "info@creativedivineconcepts.com",
@@ -243,7 +243,7 @@ const websiteSchema = {
   "@id": `${SITE_URL}/#website`,
   url: SITE_URL,
   name: "Creative Divine Concepts",
-  description: "T-Shirt Printing, DTF/DTG, Web Design & Branding in Kenya",
+  description: "Web Design, Branding & DTF Printing in Kenya",
   publisher: { "@id": `${SITE_URL}/#business` },
   potentialAction: {
     "@type": "SearchAction",
@@ -252,7 +252,7 @@ const websiteSchema = {
   },
 };
 
-// Breadcrumb schema
+// Breadcrumb schema with full nav structure
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -262,6 +262,42 @@ const breadcrumbSchema = {
       position: 1,
       name: "Home",
       item: SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Services",
+      item: `${SITE_URL}/#services`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Work",
+      item: `${SITE_URL}/#work`,
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      name: "Pricing",
+      item: `${SITE_URL}/#pricing`,
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      name: "Blog",
+      item: `${SITE_URL}/#blog`,
+    },
+    {
+      "@type": "ListItem",
+      position: 6,
+      name: "About",
+      item: `${SITE_URL}/#about`,
+    },
+    {
+      "@type": "ListItem",
+      position: 7,
+      name: "Contact",
+      item: `${SITE_URL}/#contact`,
     },
   ],
 };
@@ -304,20 +340,21 @@ export default function RootLayout({
           <div style={{ padding: "2rem", textAlign: "center" }}>
             <h1>Creative Divine Concepts</h1>
             <p>
-              Kenya&apos;s #1 creative studio for T-shirt printing (DTF/DTG), custom apparel design,
-              web development &amp; branding. Based in Kiambu, serving East Africa &amp; the diaspora.
+              Web design, branding and DTF/DTG printing in Kenya. From first sketch to final print,
+              we build brands that founders, designers, and creators trust. Based in Kiambu, serving
+              Nairobi, Mombasa, diaspora &amp; beyond.
             </p>
             <p>
-              Contact us: +254 711 669 113 | info@creativedivineconcepts.com | Githunguri Ndumberi, Kiambu, Kenya
+              Contact: +254 711 669 113 | info@creativedivineconcepts.com | Githunguri Ndumberi, Kiambu, Kenya
             </p>
             <p>
-              Services: T-Shirt Printing, DTF Printing, DTG Printing, Web Design, Branding,
-              Digital Marketing, Gang Sheet Building, Embroidery, Screen Printing.
+              Services: Web Design, Branding, DTF / DTG Printing, Diaspora Operations, Digital Marketing.
             </p>
             <p>
-              Free online tools: Canvas Designer, Effects Studio, AI Design Gen, Color Knockout,
+              19 free online tools: Canvas Designer, Effects Studio, AI Design Gen, Color Knockout,
               Vectorizer, Mockup Generator, ScreenshotFX, Image Upscaler, Sticker Gen, Image Clipper,
-              VAT Calculator, Image Resizer, Color Palette, Caption Gen.
+              VAT Calculator, Image Resizer, Color Palette, Caption Gen, File Share, AI Print Converter,
+              Color Separation, Typography Studio, 3D Mannequin Dress-Up.
             </p>
           </div>
         </noscript>

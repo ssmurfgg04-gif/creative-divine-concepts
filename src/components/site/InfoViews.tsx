@@ -127,7 +127,7 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
       period: "Free Forever",
       desc: "For hobbyists and evaluation",
       features: [
-        "All 14 design tools",
+        "All 19 design tools",
         "5 tool exports per day",
         "Watermarked mockups",
         "Community support",
@@ -142,7 +142,7 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
       period: "per month",
       desc: "For freelance designers",
       features: [
-        "All 14 design tools",
+        "All 19 design tools",
         "Unlimited exports",
         "No watermarks",
         "10 AI generations/mo",
@@ -254,7 +254,7 @@ export function PricingView({ onNavigate }: { onNavigate: (v: any) => void }) {
 
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground mb-3">
-            All plans include access to all 14 design tools. Subscriptions unlock capabilities, not actions.
+            All plans include access to all 19 design tools. Subscriptions unlock capabilities, not actions.
           </p>
           <Button onClick={() => onNavigate("tools")} variant="ghost" className="gap-2">
             <Icons.Wrench className="h-4 w-4" /> Explore All Tools First
@@ -480,6 +480,133 @@ export function ContactView() {
                 title="Creative Divine Concepts Location - Githunguri Ndumberi, Kiambu"
               />
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============== Work View (Portfolio) ============== */
+
+export function WorkView({ onNavigate }: { onNavigate: (v: any) => void }) {
+  const projects = [
+    {
+      title: "Moenviron Environmental Services",
+      client: "moenviron.com",
+      location: "Nairobi, Kenya",
+      service: "Web Design + SEO",
+      desc: "Complete corporate website built with Next.js. SEO optimized with service catalog, contact forms, and blog. Live in 14 days.",
+      result: "Website live in 14 days",
+      tag: "Web Design",
+      link: "https://moenviron.com",
+      size: "lg",
+    },
+    {
+      title: "Githunguri Primary School Uniforms",
+      client: "Githunguri Primary",
+      location: "Kiambu, Kenya",
+      service: "DTF Printing",
+      desc: "120 branded T-shirts with school logo. DTF printing delivered in 3 days during exam week. Used the school's existing logo and matched exact pantone colors.",
+      result: "120 T-shirts in 3 days",
+      tag: "DTF Printing",
+    },
+    {
+      title: "PCEA Githunguri Church Event",
+      client: "PCEA Githunguri",
+      location: "Kiambu, Kenya",
+      service: "Bulk Printing",
+      desc: "500 event T-shirts with custom design for annual youth conference. Gang sheet built, printed, and delivered in 5 days with same-day pickup option.",
+      result: "500 T-shirts in 5 days",
+      tag: "Bulk Printing",
+    },
+    {
+      title: "Nai Wear Apparel Store",
+      client: "Nai Wear Apparel",
+      location: "Nairobi, Kenya",
+      service: "Web Design + Branding",
+      desc: "Custom Shopify store with M-PESA integration, social media setup, brand identity design, and supplier onboarding training.",
+      result: "Store live + 3 staff trained",
+      tag: "Web Design",
+    },
+    {
+      title: "Kamau General Store Rebrand",
+      client: "Kamau General Store",
+      location: "Kiambu County",
+      service: "Branding + Marketing",
+      desc: "Logo design, business cards, signage, and staff training on WhatsApp marketing. Rebranded from a tired 90s logo to a clean modern identity.",
+      result: "Now sells across Kenya",
+      tag: "Branding",
+    },
+    {
+      title: "Diaspora Business Setup",
+      client: "James, London UK",
+      location: "Diaspora / Remote",
+      service: "Diaspora Operations",
+      desc: "Registered Kenyan company, built website, set up M-PESA till, and managed operations remotely. Owner never visited Kenya during setup.",
+      result: "Company launched remotely",
+      tag: "Diaspora Ops",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen pt-32 pb-20 px-6">
+      <div className="container mx-auto max-w-6xl">
+        <div className="text-center mb-12">
+          <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">PORTFOLIO</Badge>
+          <h1 className="font-display text-5xl font-bold mb-4">
+            Work We&apos;re <span className="text-primary text-glow">Proud Of</span>
+          </h1>
+          <p className="max-w-2xl mx-auto text-muted-foreground">
+            Real projects for real clients across Kenya. From T-shirt printing to full brand identities and e-commerce websites.
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {projects.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              className={`nura-card p-6 group hover:border-primary/40 transition ${p.size === "lg" ? "md:col-span-2" : ""}`}
+              onClick={() => p.link && window.open(p.link, "_blank")}
+              style={p.link ? { cursor: "pointer" } : undefined}
+            >
+              <div className="flex items-start justify-between mb-3">
+                <Badge className="bg-primary/10 text-primary border-primary/30 text-[10px]">{p.tag}</Badge>
+                {p.link && <Icons.ExternalLink className="h-4 w-4 text-accent/40 group-hover:text-accent transition" />}
+              </div>
+              <h3 className="font-display font-bold text-lg mb-1 text-foreground">{p.title}</h3>
+              <p className="text-sm text-accent mb-2">{p.client} - {p.location}</p>
+              <p className="text-xs text-muted-foreground mb-4">{p.service}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.desc}</p>
+              <div className="flex items-center gap-2 pt-4 border-t border-border">
+                <Icons.CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                <span className="text-sm font-semibold text-primary">{p.result}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-12 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-10 text-center">
+          <h2 className="font-display text-3xl font-bold mb-3">Want to Be Our Next Success Story?</h2>
+          <p className="max-w-xl mx-auto text-muted-foreground mb-6">
+            From a single T-shirt to a full brand launch, we deliver real work on real timelines.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Button onClick={() => onNavigate("contact")} className="bg-primary text-white hover:bg-primary/90 box-glow">
+              Start Your Project <Icons.ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+            <a
+              href="https://instagram.com/creative.divine.concepts"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-semibold px-4 py-2"
+            >
+              <Icons.Instagram className="h-4 w-4" />
+              See More on Instagram
+            </a>
           </div>
         </div>
       </div>

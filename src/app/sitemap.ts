@@ -11,13 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily" as const,
     },
     {
-      url: "/#blog",
-      priority: 0.9,
-      changeFrequency: "weekly" as const,
-    },
-    {
-      url: "/#tools",
-      priority: 0.9,
+      url: "/#work",
+      priority: 0.95,
       changeFrequency: "weekly" as const,
     },
     {
@@ -26,14 +21,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
     },
     {
-      url: "/#academy",
-      priority: 0.8,
+      url: "/#blog",
+      priority: 0.9,
+      changeFrequency: "weekly" as const,
+    },
+    {
+      url: "/#tools",
+      priority: 0.85,
       changeFrequency: "weekly" as const,
     },
     {
       url: "/#pricing",
-      priority: 0.7,
+      priority: 0.8,
       changeFrequency: "monthly" as const,
+    },
+    {
+      url: "/#academy",
+      priority: 0.7,
+      changeFrequency: "weekly" as const,
     },
     {
       url: "/#about",
@@ -47,20 +52,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Blog post pages (high priority for SEO - keyword-rich content)
+  // Local SEO pages (high priority for local search)
+  const localSeoPages = [
+    "dtf-printing-nairobi",
+    "dtf-printing-kiambu",
+    "web-design-nairobi",
+    "web-design-kiambu",
+    "branding-kenya",
+    "t-shirt-printing-nairobi",
+  ].map((slug) => ({
+    url: `/#local/${slug}`,
+    priority: 0.85,
+    changeFrequency: "monthly" as const,
+  }));
+
+  // Blog post pages (keyword-rich content)
   const blogSlugs = [
     "how-to-prepare-dtf-artwork-for-printing-in-kenya",
     "dtf-vs-dtg-printing-which-is-better",
     "how-to-start-a-tshirt-printing-business-in-kenya",
     "best-gang-sheet-sizes-for-dtf-printing",
+    "web-design-cost-in-kenya",
+    "branding-packages-kenya",
+    "ai-image-to-print-ready-converter",
+    "how-to-build-gang-sheets-online",
   ];
   const blogPages = blogSlugs.map((slug) => ({
     url: `/#blog/${slug}`,
-    priority: 0.85,
+    priority: 0.8,
     changeFrequency: "monthly" as const,
   }));
 
-  // Tool pages (high priority for SEO - each is a unique landing page)
+  // Tool pages (each is a unique landing page)
   const toolPages = [
     "canvas-designer",
     "effects-studio",
@@ -76,13 +99,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "image-resizer",
     "color-palette",
     "caption-gen",
+    "file-share",
+    "print-converter",
+    "color-separation",
+    "typography-studio",
+    "mannequin-dressup",
   ].map((tool) => ({
     url: `/#tool/${tool}`,
-    priority: 0.8,
+    priority: 0.75,
     changeFrequency: "weekly" as const,
   }));
 
-  return [...staticPages, ...blogPages, ...toolPages].map((page) => ({
+  return [...staticPages, ...localSeoPages, ...blogPages, ...toolPages].map((page) => ({
     url: `${baseUrl}${page.url}`,
     lastModified,
     changeFrequency: page.changeFrequency,

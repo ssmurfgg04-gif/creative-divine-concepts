@@ -6,7 +6,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { HomeView } from "@/components/site/HomeView";
 import { ToolsHubView } from "@/components/site/ToolsHubView";
-import { ServicesView, PricingView, AboutView, ContactView } from "@/components/site/InfoViews";
+import { ServicesView, PricingView, AboutView, ContactView, WorkView } from "@/components/site/InfoViews";
 import { TeachingPortal } from "@/components/site/TeachingPortal";
 import { BlogView } from "@/components/site/BlogView";
 import { LocalSEOPage } from "@/components/site/LocalSEOPages";
@@ -34,7 +34,7 @@ const ColorSeparation = lazy(() => import("@/components/tools/ColorSeparation").
 const TypographyStudio = lazy(() => import("@/components/tools/TypographyStudio").then((m) => ({ default: m.TypographyStudio })));
 const MannequinDressUp = lazy(() => import("@/components/tools/MannequinDressUp").then((m) => ({ default: m.MannequinDressUp })));
 
-type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool" | "local";
+type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "work" | "tool" | "local";
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
@@ -53,7 +53,7 @@ export default function Home() {
         const pageId = hash.replace("local/", "");
         setLocalPageId(pageId);
         setView("local");
-      } else if (["home", "tools", "services", "pricing", "about", "contact", "academy", "blog"].includes(hash)) {
+      } else if (["home", "tools", "services", "pricing", "about", "contact", "academy", "blog", "work"].includes(hash)) {
         setActiveTool(null);
         setView(hash as View);
       } else {
@@ -140,6 +140,7 @@ export default function Home() {
       <main className="flex-1" id="main-content">
         {view === "home" && <HomeView onNavigate={navigate} onOpenTool={openTool} />}
         {view === "tools" && <ToolsHubView onOpenTool={openTool} />}
+        {view === "work" && <WorkView onNavigate={navigate} />}
         {view === "services" && <ServicesView onNavigate={navigate} />}
         {view === "pricing" && <PricingView onNavigate={navigate} />}
         {view === "about" && <AboutView onNavigate={navigate} />}
