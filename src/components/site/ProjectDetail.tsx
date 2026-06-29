@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug, PROJECTS } from "@/lib/projects";
 
 interface ProjectDetailProps {
   slug: string;
@@ -32,14 +32,52 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
     );
   }
 
+  // Related projects (same tag, exclude current)
+  const relatedProjects = PROJECTS.filter(
+    (p) => p.slug !== project.slug && (p.tag === project.tag || p.service === project.service)
+  ).slice(0, 3);
+  // Fallback if not enough related
+  const fallbackRelated = PROJECTS.filter((p) => p.slug !== project.slug).slice(0, 3);
+  const finalRelated = relatedProjects.length >= 2 ? relatedProjects : fallbackRelated;
+
   const whatsappLink =
     "https://wa.me/+254711669113?text=" +
     encodeURIComponent(
       `Hi CDC, I saw your ${project.title} project and I would like to discuss a similar project.`
     );
 
+  // CreativeWork schema for SEO
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.description,
+    creator: {
+      "@type": "Organization",
+      name: "Creative Divine Concepts Ltd",
+      url: "https://creativedivineconcepts.com",
+    },
+    about: project.service,
+    keywords: [project.tag, project.service, "Kenya", "Creative Divine Concepts"].join(", "),
+    image: project.gallery.map((g) => `https://creativedivineconcepts.com${g.src}`),
+    datePublished: "2026-06-01",
+    inLanguage: "en",
+    spatialCoverage: {
+      "@type": "Place",
+      name: project.location,
+    },
+    audience: {
+      "@type": "Audience",
+      audienceType: "Businesses in Kenya",
+    },
+  };
+
   return (
     <div className="min-h-screen pt-24 pb-20 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }}
+      />
       <Breadcrumbs
         items={[
           { label: "Work", view: "work" },
@@ -83,6 +121,8 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
               <img
                 src={project.gallery[activeImage].src}
                 alt={project.gallery[activeImage].alt}
+                width={800}
+                height={600}
                 className="absolute inset-0 w-full h-full object-cover"
               />
               {project.gallery[activeImage].caption && (
@@ -118,11 +158,15 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
                         : "border-border hover:border-primary/40"
                     }`}
                     aria-label={`View image ${i + 1}`}
+                    aria-pressed={activeImage === i}
                   >
                     <img
                       src={img.src}
                       alt={img.alt}
+                      width={120}
+                      height={120}
                       className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </button>
                 ))}
@@ -222,11 +266,15 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
                     ? "border-primary"
                     : "border-border hover:border-primary/40"
                 }`}
+                aria-label={`View image ${i + 1}: ${img.alt}`}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
+                  width={400}
+                  height={300}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
                 {img.caption && (
@@ -239,9 +287,62 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
           </div>
         </div>
 
+        {/* Related Projects */}
+        {finalRelated.length > 0 && (
+          <div className="mb-12">
+            <h2 className="font-display text-2xl font-bold mb-6 text-foreground">Related Projects</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {finalRelated.map((p, i) => (
+                <motion.button
+                  key={p.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  onClick={() => {
+                    setActiveImage(0);
+                    onNavigate(`project/${p.slug}`);
+                  }}
+                  className="nura-card p-0 group hover:border-primary/40 transition text-left overflow-hidden flex flex-col cursor-pointer"
+                  aria-label={`View project: ${p.title}`}
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    <img
+                      src={p.gallery[0].src}
+                      alt={p.gallery[0].alt}
+                      width={400}
+                      height={300}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                    <div className="absolute top-3 left-3">
+                      <Badge className="bg-background/90 text-primary border-primary/30 text-[10px] backdrop-blur-sm">
+                        {p.tag}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="p-4 flex flex-col flex-1">
+                    <h3 className="font-display font-bold text-sm mb-1 text-foreground line-clamp-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs text-accent mb-2">{p.client}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2 flex-1">
+                      {p.description}
+                    </p>
+                    <div className="flex items-center gap-1 pt-3 mt-3 border-t border-border text-xs text-primary font-semibold">
+                      View Project <Icons.ArrowRight className="h-3 w-3" />
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Bottom CTA */}
-        <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-8 md:p-10 text-center">
-          <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 text-foreground">
+        <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6 sm:p-8 md:p-10 text-center">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold mb-3 text-foreground">
             Ready to Start Your Project?
           </h2>
           <p className="max-w-xl mx-auto text-sm md:text-base text-muted-foreground mb-6">
@@ -252,7 +353,7 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="cyber-btn-filled h-12 px-8 inline-flex items-center gap-2"
+              className="cyber-btn-filled h-12 px-6 md:px-8 inline-flex items-center gap-2"
             >
               <Icons.MessageCircle className="h-4 w-4" />
               Start Your Project

@@ -73,6 +73,12 @@ export default function Home() {
   }, []);
 
   const navigate = (v: any) => {
+    // Handle project navigation (e.g., "project/some-slug")
+    if (typeof v === "string" && v.startsWith("project/")) {
+      const slug = v.replace("project/", "");
+      openProject(slug);
+      return;
+    }
     setView(v);
     setActiveTool(null);
     if (v === "home") {

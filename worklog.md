@@ -245,3 +245,62 @@ Stage Summary:
 - Files created: /src/lib/projects.ts, /src/components/site/ProjectDetail.tsx
 - Files modified: HomeView.tsx, InfoViews.tsx, page.tsx, sitemap.ts
 - 18 new image files in /public/projects/
+
+---
+Task ID: cdc-v6-seo-images-related
+Agent: main (Super Z)
+Task: Complete remaining items - fix OG image (was HTML, not PNG), add CreativeWork schema to project pages, add Related Projects section, add Related Articles to blog posts, add custom 404 page, fix slug mismatches in sitemap.
+
+Work Log:
+- Fixed OG image: was actually an HTML file (4KB) not a PNG. Created Python script to generate proper 1200x630 PNG with CDC branding (cream bg, orange accent, stats badges). Verified as real PNG via curl + file command.
+- Added CreativeWork schema to ProjectDetail pages:
+  * @type: CreativeWork
+  * name, description, creator (CDC), about, keywords, image[] (gallery URLs)
+  * datePublished, inLanguage, spatialCoverage (location), audience
+  * Injected via script tag in component
+  * Verified in browser: 4 schemas now on project pages (ProfessionalService, WebSite, BreadcrumbList, CreativeWork)
+- Added Related Projects section to ProjectDetail:
+  * Shows 3 related projects (same tag or service, with fallback to any)
+  * Clickable cards with image, title, client, description
+  * Navigates to related project detail page on click
+  * Resets activeImage to 0 on navigation
+- Updated page.tsx navigate() to handle "project/{slug}" pattern for related project navigation
+- Added Related Articles section to BlogArticle:
+  * Shows 3 related posts (same category or shared tags, with fallback)
+  * Clickable cards with category badge, title, description
+  * Navigates to related blog post on click
+- Created custom 404 page (src/app/not-found.tsx):
+  * Large "404" in primary orange
+  * "Page Not Found" heading
+  * Two CTAs: Back to Home, Try Free Tools
+  * WhatsApp contact fallback
+  * Styled with CDC brand colors
+  * Tested: /nonexistent-page shows custom 404
+- Fixed slug mismatches in sitemap.ts:
+  * "how-to-start-a-tshirt-printing-business-in-kenya" -> "how-to-start-a-t-shirt-printing-business-in-kenya" (matches blog-posts.ts)
+  * Verified all 13 blog slugs match between blog-posts.ts and sitemap.ts
+  * Verified all 6 project slugs match between projects.ts and sitemap.ts
+  * Verified all 19 tool slugs match between tools.ts and sitemap.ts
+- Added width/height attributes to all images in ProjectDetail for better CLS (Cumulative Layout Shift)
+- Added loading="lazy" to all gallery and related images
+- Added aria-pressed attribute to thumbnail buttons for accessibility
+- Added aria-label to gallery image buttons for screen readers
+- Browser-verified all changes:
+  * Project detail page shows CreativeWork schema, Related Projects section
+  * Clicking related project navigates correctly
+  * Blog article shows Related Articles section
+  * 404 page renders correctly for non-existent routes
+  * OG image is now proper PNG (1200x630, 60KB)
+  * Zero runtime errors, zero console errors
+
+Stage Summary:
+- OG image fixed: was HTML, now proper 1200x630 PNG with CDC branding
+- CreativeWork schema added to all 6 project detail pages for better SEO
+- Related Projects section added (3 projects per page, clickable)
+- Related Articles section added to blog posts (3 posts per article, clickable)
+- Custom 404 page created with branded design
+- All sitemap slugs verified to match actual content slugs (blog, projects, tools)
+- Accessibility improvements: aria-pressed, aria-label on image buttons
+- Performance: width/height on images, lazy loading on all gallery images
+- Files created: src/app/not-found.tsx, scripts/generate-og-image.py
+- Files modified: ProjectDetail.tsx, BlogView.tsx, page.tsx, sitemap.ts, public/og-image.png

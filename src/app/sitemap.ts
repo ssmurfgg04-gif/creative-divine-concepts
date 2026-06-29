@@ -70,7 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogSlugs = [
     "how-to-prepare-dtf-artwork-for-printing-in-kenya",
     "dtf-vs-dtg-printing-which-is-better",
-    "how-to-start-a-tshirt-printing-business-in-kenya",
+    "how-to-start-a-t-shirt-printing-business-in-kenya",
     "best-gang-sheet-sizes-for-dtf-printing",
     "web-design-prices-in-kenya-2026",
     "branding-for-diaspora-founders",

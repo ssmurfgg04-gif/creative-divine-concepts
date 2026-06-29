@@ -203,6 +203,44 @@ function BlogArticle({ post, onBack, onNavigate }: { post: BlogPost; onBack: () 
               <a href="https://wa.me/+254711669113" target="_blank" rel="noopener noreferrer" className="cyber-btn h-10 px-6">WhatsApp Us</a>
             </div>
           </div>
+
+          {/* Related Posts */}
+          {(() => {
+            const related = BLOG_POSTS
+              .filter((p) => p.slug !== post.slug && (p.category === post.category || p.tags.some((t) => post.tags.includes(t))))
+              .slice(0, 3);
+            const fallback = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
+            const finalRelated = related.length >= 2 ? related : fallback;
+            if (finalRelated.length === 0) return null;
+            return (
+              <div className="mt-12">
+                <h2 className="font-display text-xl md:text-2xl font-bold mb-6 text-foreground">Related Articles</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {finalRelated.map((p) => (
+                    <button
+                      key={p.slug}
+                      onClick={() => {
+                        onNavigate("blog");
+                        setTimeout(() => {
+                          window.location.hash = `blog/${p.slug}`;
+                        }, 100);
+                      }}
+                      className="nura-card p-4 group hover:border-primary/40 transition text-left cursor-pointer"
+                    >
+                      <Badge className="bg-primary/10 text-primary border-primary/30 text-[9px] mb-2">{p.category}</Badge>
+                      <h3 className="font-display font-bold text-sm mb-2 text-foreground line-clamp-2 group-hover:text-primary transition">
+                        {p.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground line-clamp-2">{p.description}</p>
+                      <div className="mt-3 text-xs text-primary font-semibold inline-flex items-center gap-1">
+                        Read more <Icons.ArrowRight className="h-3 w-3" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </article>
       </div>
     </div>
