@@ -19,7 +19,9 @@ export type ToolId =
   | "color-palette"
   | "caption-gen"
   | "file-share"
-  | "print-converter";
+  | "print-converter"
+  | "color-separation"
+  | "typography-studio";
 
 export interface ToolMeta {
   id: ToolId;
@@ -182,6 +184,24 @@ export const TOOLS: ToolMeta[] = [
     description: "Upload AI-generated images and auto-fix: upscale to 300 DPI, remove backgrounds, denoise, sharpen, add bleed. Perfect for DTF/DTG.",
     icon: "Wand2",
     category: "print",
+    badge: "new",
+  },
+  {
+    id: "color-separation",
+    name: "Color Separation",
+    tagline: "Split designs into individual color plates",
+    description: "Automatically separate multi-color designs into individual print plates for screen printing, vinyl cutting, and DTF layer prep.",
+    icon: "Layers",
+    category: "print",
+    badge: "new",
+  },
+  {
+    id: "typography-studio",
+    name: "Typography Studio",
+    tagline: "Design T-shirt text graphics with effects",
+    description: "Create bold T-shirt text designs with curated font pairings, letter spacing, and effects (outline, shadow, gradient, distressed, neon).",
+    icon: "Type",
+    category: "design",
     badge: "new",
   },
 ];

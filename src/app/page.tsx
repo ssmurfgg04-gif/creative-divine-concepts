@@ -29,6 +29,8 @@ const StickerGen = lazy(() => import("@/components/tools/StickerGen").then((m) =
 const ImageClipper = lazy(() => import("@/components/tools/ImageClipper").then((m) => ({ default: m.ImageClipper })));
 const FileShare = lazy(() => import("@/components/tools/FileShare").then((m) => ({ default: m.FileShare })));
 const PrintConverter = lazy(() => import("@/components/tools/PrintConverter").then((m) => ({ default: m.PrintConverter })));
+const ColorSeparation = lazy(() => import("@/components/tools/ColorSeparation").then((m) => ({ default: m.ColorSeparation })));
+const TypographyStudio = lazy(() => import("@/components/tools/TypographyStudio").then((m) => ({ default: m.TypographyStudio })));
 
 type View = "home" | "tools" | "services" | "pricing" | "about" | "contact" | "academy" | "blog" | "tool";
 
@@ -100,6 +102,8 @@ export default function Home() {
       "caption-gen": <CaptionGen {...props} />,
       "file-share": <FileShare {...props} />,
       "print-converter": <PrintConverter {...props} />,
+      "color-separation": <ColorSeparation {...props} />,
+      "typography-studio": <TypographyStudio {...props} />,
     };
     return (
       <Suspense
