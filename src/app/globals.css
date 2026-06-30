@@ -99,47 +99,52 @@
   --font-button: "DM Sans", sans-serif;
 }
 
-/* Dark mode: warm dark theme that keeps CDC brand identity */
+/* Dark mode: refined warm dark theme with high contrast for readability */
 .dark {
   --radius: 0.5rem;
-  --background: hsl(20 14% 8%);
-  --foreground: hsl(38 30% 92%);
-  --card: hsl(20 14% 11%);
-  --card-foreground: hsl(38 30% 92%);
-  --popover: hsl(20 14% 11%);
-  --popover-foreground: hsl(38 30% 92%);
-  --primary: hsl(21 90% 58%);
-  --primary-foreground: hsl(20 14% 8%);
-  --secondary: hsl(20 14% 14%);
-  --secondary-foreground: hsl(38 30% 92%);
-  --muted: hsl(20 14% 14%);
-  --muted-foreground: hsl(38 12% 70%);
-  --accent: hsl(351 74% 45%);
-  --accent-foreground: hsl(38 30% 95%);
-  --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(38 30% 95%);
-  --border: hsl(20 14% 20%);
-  --input: hsl(20 14% 20%);
-  --ring: hsl(21 90% 58%);
+  /* Slightly lighter background for better card separation */
+  --background: hsl(20 12% 7%);
+  --foreground: hsl(38 35% 95%);
+  --card: hsl(20 12% 12%);
+  --card-foreground: hsl(38 35% 95%);
+  --popover: hsl(20 12% 12%);
+  --popover-foreground: hsl(38 35% 95%);
+  /* Brighter primary for better visibility */
+  --primary: hsl(21 95% 60%);
+  --primary-foreground: hsl(20 12% 7%);
+  --secondary: hsl(20 12% 16%);
+  --secondary-foreground: hsl(38 35% 95%);
+  --muted: hsl(20 12% 16%);
+  /* Brighter muted text for readability (was 70% lightness, now 78%) */
+  --muted-foreground: hsl(38 20% 78%);
+  /* Brighter accent for better visibility */
+  --accent: hsl(351 75% 55%);
+  --accent-foreground: hsl(38 35% 97%);
+  --destructive: hsl(0 84% 65%);
+  --destructive-foreground: hsl(38 35% 97%);
+  /* Brighter borders for better definition */
+  --border: hsl(20 12% 24%);
+  --input: hsl(20 12% 24%);
+  --ring: hsl(21 95% 60%);
   /* Custom CDC tokens */
-  --shadow-card: 0 4px 24px -4px hsla(0, 0%, 0%, .4);
-  --shadow-card-hover: 0 8px 40px -8px hsla(21, 90%, 58%, .3);
-  --shadow-primary: 0 4px 24px -4px hsla(21, 90%, 58%, .35);
-  --divine-border: hsla(21, 90%, 58%, .25);
-  --divine-border-hover: hsla(21, 90%, 58%, .5);
-  --sidebar: hsl(20 14% 11%);
-  --sidebar-foreground: hsl(38 30% 92%);
-  --sidebar-primary: hsl(21 90% 58%);
-  --sidebar-primary-foreground: hsl(20 14% 8%);
-  --sidebar-accent: hsl(20 14% 14%);
-  --sidebar-accent-foreground: hsl(38 30% 92%);
-  --sidebar-border: hsl(20 14% 20%);
-  --sidebar-ring: hsl(21 90% 58%);
-  --chart-1: hsl(21 90% 58%);
-  --chart-2: hsl(351 74% 45%);
-  --chart-3: hsl(38 60% 55%);
-  --chart-4: hsl(200 70% 55%);
-  --chart-5: hsl(280 50% 60%);
+  --shadow-card: 0 4px 24px -4px hsla(0, 0%, 0%, .5);
+  --shadow-card-hover: 0 8px 40px -8px hsla(21, 95%, 60%, .35);
+  --shadow-primary: 0 4px 24px -4px hsla(21, 95%, 60%, .4);
+  --divine-border: hsla(21, 95%, 60%, .3);
+  --divine-border-hover: hsla(21, 95%, 60%, .55);
+  --sidebar: hsl(20 12% 10%);
+  --sidebar-foreground: hsl(38 35% 95%);
+  --sidebar-primary: hsl(21 95% 60%);
+  --sidebar-primary-foreground: hsl(20 12% 7%);
+  --sidebar-accent: hsl(20 12% 16%);
+  --sidebar-accent-foreground: hsl(38 35% 95%);
+  --sidebar-border: hsl(20 12% 24%);
+  --sidebar-ring: hsl(21 95% 60%);
+  --chart-1: hsl(21 95% 60%);
+  --chart-2: hsl(351 75% 55%);
+  --chart-3: hsl(38 65% 60%);
+  --chart-4: hsl(200 70% 60%);
+  --chart-5: hsl(280 55% 65%);
 }
 
 @layer base {
@@ -201,6 +206,13 @@
     border-color: var(--divine-border-hover);
     box-shadow: 0 0 0 1px #f36a201a inset, var(--shadow-card-hover);
     transform: translateY(-2px);
+  }
+  /* Dark mode override for nura-card */
+  .dark .nura-card {
+    background: linear-gradient(135deg, hsl(20 12% 14% / 0.9), hsl(20 12% 18% / 0.8));
+  }
+  .dark .nura-card:hover {
+    box-shadow: 0 0 0 1px hsla(21, 95%, 60%, 0.15) inset, var(--shadow-card-hover);
   }
 
   /* cyber-btn-filled — primary CTA button */
@@ -275,6 +287,12 @@
       linear-gradient(hsla(21, 90%, 54%, .03) 1px, transparent 1px),
       linear-gradient(90deg, hsla(21, 90%, 54%, .03) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+  /* Dark mode: brighter grid lines for visibility */
+  .dark .bg-grid {
+    background-image:
+      linear-gradient(hsla(21, 95%, 60%, .06) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(21, 95%, 60%, .06) 1px, transparent 1px);
   }
   .tracking-widest {
     letter-spacing: 0.1em;

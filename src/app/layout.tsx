@@ -314,9 +314,8 @@ export default function RootLayout({
         {/* Performance: preconnect to Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Performance: preload critical hero assets */}
+        {/* Performance: preload critical hero image (not video, to save bandwidth) */}
         <link rel="preload" as="image" href="/logo.webp" fetchPriority="high" />
-        <link rel="preload" as="video" href="/assets/creative.webm" fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}

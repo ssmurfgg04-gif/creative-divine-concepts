@@ -153,7 +153,7 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
                     loop
                     playsInline
                     muted
-                    preload="auto"
+                    preload="metadata"
                     poster="/logo.webp"
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover"
@@ -317,7 +317,7 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
         </div>
       </section>
 
-      {/* ============= PHASE 5: WORK WE ARE PROUD OF (real projects only) ============= */}
+      {/* ============= PHASE 5: WORK WE ARE PROUD OF (text cards, no images on homepage) ============= */}
       <section className="py-12 md:py-16 bg-background relative px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-10">
@@ -326,7 +326,7 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
               Work We&apos;re <span className="text-gradient-cyan">Proud Of</span>
             </h2>
             <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground">
-              Real projects. Real results. Click any project to see the full gallery.
+              Real projects. Real results. Click any project to see the full gallery and details.
             </p>
           </div>
           <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -338,39 +338,26 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 onClick={() => handleProjectClick(project.slug, project.link)}
-                className="nura-card p-0 group hover:border-primary/40 transition text-left overflow-hidden flex flex-col cursor-pointer"
+                className="nura-card p-5 sm:p-6 group hover:border-primary/40 transition text-left flex flex-col cursor-pointer h-full"
               >
-                {/* Project image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                  <img
-                    src={project.gallery[0].src}
-                    alt={project.gallery[0].alt}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <Badge className="bg-background/90 text-primary border-primary/30 text-[10px] backdrop-blur-sm">
-                      {project.tag}
-                    </Badge>
-                  </div>
-                  <div className="absolute bottom-3 right-3 flex items-center gap-1 text-xs text-foreground bg-background/90 backdrop-blur-sm rounded-full px-2.5 py-1 opacity-0 group-hover:opacity-100 transition">
-                    View <Icons.ArrowRight className="h-3 w-3" />
-                  </div>
+                {/* Tag and arrow */}
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-primary/10 text-primary border-primary/30 text-[10px]">
+                    {project.tag}
+                  </Badge>
+                  <Icons.ArrowRight className="h-4 w-4 text-accent/40 group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
                 {/* Content */}
-                <div className="p-4 sm:p-5 flex flex-col flex-1">
-                  <h3 className="font-display font-bold text-sm md:text-base mb-1 text-foreground line-clamp-1">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs text-accent mb-2">{project.client} - {project.location}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                    {project.description}
-                  </p>
-                  <div className="flex items-center gap-2 pt-3 mt-3 border-t border-border">
-                    <Icons.CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-                    <span className="text-xs font-semibold text-primary">{project.result}</span>
-                  </div>
+                <h3 className="font-display font-bold text-base md:text-lg mb-1 text-foreground">
+                  {project.title}
+                </h3>
+                <p className="text-xs text-accent mb-3">{project.client} - {project.location}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3 flex-1">
+                  {project.description}
+                </p>
+                <div className="flex items-center gap-2 pt-3 mt-3 border-t border-border">
+                  <Icons.CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="text-xs font-semibold text-primary">{project.result}</span>
                 </div>
               </motion.button>
             ))}

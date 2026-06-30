@@ -43,9 +43,9 @@ export const PROJECTS: Project[] = [
     link: "https://moenviron.com",
     gallery: [
       { src: "/projects/moenviron-0.webp", alt: "Moenviron homepage hero section", caption: "Homepage with hero section and service overview" },
-      { src: "/projects/moenviron-1.jpg", alt: "Website design mockup on laptop", caption: "Modern responsive design on desktop" },
-      { src: "/projects/moenviron-2.jpg", alt: "Website design mockup showcase", caption: "Service catalog and contact forms" },
-      { src: "/projects/moenviron-3.png", alt: "Next.js website on screen", caption: "Built with Next.js for fast loading and SEO" },
+      { src: "/projects/moenviron-1.webp", alt: "Website design mockup on laptop", caption: "Modern responsive design on desktop" },
+      { src: "/projects/moenviron-2.webp", alt: "Website design mockup showcase", caption: "Service catalog and contact forms" },
+      { src: "/projects/moenviron-3.webp", alt: "Next.js website on screen", caption: "Built with Next.js for fast loading and SEO" },
     ],
     highlights: [
       "Custom Next.js build with TypeScript",
@@ -68,9 +68,10 @@ export const PROJECTS: Project[] = [
       "120 branded T-shirts with the school logo for Githunguri Primary School. DTF printing delivered in 3 days during exam week. We used the school's existing logo and matched exact pantone colors. The order was urgent because the school had a sports day coming up and needed all uniforms ready before the event.",
     result: "120 T-shirts in 3 days",
     gallery: [
-      { src: "/projects/githunguri-1.jpg", alt: "School children wearing branded uniforms", caption: "Students wearing the branded T-shirts on sports day" },
-      { src: "/projects/githunguri-2.jpg", alt: "Group of students in matching uniforms", caption: "Group photo with all 120 T-shirts delivered" },
-      { src: "/projects/githunguri-3.jpg", alt: "Close up of branded T-shirt print detail", caption: "Close up of the print quality and color matching" },
+      { src: "/projects/githunguri-1.webp", alt: "Kenyan primary school students wearing branded uniform T-shirts", caption: "Students wearing the branded T-shirts on sports day" },
+      { src: "/projects/githunguri-2.webp", alt: "School children in matching branded uniforms outdoor", caption: "Group photo with all 120 T-shirts delivered" },
+      { src: "/projects/githunguri-3.webp", alt: "Students in branded school T-shirts group photo", caption: "Group shot showing the full uniform set" },
+      { src: "/projects/githunguri-4.webp", alt: "Close up of branded T-shirt print quality", caption: "Close up of the print quality and color matching" },
     ],
     highlights: [
       "120 T-shirts printed and delivered in 3 days",
@@ -98,9 +99,10 @@ export const PROJECTS: Project[] = [
       "500 event T-shirts with custom design for the annual youth conference at PCEA Githunguri. We built a gang sheet to maximize efficiency, printed all 500 shirts, and delivered in 5 days with a same-day pickup option for last-minute additions. The design featured the conference theme verse and a custom graphic.",
     result: "500 T-shirts in 5 days",
     gallery: [
-      { src: "/projects/pcea-1.jpeg", alt: "Church youth group wearing event T-shirts", caption: "Youth conference attendees in branded T-shirts" },
-      { src: "/projects/pcea-2.jpg", alt: "Large group photo with event T-shirts", caption: "500 event shirts delivered for the conference" },
-      { src: "/projects/pcea-3.jpg", alt: "Custom event T-shirt design close up", caption: "Custom design with conference theme and graphics" },
+      { src: "/projects/pcea-1.webp", alt: "Church youth group wearing matching event T-shirts", caption: "Youth conference attendees in branded T-shirts" },
+      { src: "/projects/pcea-2.webp", alt: "Large group photo with event T-shirts Kenya", caption: "500 event shirts delivered for the conference" },
+      { src: "/projects/pcea-3.webp", alt: "Youth group outdoor in branded event shirts", caption: "Outdoor group shot at the conference venue" },
+      { src: "/projects/pcea-4.webp", alt: "Custom event T-shirt design close up", caption: "Custom design with conference theme and graphics" },
     ],
     highlights: [
       "500 T-shirts printed and delivered in 5 days",
@@ -122,9 +124,9 @@ export const PROJECTS: Project[] = [
       "Custom Shopify store with M-PESA integration for a Nairobi-based clothing brand. The project included full brand identity design (logo, color palette, typography), social media setup, and supplier onboarding training for 3 staff members. The store launched with 24 products and processes payments via M-PESA and card.",
     result: "Store live + 3 staff trained",
     gallery: [
-      { src: "/projects/naiwear-1.png", alt: "Shopify ecommerce store homepage", caption: "Shopify store homepage with brand identity" },
-      { src: "/projects/naiwear-2.png", alt: "Product catalog page", caption: "Product catalog with 24 products at launch" },
-      { src: "/projects/naiwear-3.jpg", alt: "Clothing brand apparel mockup", caption: "Brand identity applied to product photography" },
+      { src: "/projects/naiwear-1.webp", alt: "Shopify ecommerce store homepage", caption: "Shopify store homepage with brand identity" },
+      { src: "/projects/naiwear-2.webp", alt: "Product catalog page", caption: "Product catalog with 24 products at launch" },
+      { src: "/projects/naiwear-3.webp", alt: "Clothing brand apparel mockup", caption: "Brand identity applied to product photography" },
     ],
     highlights: [
       "Custom Shopify theme development",
@@ -153,9 +155,10 @@ export const PROJECTS: Project[] = [
       "Complete rebrand for a general store in Kiambu County that had been using the same tired 90s logo for 20 years. We designed a new logo, business cards, signage, and trained staff on WhatsApp marketing. The store now sells across Kenya and gets orders from Mombasa to Eldoret via WhatsApp.",
     result: "Now sells across Kenya",
     gallery: [
-      { src: "/projects/kamau-1.jpg", alt: "Store signage with new logo", caption: "New storefront signage with rebranded logo" },
-      { src: "/projects/kamau-2.jpg", alt: "Business cards and stationery mockup", caption: "Business cards and stationery with new identity" },
-      { src: "/projects/kamau-3.png", alt: "Logo design mockup presentation", caption: "Logo design presentation and brand guidelines" },
+      { src: "/projects/kamau-1.webp", alt: "Kenyan general shop store front with new signage", caption: "New storefront signage with rebranded logo" },
+      { src: "/projects/kamau-2.webp", alt: "Small business shop front branding Kenya", caption: "Store front after rebrand with modern identity" },
+      { src: "/projects/kamau-3.webp", alt: "Kenyan shop interior with branded materials", caption: "Shop interior with branded signage and materials" },
+      { src: "/projects/kamau-4.webp", alt: "Local business store exterior branding Kiambu", caption: "Store exterior showing the new brand identity" },
     ],
     highlights: [
       "Logo redesign from 90s style to modern",
@@ -184,10 +187,10 @@ export const PROJECTS: Project[] = [
       "Complete remote business setup for James, a Kenyan diaspora founder living in London. We registered his Kenyan company via eCitizen, built his website, set up M-PESA till, and managed operations remotely. James never visited Kenya during the entire setup. He approved every step via WhatsApp and now runs his business with weekly video calls.",
     result: "Company launched remotely",
     gallery: [
-      { src: "/projects/diaspora-1.png", alt: "Remote business management dashboard", caption: "Weekly reporting dashboard accessible from anywhere" },
-      { src: "/projects/diaspora-2.jpg", alt: "Diaspora entrepreneur working remotely", caption: "James managing his Kenya business from London" },
-      { src: "/projects/diaspora-3.jpg", alt: "Video call with operations team", caption: "Weekly Friday video call with the local team" },
-    ],
+      { src: "/projects/diaspora-1.webp", alt: "Remote business management dashboard", caption: "Weekly reporting dashboard accessible from anywhere" },
+      { src: "/projects/diaspora-2.webp", alt: "Diaspora entrepreneur working remotely", caption: "James managing his Kenya business from London" },
+      { src: "/projects/diaspora-3.webp", alt: "Video call with operations team", caption: "Weekly Friday video call with the local team" },
+   ],
     highlights: [
       "Company registered via eCitizen (no travel required)",
       "Equity Bank account opened with power of attorney",
