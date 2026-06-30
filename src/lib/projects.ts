@@ -124,9 +124,9 @@ export const PROJECTS: Project[] = [
       "Custom Shopify store with M-PESA integration for a Nairobi-based clothing brand. The project included full brand identity design (logo, color palette, typography), social media setup, and supplier onboarding training for 3 staff members. The store launched with 24 products and processes payments via M-PESA and card.",
     result: "Store live + 3 staff trained",
     gallery: [
-      { src: "/projects/naiwear-1.webp", alt: "Shopify ecommerce store homepage", caption: "Shopify store homepage with brand identity" },
-      { src: "/projects/naiwear-2.webp", alt: "Product catalog page", caption: "Product catalog with 24 products at launch" },
-      { src: "/projects/naiwear-3.webp", alt: "Clothing brand apparel mockup", caption: "Brand identity applied to product photography" },
+      { src: "/projects/naiwear-1.webp", alt: "Shopify ecommerce clothing store homepage", caption: "Shopify store homepage with brand identity" },
+      { src: "/projects/naiwear-2.webp", alt: "Shopify product catalog page", caption: "Product catalog with 24 products at launch" },
+      { src: "/projects/naiwear-3.webp", alt: "Ecommerce store design on screen", caption: "Clean, modern ecommerce design built for conversions" },
     ],
     highlights: [
       "Custom Shopify theme development",
@@ -155,9 +155,10 @@ export const PROJECTS: Project[] = [
       "Complete rebrand for a general store in Kiambu County that had been using the same tired 90s logo for 20 years. We designed a new logo, business cards, signage, and trained staff on WhatsApp marketing. The store now sells across Kenya and gets orders from Mombasa to Eldoret via WhatsApp.",
     result: "Now sells across Kenya",
     gallery: [
-      { src: "/projects/kamau-ai-1.webp", alt: "Kenyan general store with new branded signage", caption: "New storefront signage with rebranded logo" },
-      { src: "/projects/kamau-ai-2.webp", alt: "Brand identity mockup with logo and business cards", caption: "Brand identity: logo, business cards, stationery" },
-      { src: "/projects/kamau-ai-3.webp", alt: "Shop owner using WhatsApp business marketing", caption: "Staff trained on WhatsApp marketing - now sells across Kenya" },
+      { src: "/projects/kamau-1.webp", alt: "Small shop store front with modern branded signage", caption: "New storefront signage with rebranded logo" },
+      { src: "/projects/kamau-2.webp", alt: "Brand identity mockup with logo and stationery", caption: "Brand identity: logo, business cards, stationery" },
+      { src: "/projects/kamau-3.webp", alt: "Logo design presentation mockup", caption: "Logo design presentation and brand guidelines" },
+      { src: "/projects/kamau-4.webp", alt: "Business cards and print materials mockup", caption: "Business cards and branded print materials" },
     ],
     highlights: [
       "Logo redesign from 90s style to modern",
@@ -186,9 +187,9 @@ export const PROJECTS: Project[] = [
       "Complete remote business setup for James, a Kenyan diaspora founder living in London. We registered his Kenyan company via eCitizen, built his website, set up M-PESA till, and managed operations remotely. James never visited Kenya during the entire setup. He approved every step via WhatsApp and now runs his business with weekly video calls.",
     result: "Company launched remotely",
     gallery: [
-      { src: "/projects/diaspora-ai-1.webp", alt: "Diaspora entrepreneur managing business remotely", caption: "James managing his Kenya business from London" },
-      { src: "/projects/diaspora-ai-2.webp", alt: "M-PESA business dashboard on laptop", caption: "Weekly reporting dashboard with M-PESA transactions" },
-      { src: "/projects/moenviron-hero.webp", alt: "Website built for diaspora business", caption: "Next.js website with M-PESA integration" },
+      { src: "/projects/diaspora-1.webp", alt: "Person working on laptop in home office, remote business", caption: "James managing his Kenya business from London" },
+      { src: "/projects/diaspora-2.webp", alt: "Remote worker on video call with laptop", caption: "Weekly video call with the local team in Kenya" },
+      { src: "/projects/diaspora-3.webp", alt: "Business dashboard and analytics on screen", caption: "Weekly reporting dashboard with M-PESA transactions" },
     ],
     highlights: [
       "Company registered via eCitizen (no travel required)",
