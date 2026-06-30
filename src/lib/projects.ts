@@ -38,14 +38,14 @@ export const PROJECTS: Project[] = [
     service: "Web Design + SEO",
     tag: "Web Design",
     description:
-      "Complete corporate website built with Next.js for an environmental services company in Nairobi. The project included full SEO optimization with service catalog, contact forms, and a blog. The site loads in under 1 second and ranks on page 1 for several environmental service keywords in Kenya.",
+      "Complete corporate website built with Next.js for a sustainable fashion brand that transforms textile waste into premium circular fashion. The site features a product catalog, Stripe payments, Supabase backend, and a circular fashion story from UK to Kenya. Live site at moenviron.com.",
     result: "Website live in 14 days",
     link: "https://moenviron.com",
     gallery: [
-      { src: "/projects/moenviron-0.webp", alt: "Moenviron homepage hero section", caption: "Homepage with hero section and service overview" },
-      { src: "/projects/moenviron-1.webp", alt: "Website design mockup on laptop", caption: "Modern responsive design on desktop" },
-      { src: "/projects/moenviron-2.webp", alt: "Website design mockup showcase", caption: "Service catalog and contact forms" },
-      { src: "/projects/moenviron-3.webp", alt: "Next.js website on screen", caption: "Built with Next.js for fast loading and SEO" },
+      { src: "/projects/moenviron-screenshot.webp", alt: "Moenviron.com homepage screenshot", caption: "Live homepage of moenviron.com - sustainable fashion from recycled textiles" },
+      { src: "/projects/moenviron-real-1.webp", alt: "Moenviron sustainable fashion product image", caption: "Sustainable fashion products made from recycled textiles" },
+      { src: "/projects/moenviron-real-3.webp", alt: "Moenviron textile recycling process", caption: "The circular fashion process: UK waste to Kenya fashion" },
+      { src: "/projects/moenviron-hero.webp", alt: "Moenviron website hero section", caption: "Hero section with brand story and call to action" },
     ],
     highlights: [
       "Custom Next.js build with TypeScript",
@@ -68,10 +68,10 @@ export const PROJECTS: Project[] = [
       "120 branded T-shirts with the school logo for Githunguri Primary School. DTF printing delivered in 3 days during exam week. We used the school's existing logo and matched exact pantone colors. The order was urgent because the school had a sports day coming up and needed all uniforms ready before the event.",
     result: "120 T-shirts in 3 days",
     gallery: [
-      { src: "/projects/githunguri-1.webp", alt: "Kenyan primary school students wearing branded uniform T-shirts", caption: "Students wearing the branded T-shirts on sports day" },
-      { src: "/projects/githunguri-2.webp", alt: "School children in matching branded uniforms outdoor", caption: "Group photo with all 120 T-shirts delivered" },
-      { src: "/projects/githunguri-3.webp", alt: "Students in branded school T-shirts group photo", caption: "Group shot showing the full uniform set" },
-      { src: "/projects/githunguri-4.webp", alt: "Close up of branded T-shirt print quality", caption: "Close up of the print quality and color matching" },
+      { src: "/projects/githunguri-ai-1.webp", alt: "Kenyan primary school students wearing branded uniform T-shirts", caption: "Students wearing the branded T-shirts on sports day" },
+      { src: "/projects/githunguri-ai-2.webp", alt: "Close-up of branded T-shirt print quality", caption: "Close up showing DTF print quality and vibrant colors" },
+      { src: "/projects/githunguri-ai-3.webp", alt: "School children group photo in branded T-shirts", caption: "Group photo with all 120 T-shirts delivered" },
+      { src: "/projects/dtf-printing-2.webp", alt: "Stack of custom printed T-shirts", caption: "Fresh off the DTF printer - vibrant, durable prints" },
     ],
     highlights: [
       "120 T-shirts printed and delivered in 3 days",
@@ -99,10 +99,10 @@ export const PROJECTS: Project[] = [
       "500 event T-shirts with custom design for the annual youth conference at PCEA Githunguri. We built a gang sheet to maximize efficiency, printed all 500 shirts, and delivered in 5 days with a same-day pickup option for last-minute additions. The design featured the conference theme verse and a custom graphic.",
     result: "500 T-shirts in 5 days",
     gallery: [
-      { src: "/projects/pcea-1.webp", alt: "Church youth group wearing matching event T-shirts", caption: "Youth conference attendees in branded T-shirts" },
-      { src: "/projects/pcea-2.webp", alt: "Large group photo with event T-shirts Kenya", caption: "500 event shirts delivered for the conference" },
-      { src: "/projects/pcea-3.webp", alt: "Youth group outdoor in branded event shirts", caption: "Outdoor group shot at the conference venue" },
-      { src: "/projects/pcea-4.webp", alt: "Custom event T-shirt design close up", caption: "Custom design with conference theme and graphics" },
+      { src: "/projects/pcea-ai-1.webp", alt: "Church youth group wearing matching event T-shirts", caption: "Youth conference attendees in branded T-shirts" },
+      { src: "/projects/pcea-ai-3.webp", alt: "Youth group at church conference in branded shirts", caption: "Outdoor worship session at the conference" },
+      { src: "/projects/pcea-ai-2.webp", alt: "Custom event T-shirt with conference design", caption: "Custom design with conference theme and verse" },
+      { src: "/projects/dtf-printing-1.webp", alt: "DTF printing machine producing T-shirt transfers", caption: "DTF printer in action - 500 shirts produced" },
     ],
     highlights: [
       "500 T-shirts printed and delivered in 5 days",
@@ -124,9 +124,9 @@ export const PROJECTS: Project[] = [
       "Custom Shopify store with M-PESA integration for a Nairobi-based clothing brand. The project included full brand identity design (logo, color palette, typography), social media setup, and supplier onboarding training for 3 staff members. The store launched with 24 products and processes payments via M-PESA and card.",
     result: "Store live + 3 staff trained",
     gallery: [
-      { src: "/projects/naiwear-1.webp", alt: "Shopify ecommerce store homepage", caption: "Shopify store homepage with brand identity" },
-      { src: "/projects/naiwear-2.webp", alt: "Product catalog page", caption: "Product catalog with 24 products at launch" },
-      { src: "/projects/naiwear-3.webp", alt: "Clothing brand apparel mockup", caption: "Brand identity applied to product photography" },
+      { src: "/projects/naiwear-ai-1.webp", alt: "Shopify ecommerce store on laptop screen", caption: "Shopify store homepage with brand identity" },
+      { src: "/projects/naiwear-ai-2.webp", alt: "African clothing brand identity mockup", caption: "Brand identity: logo, packaging, business cards" },
+      { src: "/projects/dtf-printing-2.webp", alt: "Custom printed T-shirts for clothing brand", caption: "DTF printed apparel ready for the store" },
     ],
     highlights: [
       "Custom Shopify theme development",
@@ -155,10 +155,9 @@ export const PROJECTS: Project[] = [
       "Complete rebrand for a general store in Kiambu County that had been using the same tired 90s logo for 20 years. We designed a new logo, business cards, signage, and trained staff on WhatsApp marketing. The store now sells across Kenya and gets orders from Mombasa to Eldoret via WhatsApp.",
     result: "Now sells across Kenya",
     gallery: [
-      { src: "/projects/kamau-1.webp", alt: "Kenyan general shop store front with new signage", caption: "New storefront signage with rebranded logo" },
-      { src: "/projects/kamau-2.webp", alt: "Small business shop front branding Kenya", caption: "Store front after rebrand with modern identity" },
-      { src: "/projects/kamau-3.webp", alt: "Kenyan shop interior with branded materials", caption: "Shop interior with branded signage and materials" },
-      { src: "/projects/kamau-4.webp", alt: "Local business store exterior branding Kiambu", caption: "Store exterior showing the new brand identity" },
+      { src: "/projects/kamau-ai-1.webp", alt: "Kenyan general store with new branded signage", caption: "New storefront signage with rebranded logo" },
+      { src: "/projects/kamau-ai-2.webp", alt: "Brand identity mockup with logo and business cards", caption: "Brand identity: logo, business cards, stationery" },
+      { src: "/projects/kamau-ai-3.webp", alt: "Shop owner using WhatsApp business marketing", caption: "Staff trained on WhatsApp marketing - now sells across Kenya" },
     ],
     highlights: [
       "Logo redesign from 90s style to modern",
@@ -187,10 +186,10 @@ export const PROJECTS: Project[] = [
       "Complete remote business setup for James, a Kenyan diaspora founder living in London. We registered his Kenyan company via eCitizen, built his website, set up M-PESA till, and managed operations remotely. James never visited Kenya during the entire setup. He approved every step via WhatsApp and now runs his business with weekly video calls.",
     result: "Company launched remotely",
     gallery: [
-      { src: "/projects/diaspora-1.webp", alt: "Remote business management dashboard", caption: "Weekly reporting dashboard accessible from anywhere" },
-      { src: "/projects/diaspora-2.webp", alt: "Diaspora entrepreneur working remotely", caption: "James managing his Kenya business from London" },
-      { src: "/projects/diaspora-3.webp", alt: "Video call with operations team", caption: "Weekly Friday video call with the local team" },
-   ],
+      { src: "/projects/diaspora-ai-1.webp", alt: "Diaspora entrepreneur managing business remotely", caption: "James managing his Kenya business from London" },
+      { src: "/projects/diaspora-ai-2.webp", alt: "M-PESA business dashboard on laptop", caption: "Weekly reporting dashboard with M-PESA transactions" },
+      { src: "/projects/moenviron-hero.webp", alt: "Website built for diaspora business", caption: "Next.js website with M-PESA integration" },
+    ],
     highlights: [
       "Company registered via eCitizen (no travel required)",
       "Equity Bank account opened with power of attorney",
