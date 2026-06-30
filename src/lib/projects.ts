@@ -124,9 +124,9 @@ export const PROJECTS: Project[] = [
       "Custom Shopify store with M-PESA integration for a Nairobi-based clothing brand. The project included full brand identity design (logo, color palette, typography), social media setup, and supplier onboarding training for 3 staff members. The store launched with 24 products and processes payments via M-PESA and card.",
     result: "Store live + 3 staff trained",
     gallery: [
-      { src: "/projects/tshirt-brand-1.webp", alt: "Black streetwear T-shirt with brand logo, flat lay", caption: "Custom branded apparel for Nai Wear" },
-      { src: "/projects/tshirt-brand-2.webp", alt: "Hanging T-shirts with brand labels on hangers", caption: "Brand identity applied to product line" },
-      { src: "/projects/dtf-printing-2.webp", alt: "Custom printed T-shirts for clothing brand", caption: "DTF printed apparel ready for the store" },
+      { src: "/projects/naiwear-1.webp", alt: "Shopify ecommerce store homepage", caption: "Shopify store homepage with brand identity" },
+      { src: "/projects/naiwear-2.webp", alt: "Product catalog page", caption: "Product catalog with 24 products at launch" },
+      { src: "/projects/naiwear-3.webp", alt: "Clothing brand apparel mockup", caption: "Brand identity applied to product photography" },
     ],
     highlights: [
       "Custom Shopify theme development",
