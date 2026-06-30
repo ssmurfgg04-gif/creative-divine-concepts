@@ -84,6 +84,26 @@ const PRESETS: Record<string, { label: string; settings: Partial<TraceSettings>;
   },
 };
 
+// Sample SVGs for instant trial (no upload required)
+const SAMPLE_SVGS: { name: string; svg: string }[] = [
+  {
+    name: "Logo",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="48" height="48"><circle cx="50" cy="50" r="45" fill="#f36a21"/><path d="M30 50 L45 65 L70 35" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  },
+  {
+    name: "Icon",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path d="M12 2 L2 22 L22 22 Z" fill="#7a1f2a" stroke="#f36a21" stroke-width="2"/><circle cx="12" cy="15" r="3" fill="#f5e9d7"/></svg>`,
+  },
+  {
+    name: "Badge",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="48" height="48"><polygon points="50,5 95,30 95,70 50,95 5,70 5,30" fill="#f36a21" stroke="#7a1f2a" stroke-width="3"/><text x="50" y="55" font-family="Arial" font-size="14" font-weight="bold" fill="white" text-anchor="middle">CDC</text></svg>`,
+  },
+  {
+    name: "Shape",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="48" height="48"><rect x="10" y="10" width="35" height="35" fill="#f36a21" rx="5"/><circle cx="70" cy="30" r="20" fill="#7a1f2a"/><polygon points="30,90 50,55 70,90" fill="#f5e9d7" stroke="#f36a21" stroke-width="2"/></svg>`,
+  },
+];
+
 export function SVGStudio({ onBack }: SVGStudioProps) {
   const [mode, setMode] = useState<Mode>("vectorize");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -158,6 +178,16 @@ export function SVGStudio({ onBack }: SVGStudioProps) {
     },
     [handleFile]
   );
+
+  // ===== Load sample SVG =====
+  const loadSample = (sample: { name: string; svg: string }) => {
+    setSvgContent(sample.svg);
+    setCodeInput(sample.svg);
+    setImageUrl(null);
+    extractColors(sample.svg);
+    setMode("viewer");
+    toast.success(`Loaded sample: ${sample.name}`);
+  };
 
   // ===== Vectorization =====
   const trace = useCallback(async () => {
@@ -246,21 +276,40 @@ export function SVGStudio({ onBack }: SVGStudioProps) {
     toast.success("Color updated!");
   };
 
-  // ===== SVG optimization (basic) =====
+  // ===== SVG optimization (safe) =====
   const optimizeSvg = () => {
     if (!svgContent) return;
     let optimized = svgContent;
-    // Remove comments
+    const originalSize = new Blob([optimized]).size;
+
+    // Remove XML comments
     optimized = optimized.replace(/<!--[\s\S]*?-->/g, "");
-    // Remove whitespace between tags
+
+    // Remove XML declaration (not needed for inline SVG)
+    optimized = optimized.replace(/<\?xml[^>]*\?>/g, "");
+
+    // Remove editor metadata (Inkscape, Illustrator, Sketch)
+    optimized = optimized.replace(/<metadata[\s\S]*?<\/metadata>/g, "");
+    optimized = optimized.replace(/<sodipodi[\s\S]*?<\/sodipodi[^>]*>/g, "");
+    optimized = optimized.replace(/<inkscape[\s\S]*?<\/inkscape[^>]*>/g, "");
+    optimized = optimized.replace(/\s(?:sodipodi|inkscape):[^=]+="[^"]*"/g, "");
+
+    // Collapse whitespace between tags (safe - doesn't affect attribute values)
     optimized = optimized.replace(/>\s+</g, "><");
-    // Remove redundant attributes
-    optimized = optimized.replace(/\s+/g, " ").trim();
+
+    // Trim leading/trailing whitespace
+    optimized = optimized.trim();
+
     // Remove empty groups
     optimized = optimized.replace(/<g>\s*<\/g>/g, "");
+
+    const newSize = new Blob([optimized]).size;
+    const savings = Math.round((1 - newSize / originalSize) * 100);
+
     setSvgContent(optimized);
     setCodeInput(optimized);
-    toast.success("SVG optimized!");
+    extractColors(optimized);
+    toast.success(`Optimized! ${savings}% smaller (${(originalSize / 1024).toFixed(1)} KB to ${(newSize / 1024).toFixed(1)} KB)`);
   };
 
   // ===== Downloads =====
@@ -278,9 +327,23 @@ export function SVGStudio({ onBack }: SVGStudioProps) {
     const url = URL.createObjectURL(blob);
     const img = new Image();
     img.onload = () => {
+      // Fallback to viewBox dimensions if width/height not set
+      let w = img.naturalWidth;
+      let h = img.naturalHeight;
+      if (!w || !h) {
+        const viewBoxMatch = svgContent.match(/viewBox=["']([^"']+)["']/);
+        if (viewBoxMatch) {
+          const [, , vbW, vbH] = viewBoxMatch[1].split(/\s+/).map(Number);
+          w = vbW || 500;
+          h = vbH || 500;
+        } else {
+          w = 500;
+          h = 500;
+        }
+      }
       const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth * pngScale;
-      canvas.height = img.naturalHeight * pngScale;
+      canvas.width = w * pngScale;
+      canvas.height = h * pngScale;
       const ctx = canvas.getContext("2d")!;
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       canvas.toBlob((pngBlob) => {
@@ -742,12 +805,35 @@ ${capitalized}.displayName = "${capitalized}";
             title="SVG Studio Pro"
             description="Upload a raster image to vectorize, or load an SVG to edit, recolor, optimize, and convert to PNG or JSX."
             action={
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                className="gap-2 bg-primary text-white hover:bg-primary/90"
-              >
-                <Upload className="h-4 w-4" /> Upload Image or SVG
-              </Button>
+              <div className="flex flex-col items-center gap-4">
+                <Button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="gap-2 bg-primary text-white hover:bg-primary/90"
+                >
+                  <Upload className="h-4 w-4" /> Upload Image or SVG
+                </Button>
+                <div className="mt-4">
+                  <p className="text-xs text-muted-foreground mb-3">Or try a sample SVG:</p>
+                  <div className="flex flex-wrap gap-2 justify-center max-w-md">
+                    {SAMPLE_SVGS.map((sample) => (
+                      <button
+                        key={sample.name}
+                        onClick={() => loadSample(sample)}
+                        className="group flex flex-col items-center gap-1 rounded-lg border border-border p-2 hover:border-primary/40 hover:bg-primary/5 transition"
+                        title={sample.name}
+                      >
+                        <div
+                          className="h-12 w-12 flex items-center justify-center"
+                          dangerouslySetInnerHTML={{ __html: sample.svg }}
+                        />
+                        <span className="text-[10px] text-muted-foreground group-hover:text-primary transition">
+                          {sample.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             }
           />
         </div>

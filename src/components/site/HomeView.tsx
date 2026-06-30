@@ -116,6 +116,25 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
                 <p className="mt-4 text-xs text-muted-foreground font-mono tracking-wider">
                   Built in Kiambu. Serving Nairobi, Mombasa, diaspora &amp; beyond.
                 </p>
+                {/* Trust badges - No signup is #1 differentiator per Reddit research */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {[
+                    { icon: "CheckCircle2", label: "No signup required" },
+                    { icon: "ShieldCheck", label: "No watermark" },
+                    { icon: "Lock", label: "100% private (browser-based)" },
+                  ].map((badge) => {
+                    const Icon = (Icons as any)[badge.icon];
+                    return (
+                      <span
+                        key={badge.label}
+                        className="inline-flex items-center gap-1 text-[11px] text-muted-foreground bg-background/60 border border-border rounded-full px-2.5 py-1"
+                      >
+                        <Icon className="h-3 w-3 text-accent" />
+                        {badge.label}
+                      </span>
+                    );
+                  })}
+                </div>
               </motion.div>
             </div>
 
@@ -499,7 +518,21 @@ export function HomeView({ onNavigate, onOpenTool, onOpenProject }: HomeViewProp
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-foreground">
               Free Tools for <span className="text-gradient-cyan">Designers &amp; Founders</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">Speed up your workflow. No signup needed.</p>
+            <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground">
+              Speed up your workflow. All tools run in your browser - your files never leave your device.
+            </p>
+            {/* Trust badges */}
+            <div className="mt-4 flex flex-wrap gap-2 justify-center">
+              {["No signup", "No watermark", "No download", "No credits"].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1 text-[11px] text-accent bg-accent/5 border border-accent/20 rounded-full px-2.5 py-1 font-semibold"
+                >
+                  <Icons.Check className="h-3 w-3" />
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {FEATURED_TOOLS.map((tool, i) => {

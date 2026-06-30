@@ -40,6 +40,24 @@ export function ToolsHubView({ onOpenTool }: ToolsHubViewProps) {
           <p className="max-w-2xl mx-auto text-muted-foreground">
             Free, browser-based design tools for T-shirt printers, designers, and non-designers. All tools work 100% in your browser. No sign-up, no API keys.
           </p>
+          {/* Trust badges - per Reddit research, "no signup" is #1 differentiator */}
+          <div className="mt-5 flex flex-wrap gap-2 justify-center">
+            {[
+              "No signup",
+              "No watermark",
+              "No credits",
+              "No download",
+              "100% private",
+            ].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1 text-xs text-accent bg-accent/5 border border-accent/20 rounded-full px-3 py-1.5 font-semibold"
+              >
+                <Icons.Check className="h-3 w-3" />
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Search + filter */}

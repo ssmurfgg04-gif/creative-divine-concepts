@@ -81,6 +81,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "web-design-cost-in-kenya-2026-complete-pricing-guide",
     "kenya-vat-registration-guide-for-small-businesses",
     "logo-design-cost-kenya-complete-branding-guide",
+    "free-canva-alternatives-no-signup-2026",
+    "how-much-does-t-shirt-printing-cost-in-kenya-2026",
+    "best-free-svg-converter-tools-compared-2026",
   ];
   const blogPages = blogSlugs.map((slug) => ({
     url: `/#blog/${slug}`,
