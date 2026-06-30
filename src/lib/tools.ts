@@ -8,6 +8,7 @@ export type ToolId =
   | "ai-design-gen"
   | "color-knockout"
   | "vectorizer"
+  | "svg-studio"
   | "mockup-generator"
   | "screenshot-fx"
   | "image-upscaler"
@@ -85,6 +86,16 @@ export const TOOLS: ToolMeta[] = [
     icon: "PenTool",
     category: "design",
     badge: "new",
+  },
+  {
+    id: "svg-studio",
+    name: "SVG Studio Pro",
+    tagline: "Vectorize, edit, recolor, convert SVG to PNG/JSX",
+    description:
+      "All-in-one SVG toolkit. Vectorize raster images, edit SVG code with live preview, recolor multi-select parts, optimize file size, and export to PNG or React JSX components. 6 presets included.",
+    icon: "PenTool",
+    category: "design",
+    badge: "pro",
   },
   {
     id: "mockup-generator",

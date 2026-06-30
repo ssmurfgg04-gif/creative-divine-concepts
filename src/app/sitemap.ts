@@ -95,6 +95,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "ai-design-gen",
     "color-knockout",
     "vectorizer",
+    "svg-studio",
     "mockup-generator",
     "screenshot-fx",
     "image-upscaler",

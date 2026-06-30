@@ -24,6 +24,7 @@ const EffectsStudio = lazy(() => import("@/components/tools/EffectsStudio").then
 const AIDesignGen = lazy(() => import("@/components/tools/AIDesignGen").then((m) => ({ default: m.AIDesignGen })));
 const ColorKnockout = lazy(() => import("@/components/tools/ColorKnockout").then((m) => ({ default: m.ColorKnockout })));
 const Vectorizer = lazy(() => import("@/components/tools/Vectorizer").then((m) => ({ default: m.Vectorizer })));
+const SVGStudio = lazy(() => import("@/components/tools/SVGStudio").then((m) => ({ default: m.SVGStudio })));
 const MockupGenerator = lazy(() => import("@/components/tools/MockupGenerator").then((m) => ({ default: m.MockupGenerator })));
 const ScreenshotFX = lazy(() => import("@/components/tools/ScreenshotFX").then((m) => ({ default: m.ScreenshotFX })));
 const ImageUpscaler = lazy(() => import("@/components/tools/ImageUpscaler").then((m) => ({ default: m.ImageUpscaler })));
@@ -121,6 +122,7 @@ export default function Home() {
       "ai-design-gen": <AIDesignGen {...props} />,
       "color-knockout": <ColorKnockout {...props} />,
       "vectorizer": <Vectorizer {...props} />,
+      "svg-studio": <SVGStudio {...props} />,
       "mockup-generator": <MockupGenerator {...props} />,
       "screenshot-fx": <ScreenshotFX {...props} />,
       "image-upscaler": <ImageUpscaler {...props} />,
