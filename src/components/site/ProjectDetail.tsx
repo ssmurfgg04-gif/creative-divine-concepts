@@ -124,6 +124,7 @@ export function ProjectDetail({ slug, onNavigate, onBack }: ProjectDetailProps) 
                 width={800}
                 height={600}
                 className="absolute inset-0 w-full h-full object-cover"
+                fetchPriority="high"
               />
               {project.gallery[activeImage].caption && (
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent p-4">

@@ -541,8 +541,11 @@ export function WorkView({
                 <img
                   src={p.gallery[0].src}
                   alt={p.gallery[0].alt}
+                  width={400}
+                  height={300}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
+                  loading={i < 3 ? "eager" : "lazy"}
+                  fetchPriority={i < 3 ? "high" : "low"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                 <div className="absolute top-3 left-3">

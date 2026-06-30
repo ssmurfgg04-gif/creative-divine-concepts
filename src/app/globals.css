@@ -164,15 +164,9 @@
     font-weight: 500;
     letter-spacing: 0.01em;
     line-height: 1.6;
-    /* Performance: use content-visibility for off-screen sections */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  /* Performance: skip rendering for off-screen sections */
-  section {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 500px;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), var(--font-body), sans-serif;

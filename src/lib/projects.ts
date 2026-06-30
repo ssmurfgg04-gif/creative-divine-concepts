@@ -42,10 +42,10 @@ export const PROJECTS: Project[] = [
     result: "Website live in 14 days",
     link: "https://moenviron.com",
     gallery: [
-      { src: "/projects/moenviron-screenshot.webp", alt: "Moenviron.com homepage screenshot", caption: "Live homepage of moenviron.com - sustainable fashion from recycled textiles" },
-      { src: "/projects/moenviron-real-1.webp", alt: "Moenviron sustainable fashion product image", caption: "Sustainable fashion products made from recycled textiles" },
-      { src: "/projects/moenviron-real-3.webp", alt: "Moenviron textile recycling process", caption: "The circular fashion process: UK waste to Kenya fashion" },
-      { src: "/projects/moenviron-hero.webp", alt: "Moenviron website hero section", caption: "Hero section with brand story and call to action" },
+      { src: "/projects/moenviron-homepage-fresh.webp", alt: "Moenviron.com homepage screenshot", caption: "Live homepage of moenviron.com - sustainable fashion from recycled textiles" },
+      { src: "/projects/moenviron-products.webp", alt: "Moenviron sustainable fashion products", caption: "Sustainable fashion products made from recycled textiles" },
+      { src: "/projects/moenviron-story.webp", alt: "Moenviron brand story section", caption: "The circular fashion story: UK waste to Kenya fashion" },
+      { src: "/projects/moenviron-real-1.webp", alt: "Moenviron recycled textile product", caption: "Premium circular fashion from recycled materials" },
     ],
     highlights: [
       "Custom Next.js build with TypeScript",
@@ -68,9 +68,9 @@ export const PROJECTS: Project[] = [
       "120 branded T-shirts with the school logo for Githunguri Primary School. DTF printing delivered in 3 days during exam week. We used the school's existing logo and matched exact pantone colors. The order was urgent because the school had a sports day coming up and needed all uniforms ready before the event.",
     result: "120 T-shirts in 3 days",
     gallery: [
-      { src: "/projects/githunguri-ai-1.webp", alt: "Kenyan primary school students wearing branded uniform T-shirts", caption: "Students wearing the branded T-shirts on sports day" },
-      { src: "/projects/githunguri-ai-2.webp", alt: "Close-up of branded T-shirt print quality", caption: "Close up showing DTF print quality and vibrant colors" },
-      { src: "/projects/githunguri-ai-3.webp", alt: "School children group photo in branded T-shirts", caption: "Group photo with all 120 T-shirts delivered" },
+      { src: "/projects/tshirt-school-1.webp", alt: "Navy blue school uniform T-shirt with embroidered logo, flat lay", caption: "Custom branded school T-shirt - DTF printed with school logo" },
+      { src: "/projects/tshirt-school-2.webp", alt: "Stack of folded custom printed school T-shirts", caption: "120 T-shirts printed and ready for delivery" },
+      { src: "/projects/tshirt-school-3.webp", alt: "Close-up of DTF print quality on school T-shirt", caption: "DTF print detail showing vibrant colors and crisp quality" },
       { src: "/projects/dtf-printing-2.webp", alt: "Stack of custom printed T-shirts", caption: "Fresh off the DTF printer - vibrant, durable prints" },
     ],
     highlights: [
@@ -99,9 +99,9 @@ export const PROJECTS: Project[] = [
       "500 event T-shirts with custom design for the annual youth conference at PCEA Githunguri. We built a gang sheet to maximize efficiency, printed all 500 shirts, and delivered in 5 days with a same-day pickup option for last-minute additions. The design featured the conference theme verse and a custom graphic.",
     result: "500 T-shirts in 5 days",
     gallery: [
-      { src: "/projects/pcea-ai-1.webp", alt: "Church youth group wearing matching event T-shirts", caption: "Youth conference attendees in branded T-shirts" },
-      { src: "/projects/pcea-ai-3.webp", alt: "Youth group at church conference in branded shirts", caption: "Outdoor worship session at the conference" },
-      { src: "/projects/pcea-ai-2.webp", alt: "Custom event T-shirt with conference design", caption: "Custom design with conference theme and verse" },
+      { src: "/projects/tshirt-church-1.webp", alt: "White church event T-shirt with conference logo, flat lay", caption: "Custom church conference T-shirt with printed design" },
+      { src: "/projects/tshirt-church-2.webp", alt: "Stack of 500 bulk printed church T-shirts", caption: "500 event T-shirts printed and ready for delivery" },
+      { src: "/projects/tshirt-church-3.webp", alt: "Close-up of church T-shirt DTF print detail", caption: "DTF print detail showing conference theme and graphics" },
       { src: "/projects/dtf-printing-1.webp", alt: "DTF printing machine producing T-shirt transfers", caption: "DTF printer in action - 500 shirts produced" },
     ],
     highlights: [
@@ -124,8 +124,8 @@ export const PROJECTS: Project[] = [
       "Custom Shopify store with M-PESA integration for a Nairobi-based clothing brand. The project included full brand identity design (logo, color palette, typography), social media setup, and supplier onboarding training for 3 staff members. The store launched with 24 products and processes payments via M-PESA and card.",
     result: "Store live + 3 staff trained",
     gallery: [
-      { src: "/projects/naiwear-ai-1.webp", alt: "Shopify ecommerce store on laptop screen", caption: "Shopify store homepage with brand identity" },
-      { src: "/projects/naiwear-ai-2.webp", alt: "African clothing brand identity mockup", caption: "Brand identity: logo, packaging, business cards" },
+      { src: "/projects/tshirt-brand-1.webp", alt: "Black streetwear T-shirt with brand logo, flat lay", caption: "Custom branded apparel for Nai Wear" },
+      { src: "/projects/tshirt-brand-2.webp", alt: "Hanging T-shirts with brand labels on hangers", caption: "Brand identity applied to product line" },
       { src: "/projects/dtf-printing-2.webp", alt: "Custom printed T-shirts for clothing brand", caption: "DTF printed apparel ready for the store" },
     ],
     highlights: [
